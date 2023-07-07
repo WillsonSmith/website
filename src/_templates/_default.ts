@@ -1,7 +1,3 @@
-import { html } from 'lit';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-
-import type { TemplateResult } from 'lit';
 export const template =
   (markup: string) =>
   ({ title }: { title: string }) => `
