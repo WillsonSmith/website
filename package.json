@@ -1,0 +1,37 @@
+{
+  "name": "w-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "wireit",
+    "build:ssg": "wireit"
+  },
+  "wireit": {
+    "build": {
+      "command": "tsc"
+    },
+    "build:ssg": {
+      "command": "npm run build -w ssg"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "packages/ssg"
+  ],
+  "devDependencies": {
+    "@open-wc/dev-server-hmr": "^0.2.0",
+    "@web/dev-server": "^0.2.5",
+    "prettier": "^3.0.0",
+    "ssg": "^1.0.0",
+    "typescript": "^5.1.6",
+    "wireit": "^0.9.5"
+  },
+  "dependencies": {
+    "lit": "^3.0.0-pre.0"
+  }
+}

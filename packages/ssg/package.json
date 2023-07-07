@@ -1,0 +1,23 @@
+{
+  "name": "ssg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "module": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@lit-labs/ssr": "^3.1.5",
+    "chokidar": "^3.5.3",
+    "lit": "^2.7.6"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6"
+  }
+}

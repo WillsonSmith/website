@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "lib": ["ES2020"],
+    "strict": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "importHelpers": true,
+    "rootDir": "./src",
+    "outDir": "dist",
+    "sourceMap": false,
+    "inlineSources": false,
+    "incremental": false
+  },
+  "include": ["src/**/*.ts"]
+}
