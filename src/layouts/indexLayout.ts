@@ -13,7 +13,7 @@ export const layout = (page: Page) => {
     <meta charset="utf-8">
     <title>${title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/public/css/props.css">
+    <link rel="stylesheet" href="/public/css/main.css">
   </head>
   <body>
     ${content}
