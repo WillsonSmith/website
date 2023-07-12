@@ -1,12 +1,11 @@
-import { TemplateResult } from 'lit';
-
 interface Page {
   content: string;
+  hydrate: string[];
   [key: string]: unknown;
 }
 
 export const layout = (page: Page) => {
-  const { content, lang = 'en', title = 'My app', ...props } = page;
+  const { content, lang = 'en', title = 'My app', hydrate = [] } = page;
   return `
 <!doctype html>
 <html lang="${lang}">
@@ -27,8 +26,19 @@ export const layout = (page: Page) => {
       );
       hydrateShadowRoots(document.body);
     }
+    ${generateHydrationScript(hydrate)}
     </script>
   </body>
 </html>
 `;
 };
+
+function generateHydrationScript(hydrate: string[]) {
+  if (hydrate.length === 0) {
+    return '';
+  }
+  return `
+    const litHydrateSupportInstalled = await import('@lit-labs/ssr-client/lit-element-hydrate-support.js');
+    ${hydrate.map((path: string) => `import('${path}')`).join(';\n    ') || ''}
+    `;
+}

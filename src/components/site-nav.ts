@@ -1,8 +1,17 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 @customElement('site-nav')
 export class MyComponent extends LitElement {
+  firstUpdated() {
+    console.log(window.location.pathname);
+    const active = this.shadowRoot!.querySelector(
+      `a[href="${window.location.pathname}"]`
+    );
+
+    active?.classList.add('active');
+  }
+
   render() {
     return html`
       <nav>
@@ -14,6 +23,12 @@ export class MyComponent extends LitElement {
       </nav>
     `;
   }
+
+  static styles = css`
+    .active {
+      color: red;
+    }
+  `;
 }
 
 declare global {

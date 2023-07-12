@@ -35,6 +35,25 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
         }/index.html`;
       }
 
+      // if is js and is 404 then try to find in /site/pages/path
+      if (context.url.endsWith('.js')) {
+        const filePath = context.url.replace('.js', '.html');
+        const fileExists = htmlFiles.includes(filePath);
+        if (fileExists) {
+          context.url = `/site/pages/${context.url}`;
+        }
+
+        const siteJS = glob
+          .sync('site/**/*.js')
+          .filter((file) => !file.includes('site/pages'))
+          .map((file) => file.replace('site', ''));
+
+        if (siteJS.includes(context.url)) {
+          console.log('siteJS', context.url);
+          context.url = `/site${context.url}`;
+        }
+      }
+
       return next();
     },
   ],
