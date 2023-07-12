@@ -9,22 +9,25 @@ import type { TemplateResult, CSSResult } from 'lit';
 type TemplateFn = (args: { [key: string]: unknown }) => string;
 
 interface SourceModule {
-  render: (args: { [key: string]: unknown }) => Promise<TemplateResult>;
-  template: (markup: string) => TemplateFn;
+  default: (args: { [key: string]: unknown }) => Promise<TemplateResult>;
+  layout: any;
   [key: string]: unknown;
 }
 
 try {
   const { source, options } = workerData;
   const {
-    render: renderModule,
-    template,
+    default: renderModule,
+    layout,
     ...rest
   } = (await import(source)) as SourceModule;
   const result = render(await renderModule({ ...options, ...rest }));
   let markup = await collectResult(result);
-  if (template) {
-    markup = template(markup)({ ...rest });
+  if (layout) {
+    markup = layout({
+      content: markup,
+      ...options,
+    });
   }
   parentPort!.postMessage({ markup });
 } catch (error) {

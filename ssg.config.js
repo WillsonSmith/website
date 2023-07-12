@@ -8,12 +8,12 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const config = (ssgConfig) => {
-  ssgConfig.addWatchTarget('site/**/*.html.js', async (target, changeType) => {
+  ssgConfig.addWatchTarget('site/pages/**/*.js', async (target, changeType) => {
     const filePath = join(__dirname, target);
 
     const result = await renderStatic(filePath);
     const markup = result.markup;
-    const htmlFilePath = filePath.replace('.js', '');
+    const htmlFilePath = filePath.replace('.js', '.html');
     if (markup) {
       await writeFile(htmlFilePath, markup);
     }
