@@ -33,9 +33,13 @@
   ],
   "devDependencies": {
     "@open-wc/dev-server-hmr": "^0.2.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
     "@web/dev-server": "^0.2.5",
+    "@web/rollup-plugin-html": "^2.0.0",
+    "@web/rollup-plugin-import-meta-assets": "^2.0.0",
     "concurrently": "^8.2.0",
     "prettier": "^3.0.0",
+    "rollup": "^3.26.2",
     "ssg": "^1.0.0",
     "typescript": "^5.1.6",
     "wireit": "^0.9.5"
