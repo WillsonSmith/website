@@ -19,7 +19,7 @@
       "command": "concurrently \"tsc -w\" \"node ssg.config.js --watch\""
     },
     "build": {
-      "command": "tsc && node ssg.config.js"
+      "command": "tsc && node ssg.config.js && rollup -c rollup.config.js"
     },
     "build:ssg": {
       "command": "npm run build -w ssg"

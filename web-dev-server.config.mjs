@@ -4,7 +4,8 @@
 const hmr = process.argv.includes('--hmr');
 
 export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
-  open: '/site',
+  open: '/site/pages',
+  basePath: '/site/pages',
   rootDir: './',
   watch: !hmr,
   nodeResolve: {

@@ -14,7 +14,7 @@ export default {
     entryFileNames: '[hash].js',
     chunkFileNames: '[hash].js',
     assetFileNames: '[hash][extname]',
-    dir: 'dist',
+    dir: 'build',
     format: 'es',
   },
   plugins: [
