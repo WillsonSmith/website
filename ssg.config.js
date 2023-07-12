@@ -15,12 +15,12 @@ const config = (ssgConfig) => {
     const markup = result.markup;
     const htmlFilePath = filePath.replace('.js', '.html');
     if (markup) {
-      await writeFile(htmlFilePath, markup);
+      await writeFile(htmlFilePath, markup, {});
     }
   });
 
   return {
-    watch: true,
+    watch: false,
   };
 };
 

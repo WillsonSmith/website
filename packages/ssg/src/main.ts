@@ -1,6 +1,8 @@
 export { render } from './renderThread.js';
 import { watch } from 'chokidar';
 
+import { glob } from 'glob';
+
 type WatchCallback = (target: string, changeType: string) => void;
 
 class SSG {
@@ -16,6 +18,24 @@ class SSG {
 
   constructor(config: any) {
     this._config = config(this);
+
+    if (config.watch) {
+      this.setupWatch(config.watch);
+    } else {
+      for (const target of this._watchTargets.keys()) {
+        glob([target])
+          .then((files) => {
+            for (const file of files) {
+              console.log(
+                this._watchTargets.get(target)?.callback(file, 'add')
+              );
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    }
     console.log('SSG');
   }
 
@@ -27,7 +47,7 @@ class SSG {
       watching: false,
       callback,
     });
-    this.setupWatch(target);
+    // this.setupWatch(target);
   }
 
   setupWatch(target: string) {
