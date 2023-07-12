@@ -27,6 +27,7 @@ try {
     markup = layout({
       content: markup,
       ...options,
+      ...rest,
     });
   }
   parentPort!.postMessage({ markup });

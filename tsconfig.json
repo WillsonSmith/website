@@ -15,7 +15,12 @@
     "outDir": "./site",
     "sourceMap": false,
     "inlineSources": false,
-    "incremental": false
+    "incremental": false,
+    "paths": {
+      "@layouts/*": ["./src/layouts/*"],
+      "@components/*": ["./src/components/*"],
+      "@styles/*": ["./src/styles/*"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "packages"]
