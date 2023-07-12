@@ -1,8 +1,8 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
 import { rollupPluginHTML as html } from '@web/rollup-plugin-html';
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
-// import terser from '@rollup/plugin-terser';
-// import { generateSW } from 'rollup-plugin-workbox';
+import terser from '@rollup/plugin-terser';
+import { generateSW } from 'rollup-plugin-workbox';
 
 // import typescript from '@rollup/plugin-typescript';
 
@@ -31,19 +31,19 @@ export default {
     html({
       input: htmlFiles,
       minify: true,
-      // injectServiceWorker: true,
-      // serviceWorkerPath: 'dist/sw.js',
+      injectServiceWorker: true,
+      serviceWorkerPath: 'build/sw.js',
     }),
     nodeResolve(),
-    // terser(),
+    terser(),
     importMetaAssets(),
-    // generateSW({
-    //   swDest: path.join('dist', 'sw.js'),
-    //   globDirectory: path.join('dist'),
-    //   globPatterns: ['**/*.{html,js,css,webmanifest}'],
-    //   skipWaiting: true,
-    //   clientsClaim: true,
-    //   runtimeCaching: [{ urlPattern: 'polyfills/*.js', handler: 'CacheFirst' }],
-    // }),
+    generateSW({
+      swDest: path.join('build', 'sw.js'),
+      globDirectory: path.join('build'),
+      globPatterns: ['**/*.{html,js,css,webmanifest}'],
+      skipWaiting: true,
+      clientsClaim: true,
+      runtimeCaching: [{ urlPattern: 'polyfills/*.js', handler: 'CacheFirst' }],
+    }),
   ],
 };
