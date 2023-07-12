@@ -38,6 +38,7 @@
     "@web/rollup-plugin-html": "^2.0.0",
     "@web/rollup-plugin-import-meta-assets": "^2.0.0",
     "concurrently": "^8.2.0",
+    "glob": "^10.3.3",
     "prettier": "^3.0.0",
     "rollup": "^3.26.2",
     "ssg": "^1.0.0",
