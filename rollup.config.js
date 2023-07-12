@@ -10,6 +10,9 @@ import path from 'path';
 
 import { glob } from 'glob';
 
+import postcss from 'postcss';
+import autoprefixer from 'autoprefixer';
+
 const htmlFiles = glob.sync('site/pages/**/*.html').map((file) => {
   return {
     name: file.replace('site/pages/', ''),
@@ -33,6 +36,14 @@ export default {
       minify: true,
       injectServiceWorker: true,
       serviceWorkerPath: 'build/sw.js',
+      transformAsset: [
+        // @ts-ignore
+        async (content, filePath) => {
+          if (filePath.endsWith('.css')) {
+            return (await postcss([autoprefixer]).process(content)).css;
+          }
+        },
+      ],
     }),
     nodeResolve(),
     terser(),
