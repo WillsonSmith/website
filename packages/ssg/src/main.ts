@@ -18,17 +18,18 @@ class SSG {
 
   constructor(config: any) {
     this._config = config(this);
+    if (this._config.watch) {
+      // this.setupWatch(config.watch);
 
-    if (config.watch) {
-      this.setupWatch(config.watch);
+      for (const target of this._watchTargets.keys()) {
+        this.setupWatch(target);
+      }
     } else {
       for (const target of this._watchTargets.keys()) {
         glob([target])
           .then((files) => {
             for (const file of files) {
-              console.log(
-                this._watchTargets.get(target)?.callback(file, 'add')
-              );
+              this._watchTargets.get(target)?.callback(file, 'add');
             }
           })
           .catch((error) => {
@@ -36,7 +37,6 @@ class SSG {
           });
       }
     }
-    console.log('SSG');
   }
 
   addWatchTarget(target: any, callback: WatchCallback) {

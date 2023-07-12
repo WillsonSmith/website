@@ -4,8 +4,11 @@ import { writeFile } from 'fs/promises';
 
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { argv } from 'node:process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const watch = argv.includes('--watch');
 
 const config = (ssgConfig) => {
   ssgConfig.addWatchTarget('site/pages/**/*.js', async (target, changeType) => {
@@ -15,12 +18,12 @@ const config = (ssgConfig) => {
     const markup = result.markup;
     const htmlFilePath = filePath.replace('.js', '.html');
     if (markup) {
-      await writeFile(htmlFilePath, markup, {});
+      await writeFile(htmlFilePath, markup);
     }
   });
 
   return {
-    watch: false,
+    watch,
   };
 };
 

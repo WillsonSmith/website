@@ -16,10 +16,10 @@
       "command": "concurrently \"npm run watch\" \"wds\""
     },
     "watch": {
-      "command": "concurrently \"tsc -w\" \"node ssg.config.js\""
+      "command": "concurrently \"tsc -w\" \"node ssg.config.js --watch\""
     },
     "build": {
-      "command": "tsc"
+      "command": "tsc && node ssg.config.js"
     },
     "build:ssg": {
       "command": "npm run build -w ssg"
