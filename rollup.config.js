@@ -12,6 +12,7 @@ import { glob } from 'glob';
 
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
+import cssnanoPlugin from 'cssnano';
 
 const htmlFiles = glob.sync('site/pages/**/*.html').map((file) => {
   return {
@@ -40,7 +41,9 @@ export default {
         // @ts-ignore
         async (content, filePath) => {
           if (filePath.endsWith('.css')) {
-            return (await postcss([autoprefixer]).process(content)).css;
+            return (
+              await postcss([autoprefixer, cssnanoPlugin]).process(content)
+            ).css;
           }
         },
       ],

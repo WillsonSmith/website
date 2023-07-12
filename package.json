@@ -40,6 +40,7 @@
     "@web/rollup-plugin-import-meta-assets": "^2.0.0",
     "autoprefixer": "^10.4.14",
     "concurrently": "^8.2.0",
+    "cssnano": "^6.0.1",
     "glob": "^10.3.3",
     "postcss": "^8.4.25",
     "prettier": "^3.0.0",
