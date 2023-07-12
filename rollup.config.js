@@ -8,6 +8,15 @@ import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 
 import path from 'path';
 
+import { glob } from 'glob';
+
+const htmlFiles = glob.sync('site/pages/**/*.html').map((file) => {
+  return {
+    name: file.replace('site/pages/', ''),
+    path: file,
+  };
+});
+
 export default {
   // input: 'site/pages/**/*.html',
   output: {
@@ -20,10 +29,7 @@ export default {
   plugins: [
     // typescript(),
     html({
-      input: [
-        { name: 'index.html', path: 'site/pages/index.html' },
-        { name: 'about/index.html', path: 'site/pages/about/index.html' },
-      ],
+      input: htmlFiles,
       minify: true,
       // injectServiceWorker: true,
       // serviceWorkerPath: 'dist/sw.js',
