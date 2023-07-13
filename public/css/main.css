@@ -1,3 +1,2 @@
 @import 'open-props/normalize.min.css';
-
-@import url('./_props.css');
+@import 'open-props/sizes.min.css';

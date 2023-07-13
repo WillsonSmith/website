@@ -14,18 +14,20 @@ export class MyComponent extends LitElement {
   render() {
     return html`
       <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about.html">about.html</a></li>
-          <li><a href="/about">About</a></li>
-        </ul>
+        <a href="/">Home</a>
+        <a href="/about.html">about.html</a>
+        <a href="/about">About</a>
       </nav>
     `;
   }
 
   static styles = css`
-    .active {
-      color: red;
+    :host {
+      display: block;
+    }
+    nav {
+      display: flex;
+      gap: var(--size-2);
     }
   `;
 }

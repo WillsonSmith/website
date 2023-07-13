@@ -4,6 +4,14 @@ import { glob } from 'glob';
 
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 
+import postcss from 'postcss';
+import postcssImport from 'postcss-import';
+
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 /** Use Hot Module replacement by adding --hmr to the start command */
 const hmr = process.argv.includes('--hmr');
 
@@ -22,6 +30,22 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
       ts: true,
       target: 'auto',
     }),
+    {
+      name: 'postcss',
+      async transform(context) {
+        if (context.response.is('css')) {
+          const postcssResult = await postcss([
+            postcssImport(),
+            // @ts-ignore
+          ]).process(context.body, {
+            from: `${__dirname}/${context.url}`,
+          });
+          //@ts-ignore
+          const css = postcssResult.css;
+          return css;
+        }
+      },
+    },
     /** Use Hot Module Replacement by uncommenting. Requires @open-wc/dev-server-hmr plugin */
     // hmr && hmrPlugin({ exclude: ['**/*/node_modules/**/*'], presets: [presets.litElement] }),
   ],
