@@ -1,6 +1,6 @@
 const watchForChanges = argv.includes('--watch');
 
-import { ssg, render as renderStatic } from 'ssg';
+import { render as renderStatic } from 'ssg';
 
 import { writeFile } from 'fs/promises';
 
@@ -51,47 +51,3 @@ async function fetchLocalDependencies(target, basePath) {
     (dependency) => !dependency.includes('node_modules')
   );
 }
-
-// const config = (ssgConfig) => {
-//   const dependencyMap = new Map();
-
-//   ssgConfig.addWatchTarget('src/pages/**/*.ts', async (target, changeType) => {
-//     const dependencies = (
-//       await findDependencies([target], {
-//         basePath: 'src/pages',
-//       })
-//     ).filter((dep) => !dep.includes('node_modules'));
-//     dependencyMap.set(target, dependencies);
-
-//     const filePath = join(__dirname, target);
-
-//     const result = await renderStatic(filePath);
-//     const markup = result.markup;
-//     const htmlFilePath = filePath.replace('.ts', '.html');
-//     if (markup) {
-//       await writeFile(htmlFilePath, markup);
-//     }
-//   });
-
-//   ssgConfig.addWatchTarget('src/**/*.ts', async (target, changeType) => {
-//     const fullTargetPath = `${__dirname}/${target}`;
-//     for (const [page, dependencies] of dependencyMap.entries()) {
-//       if (dependencies.includes(fullTargetPath)) {
-//         const filePath = join(__dirname, page);
-
-//         const result = await renderStatic(filePath);
-//         const markup = result.markup;
-//         const htmlFilePath = filePath.replace('.ts', '.html');
-//         if (markup) {
-//           await writeFile(htmlFilePath, markup);
-//         }
-//       }
-//     }
-//   });
-
-//   return {
-//     watch: watchForChanges,
-//   };
-// };
-
-// ssg(config);
