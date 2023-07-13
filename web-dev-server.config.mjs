@@ -28,7 +28,7 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   plugins: [
     esbuildPlugin({
       ts: true,
-      target: 'auto',
+      target: 'es2022',
     }),
     {
       name: 'postcss',

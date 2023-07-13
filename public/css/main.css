@@ -1,2 +1,22 @@
 @import 'open-props/normalize.min.css';
+
+@import 'open-props/fonts.min.css';
 @import 'open-props/sizes.min.css';
+
+@import 'open-props/gray-hsl.min.css';
+/* @import 'open-props/green-hsl.min.css'; */
+@import 'open-props/gradients.min.css';
+
+@import 'open-props/borders.min.css';
+
+html,
+body {
+  background: hsl(var(--gray-0-hsl));
+  color: hsl(var(--gray-12-hsl));
+
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-3);
+  font-size: var(--font-size-1);
+  line-height: var(--font-lineheight-0);
+  letter-spacing: var(--font-letterspacing-1);
+}
