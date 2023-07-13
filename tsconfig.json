@@ -4,6 +4,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noEmitOnError": true,
+    "allowImportingTsExtensions": true,
     "lib": ["ES2020", "dom"],
     "strict": true,
     "esModuleInterop": false,

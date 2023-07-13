@@ -32,6 +32,7 @@
     "packages/ssg"
   ],
   "devDependencies": {
+    "@custom-elements-manifest/find-dependencies": "^0.0.5",
     "@open-wc/dev-server-hmr": "^0.2.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",

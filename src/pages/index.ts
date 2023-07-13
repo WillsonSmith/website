@@ -1,7 +1,7 @@
 import { html } from 'lit';
-export { layout } from '../layouts/indexLayout.js';
+export { layout } from '../layouts/indexLayout.ts';
 
-import '../components/site-nav.js';
+import '../components/site-nav.ts';
 
 export const title = 'My app • Home';
 
