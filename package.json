@@ -9,7 +9,9 @@
     "dev": "wireit",
     "watch": "wireit",
     "build": "wireit",
-    "build:ssg": "wireit"
+    "build:ssg": "wireit",
+    "clean": "wireit",
+    "clean:html": "wireit"
   },
   "wireit": {
     "dev": {
@@ -24,11 +26,21 @@
     "build": {
       "command": "tsx ssg.config.js && rollup -c rollup.config.js",
       "dependencies": [
+        "clean",
         "build:ssg"
       ]
     },
     "build:ssg": {
       "command": "npm run build -w ssg"
+    },
+    "clean": {
+      "command": "rimraf build",
+      "dependencies": [
+        "clean:html"
+      ]
+    },
+    "clean:html": {
+      "command": "rimraf --glob \"src/**/*.html\""
     }
   },
   "keywords": [],
@@ -55,6 +67,7 @@
     "postcss": "^8.4.25",
     "postcss-import": "^15.1.0",
     "prettier": "^3.0.0",
+    "rimraf": "^5.0.1",
     "rollup": "^3.26.2",
     "rollup-plugin-workbox": "^8.0.1",
     "ssg": "^1.0.0",
