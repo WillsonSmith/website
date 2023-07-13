@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 @customElement('site-header')
@@ -7,11 +7,27 @@ export class SiteHeader extends LitElement {
     return html`
       <header>
         <slot name="title"></slot>
-        <slot name="image"></slot>
+        <div class="image">
+          <slot name="image"></slot>
+        </div>
         <slot></slot>
       </header>
     `;
   }
+
+  static styles = css`
+    :host {
+      display: block;
+    }
+
+    img {
+      display: block;
+    }
+
+    .image {
+      max-width: var(--size-16);
+    }
+  `;
 }
 
 declare global {

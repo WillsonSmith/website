@@ -1,11 +1,13 @@
+import type { CSSResult } from 'lit';
 interface Page {
   content: string;
   hydrate: string[];
+  styles: CSSResult;
   [key: string]: unknown;
 }
 
 export const layout = (page: Page) => {
-  const { content, lang = 'en', title = 'My app', hydrate = [] } = page;
+  const { content, lang = 'en', title = 'My app', styles, hydrate = [] } = page;
   return `
 <!doctype html>
 <html lang="${lang}">
@@ -14,6 +16,10 @@ export const layout = (page: Page) => {
     <title>${title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/public/css/main.css">
+
+    <style>
+    ${styles.cssText}
+    </style>
   </head>
   <body>
     ${content}
