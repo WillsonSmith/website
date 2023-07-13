@@ -17,13 +17,13 @@ import { findDependencies } from '@custom-elements-manifest/find-dependencies';
 if (watchForChanges) {
   const dependencyMap = new Map();
 
-  watch('src/pages/**/*.ts').on('all', async (event, path) => {
+  watch('src/pages/**/*.ts').on('all', async (_, path) => {
     const dependencies = await fetchLocalDependencies(path, dirname(path));
     dependencyMap.set(path, dependencies);
     buildPage(path);
   });
 
-  watch('src/**/*.ts').on('all', async (event, path) => {
+  watch('src/**/*.ts').on('all', async (_, path) => {
     const fullTargetPath = `${__dirname}/${path}`;
     for (const [page, dependencies] of dependencyMap.entries()) {
       if (dependencies.includes(fullTargetPath)) {
