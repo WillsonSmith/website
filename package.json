@@ -16,10 +16,16 @@
       "command": "concurrently \"npm run watch\" \"wds\""
     },
     "watch": {
-      "command": "tsx ssg.config.js --watch"
+      "command": "tsx ssg.config.js --watch",
+      "dependencies": [
+        "build:ssg"
+      ]
     },
     "build": {
-      "command": "tsx ssg.config.js && rollup -c rollup.config.js"
+      "command": "tsx ssg.config.js && rollup -c rollup.config.js",
+      "dependencies": [
+        "build:ssg"
+      ]
     },
     "build:ssg": {
       "command": "npm run build -w ssg"
