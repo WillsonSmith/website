@@ -25,7 +25,7 @@ export class SiteHeader extends LitElement {
     }
 
     .image {
-      max-width: var(--size-16);
+      max-width: var(--size-12);
     }
   `;
 }

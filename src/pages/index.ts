@@ -1,8 +1,8 @@
 import { html, css } from 'lit';
-export { layout } from '../layouts/indexLayout.js';
+export { layout } from '../layouts/indexLayout.ts';
 
-import '../components/site-nav.js';
-import '../components/site-header.js';
+import '../components/site-nav.ts';
+import '../components/site-header.ts';
 
 export const title = 'My app • Home';
 
@@ -79,8 +79,3 @@ export default async () => {
     </main>
   `;
 };
-
-export const hydrate = [
-  '../components/site-nav.js',
-  '../components/site-header.js',
-];
