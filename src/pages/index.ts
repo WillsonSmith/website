@@ -5,9 +5,12 @@ import '../components/site-nav.ts';
 
 export const title = 'My app • Home';
 
-export default async (props: { [key: string]: unknown }) => {
+interface IndexPage {
+  title: string;
+}
+export default async ({ title }: IndexPage) => {
   return html`
-    <h1>${props.title}</h1>
+    <h1>${title}</h1>
     <site-nav></site-nav>
     <p>Home page</p>
   `;
