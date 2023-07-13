@@ -7,6 +7,9 @@ import { esbuildPlugin } from '@web/dev-server-esbuild';
 /** Use Hot Module replacement by adding --hmr to the start command */
 const hmr = process.argv.includes('--hmr');
 
+const rootPath = `src/`;
+const pagesPath = `${rootPath}pages/`;
+
 export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   open: true,
   rootDir: './',
@@ -25,38 +28,38 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   middleware: [
     async (context, next) => {
       const htmlFiles = glob
-        .sync('site/pages/**/*.html')
-        .map((file) => file.replace('site/pages', ''));
+        .sync(`${pagesPath}**/*.html`)
+        .map((file) => file.replace('src/pages', ''));
 
       if (htmlFiles.includes(context.url)) {
-        context.url = `/site/pages/${context.url}`;
+        context.url = `${pagesPath}${context.url}`;
       }
 
       if (
         context.url === '/' ||
         htmlFiles.includes(`${context.url}/index.html`)
       ) {
-        context.url = `/site/pages/${
+        context.url = `${pagesPath}${
           context.url === '/' ? '' : context.url
         }/index.html`;
       }
 
       // if is js and is 404 then try to find in /site/pages/path
-      if (context.url.endsWith('.js')) {
-        const filePath = context.url.replace('.js', '.html');
+      if (context.url.endsWith('.ts')) {
+        const filePath = context.url.replace('.ts', '.html');
         const fileExists = htmlFiles.includes(filePath);
         if (fileExists) {
-          context.url = `/site/pages/${context.url}`;
+          context.url = `${pagesPath}${context.url}`;
         }
 
         const siteJS = glob
-          .sync('site/**/*.js')
-          .filter((file) => !file.includes('site/pages'))
-          .map((file) => file.replace('site', ''));
+          .sync(`${rootPath}**/*.ts`)
+          .filter((file) => !file.includes('src/pages'))
+          .map((file) => file.replace('src', ''));
 
         if (siteJS.includes(context.url)) {
           console.log('siteJS', context.url);
-          context.url = `/site${context.url}`;
+          context.url = `/src${context.url}`;
         }
       }
 

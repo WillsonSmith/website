@@ -11,12 +11,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const watch = argv.includes('--watch');
 
 const config = (ssgConfig) => {
-  ssgConfig.addWatchTarget('site/pages/**/*.js', async (target, changeType) => {
+  ssgConfig.addWatchTarget('src/pages/**/*.ts', async (target, changeType) => {
     const filePath = join(__dirname, target);
 
     const result = await renderStatic(filePath);
     const markup = result.markup;
-    const htmlFilePath = filePath.replace('.js', '.html');
+    const htmlFilePath = filePath.replace('.ts', '.html');
     if (markup) {
       await writeFile(htmlFilePath, markup);
     }

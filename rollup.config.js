@@ -15,9 +15,9 @@ import autoprefixer from 'autoprefixer';
 import cssnanoPlugin from 'cssnano';
 import postcssImport from 'postcss-import';
 
-const htmlFiles = glob.sync('site/pages/**/*.html').map((file) => {
+const htmlFiles = glob.sync('src/pages/**/*.html').map((file) => {
   return {
-    name: file.replace('site/pages/', ''),
+    name: file.replace('src/pages/', ''),
     path: file,
   };
 });

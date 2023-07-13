@@ -16,10 +16,10 @@
       "command": "concurrently \"npm run watch\" \"wds\""
     },
     "watch": {
-      "command": "concurrently \"tsc -w\" \"node ssg.config.js --watch\""
+      "command": "concurrently \"tsx ssg.config.js --watch\""
     },
     "build": {
-      "command": "tsc && node ssg.config.js && rollup -c rollup.config.js"
+      "command": "tsc && tsx ssg.config.js && rollup -c rollup.config.js"
     },
     "build:ssg": {
       "command": "npm run build -w ssg"
@@ -42,6 +42,7 @@
     "autoprefixer": "^10.4.14",
     "concurrently": "^8.2.0",
     "cssnano": "^6.0.1",
+    "esbuild-loader": "^3.0.1",
     "glob": "^10.3.3",
     "postcss": "^8.4.25",
     "postcss-import": "^15.1.0",
@@ -49,6 +50,7 @@
     "rollup": "^3.26.2",
     "rollup-plugin-workbox": "^8.0.1",
     "ssg": "^1.0.0",
+    "tsx": "^3.12.7",
     "typescript": "^5.1.6",
     "wireit": "^0.9.5"
   },
