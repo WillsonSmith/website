@@ -1,4 +1,4 @@
-import { html, css } from 'lit';
+import { html } from 'lit';
 export { layout } from '../layouts/indexLayout.ts';
 
 import '../components/site-header.ts';
@@ -7,56 +7,36 @@ import '../components/content-block.ts';
 
 export const title = 'My app • Home';
 
-export const styles = css`
-  body {
-    padding-block: var(--size-fluid-1);
-  }
-
-  .primary-column {
-    max-width: 60ch;
-
-    margin-inline: auto;
-    margin-block-start: var(--size-fluid-2);
-  }
-  .primary-column p {
-    width: 100%;
-  }
-  .primary-column p + p {
-    margin-top: var(--size-4);
-  }
-`;
+export { styles } from '../styles/indexStyles.ts';
 
 export default async () => {
   return html`
     <site-header>
-      <h1 slot="title">Willson</h1>
+      <h1 class="site-header__title" slot="title">Willson Smith</h1>
       <img slot="image" src="/public/img/me.png" />
-      <p>
-        I'm a software engineer, writer, and maker. I'm currently working on
-      </p>
+      <div class="social" slot="social">
+        <!-- <a href="https://twitter.com/modfox" target="_blank"> Twitter </a> -->
+        <a href="https://github.com/willsonsmith" target="_blank"> Github </a>
+        <a href="https://www.linkedin.com/in/willsonsmith/" target="_blank">
+          Linkedin
+        </a>
+      </div>
     </site-header>
+    <my-element></my-element>
     <main class="primary-column">
       <content-tree>
         <content-block>
           <p>
-            lorem ipsum dolor sit amet, consectetur adipiscing elit. sed do
-            eiusmod, tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id
+            Hey! I'm Willson, a developer specializing in front-end web user
+            experiences. I was formerly a Creative Technologist at Shopify.
           </p>
         </content-block>
         <content-block>
           <p>
-            lorem ipsum dolor sit amet, consectetur adipiscing elit. sed do
-            eiusmod, tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id
+            Coming off of 8 years building front-end at Shopify I'm currently
+            taking a break to figure out what's next. I'm always open to new
+            opportunities and challenges. If you'd like to chat, feel free to
+            <a href="mailto:me@willsonsmith.com">send me an email</a>.
           </p>
         </content-block>
         <content-block>

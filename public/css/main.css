@@ -4,8 +4,10 @@
 @import 'open-props/sizes.min.css';
 
 @import 'open-props/gray-hsl.min.css';
+@import 'open-props/choco-hsl.min.css';
 /* @import 'open-props/green-hsl.min.css'; */
 @import 'open-props/gradients.min.css';
+@import 'open-props/shadows.min.css';
 
 @import 'open-props/borders.min.css';
 
@@ -17,6 +19,6 @@ body {
   font-family: var(--font-sans);
   font-weight: var(--font-weight-3);
   font-size: var(--font-size-1);
-  line-height: var(--font-lineheight-0);
+  line-height: var(--font-lineheight-1);
   letter-spacing: var(--font-letterspacing-1);
 }
