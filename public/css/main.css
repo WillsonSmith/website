@@ -1,24 +1,85 @@
-@import 'open-props/normalize.min.css';
+/* @import 'open-props/normalize.min.css'; */
 
 @import 'open-props/fonts.min.css';
 @import 'open-props/sizes.min.css';
 
 @import 'open-props/gray-hsl.min.css';
 @import 'open-props/choco-hsl.min.css';
-/* @import 'open-props/green-hsl.min.css'; */
+@import 'open-props/sand-hsl.min.css';
+@import 'open-props/green-hsl.min.css';
 @import 'open-props/gradients.min.css';
 @import 'open-props/shadows.min.css';
 
 @import 'open-props/borders.min.css';
 
-html,
+@import 'open-props/easings.min.css';
+
+html {
+  box-sizing: border-box;
+}
+
+html *,
+html *::before,
+html *::after {
+  box-sizing: inherit;
+}
+
 body {
-  background: hsl(var(--gray-0-hsl));
-  color: hsl(var(--gray-12-hsl));
+  margin: 0;
 
   font-family: var(--font-sans);
   font-weight: var(--font-weight-3);
   font-size: var(--font-size-1);
   line-height: var(--font-lineheight-1);
   letter-spacing: var(--font-letterspacing-1);
+
+  color: hsl(var(--gray-12-hsl));
+  background: hsl(var(--gray-0-hsl));
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: var(--font-weight-4);
+  line-height: var(--font-lineheight-3);
+}
+
+p {
+  margin: 0;
+}
+
+ul[role='list'] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+figure {
+  margin-block: var(--size-fluid-2);
+  margin-inline: var(--size-fluid-3);
+}
+
+figure blockquote {
+  margin-block: var(--size-fluid-1);
+  margin-inline: var(--size-fluid-3);
+}
+
+a {
+  color: inherit;
+  /* text-decoration: none; */
 }

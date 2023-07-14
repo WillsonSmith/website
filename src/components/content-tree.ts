@@ -22,21 +22,6 @@ export class ContentTree extends LitElement {
 
       position: relative;
     }
-
-    .content-tree::before {
-      content: '';
-      position: absolute;
-      height: 100%;
-      width: var(--size-1);
-      background-color: var(--gray-8);
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .content-tree > *:nth-child(odd) {
-      transform: translateX(var(--size-fluid-4));
-    }
   `;
 }
 

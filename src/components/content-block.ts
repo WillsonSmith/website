@@ -14,26 +14,11 @@ export class ContentBlock extends LitElement {
   static styles = css`
     :host {
       display: block;
-      --shadow-color: hsl(var(--gray-8-hsl));
-      --shadow-offset: 1;
-      --shadow-offset-x: var(--shadow-offset);
-      --shadow-offset-y: var(--shadow-offset);
-
-      --shadow-size: 7px;
-
-      --shadow-distance-x: calc(var(--shadow-offset-x) * var(--shadow-size));
-      --shadow-distance-y: calc(var(--shadow-offset-y) * var(--shadow-size));
+      background: hsl(var(--gray-0-hsl));
     }
 
     .content-block {
       padding: var(--size-4);
-      border: 1px solid black;
-      /* box-shadow:
-        var(--shadow-distance-x) var(--shadow-distance-y) 0 var(--shadow-color),
-        1px 1px 0 var(--shadow-color),
-        -1px -1px 0 var(--shadow-color),
-        -1px 1px 0 var(--shadow-color),
-        1px -1px 0 var(--shadow-color); */
     }
   `;
 }

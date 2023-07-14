@@ -38,10 +38,14 @@ if (watchForChanges) {
 }
 
 async function buildPage(page) {
-  const filePath = join(__dirname, page);
-  const result = (await renderStatic(filePath)).markup;
-  if (result) {
-    await writeFile(filePath.replace('ts', 'html'), result);
+  try {
+    const filePath = join(__dirname, page);
+    const result = (await renderStatic(filePath)).markup;
+    if (result) {
+      await writeFile(filePath.replace('ts', 'html'), result);
+    }
+  } catch (e) {
+    console.log('No markup found for', page);
   }
 }
 
