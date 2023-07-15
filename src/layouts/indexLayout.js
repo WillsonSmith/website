@@ -1,13 +1,22 @@
-import type { CSSResult } from 'lit';
-interface Page {
-  content: string;
-  hydrate: string[];
-  styles: CSSResult;
-  [key: string]: unknown;
-}
+/**
+ * @typedef Page
+ * @prop {string} content
+ * @prop {string} lang
+ * @prop {string} title
+ * @prop {import('lit').CSSResult} styles
+ * @prop {string[]} hydrate
+ */
 
-export const layout = (page: Page) => {
+/**
+ *
+ * @param {Page} page
+ * @returns {string}
+ */
+export const layout = (page) => {
   const { content, lang = 'en', title = 'My app', styles, hydrate = [] } = page;
+  const css = styles?.cssText;
+  const styleTag = css ? `<style>${css}</style>` : '';
+
   return `
 <!doctype html>
 <html lang="${lang}">
@@ -16,10 +25,7 @@ export const layout = (page: Page) => {
     <title>${title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/public/css/main.css">
-
-    <style>
-    ${styles.cssText}
-    </style>
+    ${styleTag}
   </head>
   <body>
     ${content}
@@ -40,12 +46,17 @@ export const layout = (page: Page) => {
 `;
 };
 
-function generateHydrationScript(hydrate: string[]) {
+/**
+ *
+ * @param {string[]} hydrate
+ * @returns
+ */
+function generateHydrationScript(hydrate) {
   if (hydrate.length === 0) {
     return '';
   }
   return `
     const litHydrateSupportInstalled = await import('@lit-labs/ssr-client/lit-element-hydrate-support.js');
-    ${hydrate.map((path: string) => `import('${path}')`).join(';\n    ') || ''}
+    ${hydrate.map((path) => `import('${path}')`).join(';\n    ') || ''}
     `;
 }

@@ -4,25 +4,22 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noEmitOnError": true,
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true,
+    // "emitDeclarationOnly": true,
     "lib": ["ES2020", "dom"],
     "strict": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "useDefineForClassFields": false,
+    // "experimentalDecorators": true,
+    // "useDefineForClassFields": false,
     "importHelpers": true,
     "rootDir": "./src",
-    "outDir": "./site",
+    // "outDir": "./site",
     "sourceMap": false,
     "inlineSources": false,
     "incremental": false,
-    "paths": {
-      "@layouts/*": ["./src/layouts/*"],
-      "@components/*": ["./src/components/*"],
-      "@styles/*": ["./src/styles/*"]
-    }
+    "checkJs": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.js"],
   "exclude": ["node_modules", "packages"]
 }

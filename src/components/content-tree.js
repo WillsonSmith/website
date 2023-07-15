@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-@customElement('content-tree')
+// @customElement('content-tree')
 export class ContentTree extends LitElement {
   render() {
     return html`
@@ -25,8 +25,10 @@ export class ContentTree extends LitElement {
   `;
 }
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'content-tree': ContentTree;
-  }
-}
+customElements.define('content-tree', ContentTree);
+
+// declare global {
+//   interface HTMLElementTagNameMap {
+//     'content-tree': ContentTree;
+//   }
+// }

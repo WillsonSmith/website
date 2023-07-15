@@ -1,10 +1,11 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-@customElement('site-nav')
+// @customElement('site-nav')
 export class MyComponent extends LitElement {
   firstUpdated() {
-    const active = this.shadowRoot!.querySelector(
+    // @ts-expect-error
+    const active = this.shadowRoot.querySelector(
       `a[href="${window.location.pathname}"]`
     );
 
@@ -32,8 +33,10 @@ export class MyComponent extends LitElement {
   `;
 }
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'site-nav': MyComponent;
-  }
-}
+customElements.define('site-nav', MyComponent);
+
+// declare global {
+//   interface HTMLElementTagNameMap {
+//     'site-nav': MyComponent;
+//   }
+// }

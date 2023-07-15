@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-@customElement('site-header')
+// @customElement('site-header')
 export class SiteHeader extends LitElement {
   render() {
     return html`
@@ -43,8 +43,10 @@ export class SiteHeader extends LitElement {
   `;
 }
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'site-header': SiteHeader;
-  }
-}
+customElements.define('site-header', SiteHeader);
+
+// declare global {
+//   interface HTMLElementTagNameMap {
+//     'site-header': SiteHeader;
+//   }
+// }

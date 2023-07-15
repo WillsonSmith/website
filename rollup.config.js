@@ -32,7 +32,10 @@ export default {
     format: 'es',
   },
   plugins: [
-    // typescript(),
+    // typescript({
+    //   tsconfig: 'tsconfig.json',
+    // }),
+    importMetaAssets(),
     html({
       input: htmlFiles,
       minify: true,
@@ -57,7 +60,6 @@ export default {
     }),
     nodeResolve(),
     terser(),
-    importMetaAssets(),
     generateSW({
       swDest: path.join('build', 'sw.js'),
       globDirectory: path.join('build'),

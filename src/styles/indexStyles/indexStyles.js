@@ -1,7 +1,7 @@
 import { css } from 'lit';
-import { headerStyles } from './header.ts';
-import { profileImageStyles } from './profile-image.ts';
-import { contentStyles } from './content.ts';
+import { headerStyles } from './header.js';
+import { profileImageStyles } from './profile-image.js';
+import { contentStyles } from './content.js';
 
 export const styles = css`
   @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
@@ -9,6 +9,12 @@ export const styles = css`
   body {
     background: hsl(var(--choco-0-hsl));
   }
+
+  .page {
+    display: grid;
+    gap: var(--size-5);
+  }
+
   ${headerStyles}
   ${profileImageStyles}
   ${contentStyles}

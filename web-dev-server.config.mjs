@@ -2,7 +2,7 @@
 
 import { glob } from 'glob';
 
-import { esbuildPlugin } from '@web/dev-server-esbuild';
+// import { esbuildPlugin } from '@web/dev-server-esbuild';
 
 import postcss from 'postcss';
 import postcssImport from 'postcss-import';
@@ -26,10 +26,12 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
     exportConditions: ['browser', 'development'],
   },
   plugins: [
-    esbuildPlugin({
-      ts: true,
-      target: 'es2022',
-    }),
+    // esbuildPlugin({
+    //   target: 'es2022',
+    // }),
+    {
+      name: '',
+    },
     {
       name: 'postcss',
       async transform(context) {
@@ -51,42 +53,63 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   ],
   middleware: [
     async (context, next) => {
+      // Find all .ts files in the src directory and add them to the context
+      const javascriptSourceFiles = glob.sync(`${rootPath}**/*.js`);
+      context.javascriptSourceFiles = javascriptSourceFiles.filter(
+        (source) => !source.includes('src/pages')
+      );
+
+      // Find all .html files in the src/pages directory and add them to the context
       const htmlFiles = glob
         .sync(`${pagesPath}**/*.html`)
         .map((file) => file.replace('src/pages', ''));
+      context.htmlFiles = htmlFiles;
 
-      if (htmlFiles.includes(context.url)) {
+      return next();
+    },
+    async (context, next) => {
+      // Redirect requests that have an html file
+      if (context.htmlFiles.includes(context.url)) {
         context.url = `${pagesPath}${context.url}`;
       }
+      return next();
+    },
 
-      if (
-        context.url === '/' ||
-        htmlFiles.includes(`${context.url}/index.html`)
-      ) {
-        context.url = `${pagesPath}${
-          context.url === '/' ? '' : context.url
-        }/index.html`;
+    async (context, next) => {
+      // Redirect site index
+      if (context.url === '/') {
+        context.url = `${pagesPath}index.html`;
       }
+      return next();
+    },
 
-      // if is js and is 404 then try to find in /site/pages/path
-      if (context.url.endsWith('.ts')) {
-        const filePath = context.url.replace('.ts', '.html');
-        const fileExists = htmlFiles.includes(filePath);
+    async (context, next) => {
+      // Redirect trailing slash to path plus index.html
+      if (context.htmlFiles.includes(`${context.url}/index.html`)) {
+        context.url = `${pagesPath}${context.url}/index.html`;
+      }
+      return next();
+    },
+
+    async (context, next) => {
+      // redirect page javascript requests
+      if (context.url.endsWith('js')) {
+        const filePath = context.url.replace('.js', '.html');
+        const fileExists = context.htmlFiles.includes(filePath);
         if (fileExists) {
           context.url = `${pagesPath}${context.url}`;
         }
-
-        const siteJS = glob
-          .sync(`${rootPath}**/*.ts`)
-          .filter((file) => !file.includes('src/pages'))
-          .map((file) => file.replace('src', ''));
-
-        if (siteJS.includes(context.url)) {
-          console.log('siteJS', context.url);
-          context.url = `/src${context.url}`;
-        }
       }
-
+      return next();
+    },
+    async (context, next) => {
+      const normalizedJsPaths = context.javascriptSourceFiles.map((path) =>
+        path.replace('src', '')
+      );
+      if (normalizedJsPaths.includes(context.url)) {
+        console.log(`redirecting ${context.url}`);
+        context.url = `/src${context.url}`;
+      }
       return next();
     },
   ],

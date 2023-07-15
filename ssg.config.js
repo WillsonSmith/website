@@ -17,13 +17,13 @@ import { findDependencies } from '@custom-elements-manifest/find-dependencies';
 if (watchForChanges) {
   const dependencyMap = new Map();
 
-  watch('src/pages/**/*.ts').on('all', async (_, path) => {
+  watch('src/pages/**/*.js').on('all', async (_, path) => {
     const dependencies = await fetchLocalDependencies(path, dirname(path));
     dependencyMap.set(path, dependencies);
     buildPage(path);
   });
 
-  watch('src/**/*.ts').on('all', async (_, path) => {
+  watch('src/**/*.js').on('all', async (_, path) => {
     const fullTargetPath = `${__dirname}/${path}`;
     for (const [page, dependencies] of dependencyMap.entries()) {
       if (dependencies.includes(fullTargetPath)) {
@@ -32,8 +32,8 @@ if (watchForChanges) {
     }
   });
 } else {
-  glob('src/pages/**/*.ts').then((files) => {
-    for (const file of files) buildPage(file);
+  glob('src/pages/**/*.js').then(async (files) => {
+    for (const file of files) await buildPage(file);
   });
 }
 
@@ -42,7 +42,7 @@ async function buildPage(page) {
     const filePath = join(__dirname, page);
     const result = (await renderStatic(filePath)).markup;
     if (result) {
-      await writeFile(filePath.replace('ts', 'html'), result);
+      await writeFile(filePath.replace('js', 'html'), result);
     }
   } catch (e) {
     console.log('No markup found for', page);
