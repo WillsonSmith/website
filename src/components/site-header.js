@@ -1,7 +1,11 @@
 import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
 
-// @customElement('site-header')
+/**
+ * @element site-header
+ * @slot title - The site title
+ * @slot social - The social links
+ * @cssprop --gap - The gap between the title and social links
+ */
 export class SiteHeader extends LitElement {
   render() {
     return html`
@@ -19,6 +23,7 @@ export class SiteHeader extends LitElement {
   static styles = css`
     :host {
       display: block;
+      --gap: var(--size-3);
     }
 
     img {
@@ -28,7 +33,7 @@ export class SiteHeader extends LitElement {
     .site-header {
       display: grid;
       grid-template-areas: 'title title social';
-      gap: var(--size-3);
+      gap: var(--gap);
     }
 
     .site-header__title {
@@ -44,9 +49,3 @@ export class SiteHeader extends LitElement {
 }
 
 customElements.define('site-header', SiteHeader);
-
-// declare global {
-//   interface HTMLElementTagNameMap {
-//     'site-header': SiteHeader;
-//   }
-// }

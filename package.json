@@ -11,9 +11,22 @@
     "build": "wireit",
     "build:ssg": "wireit",
     "clean": "wireit",
-    "clean:html": "wireit"
+    "clean:html": "wireit",
+    "analyze": "wireit"
   },
   "wireit": {
+    "analyze": {
+      "dependencies": [
+        "analyze:vscode",
+        "analyze:cem"
+      ]
+    },
+    "analyze:cem": {
+      "command": "wca analyze src/**/*.js --format json --outFile custom-elements.json"
+    },
+    "analyze:vscode": {
+      "command": "wca analyze src/**/*.js --format vscode --outFile vscode-html-custom-data.json"
+    },
     "dev": {
       "command": "concurrently \"npm run watch\" \"wds\""
     },
@@ -74,6 +87,7 @@
     "ssg": "^1.0.0",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6",
+    "web-component-analyzer": "^1.1.7",
     "wireit": "^0.9.5"
   },
   "dependencies": {

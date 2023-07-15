@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "tags": [
+    {
+      "name": "content-block",
+      "description": "Properties:\n\n  * `styles` - ",
+      "attributes": []
+    },
+    {
+      "name": "content-tree",
+      "description": "Properties:\n\n  * `styles` - ",
+      "attributes": []
+    },
+    {
+      "name": "profile-image",
+      "description": "Attributes:\n\n  * `isHello` {`boolean`} - \n\nProperties:\n\n  * `isHello` {`boolean`} - \n\n  * `styles` - ",
+      "attributes": [
+        {
+          "name": "isHello",
+          "description": "`isHello` {`boolean`} - \n\nProperty: isHello",
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "site-header",
+      "description": "Properties:\n\n  * `styles` - ",
+      "attributes": []
+    },
+    {
+      "name": "site-nav",
+      "description": "Properties:\n\n  * `styles` - ",
+      "attributes": []
+    }
+  ],
+  "globalAttributes": [],
+  "valueSets": []
+}

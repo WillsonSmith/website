@@ -3,20 +3,25 @@ import { customElement, property } from 'lit/decorators.js';
 
 import { classMap } from 'lit/directives/class-map.js';
 
-// @customElement('profile-image')
 export class ProfileImage extends LitElement {
-  // @property({ type: Boolean }) isHello = true;
-
   static get properties() {
     return {
-      isHello: { type: Boolean },
+      hello: { type: Boolean },
     };
   }
 
+  constructor() {
+    super();
+    this.hello = true;
+  }
+
   firstUpdated() {
-    setInterval(() => {
-      this.isHello = !this.isHello;
-    }, 5000);
+    this._observer = new IntersectionObserver(this.#handleIntersection, {
+      rootMargin: '-50px 0 0 0',
+      threshold: [0.85],
+    });
+
+    this._observer.observe(this);
   }
 
   render() {
@@ -24,19 +29,31 @@ export class ProfileImage extends LitElement {
       <div class="profile-image">
         <img
           class=${classMap({
-            hello: this.isHello,
+            hello: this.hello,
           })}
           src="/public/img/me.png"
         />
         <img
           class=${classMap({
-            hello: !this.isHello,
+            hello: !this.hello,
           })}
           src="/public/img/me-bye.png"
         />
       </div>
     `;
   }
+
+  /**
+   *
+   * @param {IntersectionObserverEntry[]} entries
+   * @returns
+   */
+  #handleIntersection = (entries) => {
+    for (const entry of entries) {
+      const { isIntersecting } = entry;
+      this.hello = isIntersecting;
+    }
+  };
 
   static styles = css`
     :host {
@@ -88,9 +105,3 @@ export class ProfileImage extends LitElement {
 }
 
 customElements.define('profile-image', ProfileImage);
-
-// declare global {
-//   interface HTMLElementTagNameMap {
-//     'profile-image': ProfileImage;
-//   }
-// }

@@ -107,7 +107,6 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
         path.replace('src', '')
       );
       if (normalizedJsPaths.includes(context.url)) {
-        console.log(`redirecting ${context.url}`);
         context.url = `/src${context.url}`;
       }
       return next();

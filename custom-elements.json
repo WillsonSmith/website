@@ -1,0 +1,71 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "content-block",
+      "path": "./src/components/content-block.js",
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    :host {\\n      display: block;\\n      background: hsl(var(--gray-0-hsl));\\n    }\\n\\n    .content-block {\\n      padding: var(--size-4);\\n    }\\n  `\""
+        }
+      ]
+    },
+    {
+      "name": "content-tree",
+      "path": "./src/components/content-tree.js",
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    .content-tree {\\n      display: grid;\\n      gap: var(--size-fluid-4);\\n\\n      position: relative;\\n    }\\n  `\""
+        }
+      ]
+    },
+    {
+      "name": "profile-image",
+      "path": "./src/components/profile-image.js",
+      "attributes": [
+        {
+          "name": "isHello",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "isHello",
+          "attribute": "isHello",
+          "type": "boolean"
+        },
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    .hello {\\n      opacity: 1;\\n    }\\n\\n    img {\\n      display: block;\\n      max-width: 100%;\\n\\n      grid-area: image;\\n\\n      opacity: 0;\\n      transition: opacity 500ms var(--ease-out-5);\\n    }\\n\\n    .profile-image {\\n      max-width: var(--size-12);\\n      background-image: var(--gradient-14);\\n      border-radius: var(--radius-blob-5);\\n      padding: var(--size-2);\\n\\n      display: grid;\\n      grid-template-areas: 'image';\\n    }\\n\\n    @keyframes blob {\\n      0% {\\n        border-radius: var(--radius-blob-5);\\n      }\\n      25% {\\n        border-radius: var(--radius-blob-2);\\n      }\\n      50% {\\n        border-radius: var(--radius-blob-3);\\n      }\\n      75% {\\n        border-radius: var(--radius-blob-2);\\n      }\\n      100% {\\n        border-radius: var(--radius-blob-5);\\n      }\\n    }\\n  `\""
+        }
+      ]
+    },
+    {
+      "name": "site-header",
+      "path": "./src/components/site-header.js",
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    img {\\n      display: block;\\n    }\\n\\n    .site-header {\\n      display: grid;\\n      grid-template-areas: 'title title social';\\n      gap: var(--size-3);\\n    }\\n\\n    .site-header__title {\\n      grid-area: title;\\n    }\\n\\n    .site-header__social {\\n      grid-area: social;\\n      display: flex;\\n      justify-content: flex-end;\\n    }\\n  `\""
+        }
+      ]
+    },
+    {
+      "name": "site-nav",
+      "path": "./src/components/site-nav.js",
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n    nav {\\n      display: flex;\\n      gap: var(--size-2);\\n    }\\n  `\""
+        }
+      ]
+    }
+  ]
+}
