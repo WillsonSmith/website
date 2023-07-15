@@ -14,6 +14,7 @@ import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import cssnanoPlugin from 'cssnano';
 import postcssImport from 'postcss-import';
+import copy from 'rollup-plugin-copy';
 
 const htmlFiles = glob.sync('src/pages/**/*.html').map((file) => {
   return {
@@ -32,6 +33,9 @@ export default {
     format: 'es',
   },
   plugins: [
+    copy({
+      targets: [{ src: 'public', dest: 'build' }],
+    }),
     // typescript({
     //   tsconfig: 'tsconfig.json',
     // }),

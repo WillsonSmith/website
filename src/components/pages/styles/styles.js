@@ -47,7 +47,7 @@ const contentStyles = css`
     padding-block-end: var(--size-8);
 
     display: grid;
-    grid-template-columns: min(60ch, 100%);
+    grid-template-columns: min(60ch, calc(100% - var(--size-fluid-4)));
     justify-content: center;
 
     gap: var(--size-8);
