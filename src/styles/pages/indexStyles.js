@@ -28,21 +28,43 @@ const headerStyles = css`
 
 const contentStyles = css`
   .content {
+    --triangle-height: var(--size-fluid-8);
     position: relative;
     transform: translateZ(0);
     z-index: 1;
+
+    display: grid;
+    grid-template-areas: 'parts';
   }
+
+  .content-background {
+    position: sticky;
+    top: var(--size-fluid-4);
+    grid-area: parts;
+
+    width: 100%;
+    height: calc(100vh - var(--size-fluid-4));
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+
+  .content-background__color {
+    background: hsl(var(--green-3-hsl));
+  }
+
   .content__triangle {
     transform: translateY(1px);
     position: relative;
     display: block;
     width: 100%;
-    height: 200px;
+    height: var(--triangle-height);
     fill: hsl(var(--green-3-hsl));
   }
 
   .content__inner {
-    background: hsl(var(--green-3-hsl));
+    position: relative;
+    grid-area: parts;
+    /* background: hsl(var(--green-3-hsl)); */
     padding-block-start: var(--size-4);
     padding-block-end: var(--size-8);
 
@@ -51,6 +73,8 @@ const contentStyles = css`
     justify-content: center;
 
     gap: var(--size-8);
+
+    margin-top: var(--triangle-height);
   }
 
   .content__inner > content-block {

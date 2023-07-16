@@ -5,7 +5,7 @@ import '../components/profile-image.js';
 import '../components/content-block.js';
 
 export { layout } from '../layouts/indexLayout.js';
-export const title = 'My app • Home';
+export const title = 'Willson • Home';
 
 import { styles as indexStyles } from '../styles/pages/indexStyles.js';
 export const styles = css`
@@ -31,13 +31,16 @@ export default () => html`
     <profile-image></profile-image>
 
     <div class="content">
-      <svg
-        class="content__triangle"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-      >
-        <polygon points="0,100 100,100 100,0" />
-      </svg>
+      <div class="content-background">
+        <svg
+          class="content__triangle"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <polygon points="0,100 100,100 100,0" />
+        </svg>
+        <div class="content-background__color"></div>
+      </div>
       <main class="content__inner">
         <content-block>
           <span class="micro-heading">Hey! I'm Willson.</span>
@@ -64,6 +67,32 @@ export default () => html`
           </p>
         </content-block>
 
+        <content-block>
+          <figure>
+            <blockquote>
+              <p>
+                Fairy tales are more than true: not because they tell us that
+                dragons exist, but because they tell us dragons can be beaten.
+              </p>
+            </blockquote>
+            <figcaption>—Neil Gaiman, <cite>Coraline</cite></figcaption>
+          </figure>
+
+          <p>
+            Stories are core to how we understand the world. They help us make
+            sense of the world around us and our place in it. They help us
+            understand the past, present, and future. They help us understand
+            ourselves and others.
+          </p>
+
+          <p>
+            Humans are natural storytellers. We tell stories to share knowledge,
+            to teach, to entertain, to persuade, to inspire, to connect, to
+            build empathy, to build community, to build relationships, to build
+            trust, to build understanding, to build meaning, to build identity,
+            to build culture, to build society.
+          </p>
+        </content-block>
         <content-block>
           <figure>
             <blockquote>
