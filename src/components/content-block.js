@@ -19,6 +19,8 @@ export class ContentBlock extends LitElement {
 
     .content-block {
       padding: var(--size-4);
+      display: grid;
+      gap: var(--size-3);
     }
   `;
 }

@@ -30,10 +30,10 @@ export default () => html`
 
     <profile-image></profile-image>
 
-    <div class="content">
+    <div class="content-wrapper">
       <div class="content-background">
         <svg
-          class="content__triangle"
+          class="content-triangle"
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
@@ -41,9 +41,9 @@ export default () => html`
         </svg>
         <div class="content-background__color"></div>
       </div>
-      <main class="content__inner">
+      <main class="content">
         <content-block>
-          <span class="micro-heading">Hey! I'm Willson.</span>
+          <span class="content-heading">Hey! I'm Willson.</span>
           <p>
             At heart I'm a storyteller and I want others to be able to tell
             their own stories. I specialize in storytelling front-end web
