@@ -46,6 +46,15 @@ export class CursorParty extends LitElement {
 
     this._isHighFiving = false;
     this._handleMouseMove = throttle(this._handleMouseMove, MOUSE_MOVE_DELAY);
+
+    /**
+     * @type {MousePosition[]}
+     * @private
+     * @memberof CursorParty
+     * @description
+     * The array of cursors to render.
+     */
+    this._cursors = [];
   }
 
   firstUpdated() {
@@ -68,7 +77,17 @@ export class CursorParty extends LitElement {
   }
 
   render() {
-    return html` <slot></slot> `;
+    return html`
+      <slot></slot>
+      ${this._cursors.map(
+        (cursor) => html`
+          <div
+            class="cursor"
+            style="transform: translate3d(${cursor.x}px, ${cursor.y}px, 0);"
+          ></div>
+        `
+      )}
+    `;
   }
 
   _playHighFive = () => {
@@ -91,6 +110,7 @@ export class CursorParty extends LitElement {
   _handleMouseMove = (/** @type {MouseEvent} */ event) => {
     const { clientX, clientY } = event;
     const newPosition = { x: clientX, y: clientY, timestamp: Date.now() };
+    this._cursors = [newPosition];
     const recentMovements = [
       ...filterForRecency(
         this._mouseTracker.recentMovements,
@@ -148,6 +168,20 @@ export class CursorParty extends LitElement {
     :host {
       display: block;
       cursor: grab;
+    }
+
+    .cursor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: hsl(var(--green-12-hsl));
+
+      transition: transform 10ms linear;
+
+      z-index: 1000;
     }
   `;
 }
