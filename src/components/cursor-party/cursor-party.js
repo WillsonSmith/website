@@ -15,15 +15,14 @@ import { throttle } from '../../util/throttle.js';
  * @property {MousePosition[]} recentMovements
  */
 
+/**
+ * @typedef {Object} Properties
+ * @property {MouseTracker} _mouseTracker
+ * @property {MousePosition[]} _cursors
+ * @property {Boolean} _isHighFiving
+ */
+
 export class CursorParty extends LitElement {
-  /**
-   * @type {import('lit').PropertyDeclarations} properties
-   * @property {MouseTracker} _mouseTracker
-   * @property {MousePosition[]} _cursors
-   * @property {Boolean} _isHighFiving
-   * @static
-   * @memberof CursorParty
-   */
   static properties = {
     _mouseTracker: { type: Object, state: true },
     _cursors: { type: Array, state: true },
@@ -56,7 +55,7 @@ export class CursorParty extends LitElement {
 
   /**
    *
-   * @param {Map<string, unknown>} changedProperties
+   * @param {Map<string, Properties>} changedProperties
    */
   updated(changedProperties) {
     if (changedProperties.has('_isHighFiving') && this._isHighFiving) {
