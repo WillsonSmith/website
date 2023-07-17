@@ -143,7 +143,8 @@ export class CursorParty extends LitElement {
 customElements.define('cursor-party', CursorParty);
 
 /**
- *
+ * @function greaterThan
+
  * @param {MousePosition} position
  * @param {MousePosition} otherPosition
  * @returns Boolean
@@ -153,6 +154,7 @@ function greaterThan(position, otherPosition) {
 }
 
 /**
+ * @function filterForRecency
  *
  * @param {MousePosition[]} positions
  * @param {Number} threshold in milliseconds
