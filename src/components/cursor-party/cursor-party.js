@@ -1,26 +1,26 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, nothing } from 'lit';
 
 import { throttle } from '../../util/throttle.js';
 
 const MOUSE_MOVE_DELAY = 10;
 
 /**
- * @typedef {Object} MousePosition
+ * @typedef {Object} CursorPosition
  * @property {Number} x
  * @property {Number} y
  * @property {Number} timestamp
  */
 
 /**
- * @typedef {Object} MouseTracker
- * @property {MousePosition} position
- * @property {MousePosition[]} recentMovements
+ * @typedef {Object} CursorTracker
+ * @property {CursorPosition} position
+ * @property {CursorPosition[]} recentMovements
  */
 
 /**
  * @typedef {Object} Properties
- * @property {MouseTracker} _mouseTracker
- * @property {MousePosition[]} _cursors
+ * @property {CursorTracker} _mouseTracker
+ * @property {CursorPosition[]} _cursors
  * @property {Boolean} _isHighFiving
  */
 
@@ -35,11 +35,11 @@ export class CursorParty extends LitElement {
     super();
 
     /**
-     * @type {MouseTracker}
+     * @type {CursorTracker}
      * @private
      * @memberof CursorParty
      */
-    this._mouseTracker = {
+    this._cursorTracker = {
       position: { x: 0, y: 0, timestamp: Date.now() },
       recentMovements: [],
     };
@@ -48,7 +48,7 @@ export class CursorParty extends LitElement {
     this._handleMouseMove = throttle(this._handleMouseMove, MOUSE_MOVE_DELAY);
 
     /**
-     * @type {MousePosition[]}
+     * @type {CursorPosition[]}
      * @private
      * @memberof CursorParty
      * @description
@@ -84,7 +84,9 @@ export class CursorParty extends LitElement {
           <div
             class="cursor"
             style="transform: translate3d(${cursor.x}px, ${cursor.y}px, 0);"
-          ></div>
+          >
+            ${this._isHighFiving ? '🙌' : nothing}
+          </div>
         `
       )}
     `;
@@ -92,7 +94,11 @@ export class CursorParty extends LitElement {
 
   _playHighFive = () => {
     console.log('Playing high five! 🔊');
-    this._isHighFiving = false;
+
+    // tie to audio
+    setTimeout(() => {
+      this._isHighFiving = false;
+    }, 1000);
   };
 
   _setupCursorParty = () => {
@@ -113,18 +119,18 @@ export class CursorParty extends LitElement {
     this._cursors = [newPosition];
     const recentMovements = [
       ...filterForRecency(
-        this._mouseTracker.recentMovements,
+        this._cursorTracker.recentMovements,
         MOUSE_MOVE_DELAY * 10
       ),
       newPosition,
     ];
 
-    this._mouseTracker = {
+    this._cursorTracker = {
       position: newPosition,
       recentMovements,
     };
 
-    if (mouseIsShaking(recentMovements)) {
+    if (cursorIsShaking(recentMovements)) {
       this._isHighFiving = true;
     }
   };
@@ -142,7 +148,7 @@ export class CursorParty extends LitElement {
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: hsl(var(--green-12-hsl));
+      background: hsl(var(--gray-4-hsl));
 
       transition: transform 10ms linear;
 
@@ -156,7 +162,7 @@ customElements.define('cursor-party', CursorParty);
 /**
  * @function filterForRecency
  *
- * @param {MousePosition[]} positions
+ * @param {CursorPosition[]} positions
  * @param {Number} threshold in milliseconds
  * @returns
  */
@@ -170,10 +176,10 @@ function filterForRecency(positions, threshold) {
 /**
  * @function mouseIsShaking
  *
- * @param {MousePosition[]} recentMovements
+ * @param {CursorPosition[]} recentMovements
  * @returns
  */
-function mouseIsShaking(recentMovements) {
+function cursorIsShaking(recentMovements) {
   const [first, ...rest] = recentMovements;
 
   let [xMax, xMin, yMax, yMin] = [first.x, first.x, first.y, first.y];
