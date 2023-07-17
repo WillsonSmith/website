@@ -83,7 +83,6 @@
     "prettier": "^3.0.0",
     "rimraf": "^5.0.1",
     "rollup": "^3.26.2",
-    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-workbox": "^8.0.1",
     "ssg": "^1.0.0",
     "tsx": "^3.12.7",
