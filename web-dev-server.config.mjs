@@ -23,7 +23,7 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   rootDir: './',
   watch: !hmr,
   nodeResolve: {
-    exportConditions: ['browser', 'development'],
+    exportConditions: ['browser'],
   },
   plugins: [
     // esbuildPlugin({
