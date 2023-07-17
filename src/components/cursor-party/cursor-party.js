@@ -55,7 +55,7 @@ export class CursorParty extends LitElement {
 
   /**
    *
-   * @param {Map<string, Properties>} changedProperties
+   * @param {Map<keyof Properties, Properties[keyof Properties]>} changedProperties
    */
   updated(changedProperties) {
     if (changedProperties.has('_isHighFiving') && this._isHighFiving) {
