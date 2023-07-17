@@ -2,6 +2,8 @@ import { LitElement, html, css } from 'lit';
 
 import { throttle } from '../../util/throttle.js';
 
+const MOUSE_MOVE_DELAY = 10;
+
 /**
  * @typedef {Object} MousePosition
  * @property {Number} x
@@ -43,6 +45,7 @@ export class CursorParty extends LitElement {
     };
 
     this._isHighFiving = false;
+    this._handleMouseMove = throttle(this._handleMouseMove, MOUSE_MOVE_DELAY);
   }
 
   firstUpdated() {
@@ -70,10 +73,7 @@ export class CursorParty extends LitElement {
 
   _playHighFive = () => {
     console.log('Playing high five! 🔊');
-    // const audio = new Audio('/public/audio/high-five.mp3');
-    setTimeout(() => {
-      this._isHighFiving = false;
-    }, 1000);
+    this._isHighFiving = false;
   };
 
   _setupCursorParty = () => {
@@ -88,43 +88,56 @@ export class CursorParty extends LitElement {
     window.addEventListener('mousemove', this._handleMouseMove);
   };
 
-  _handleMouseMove = throttle(
-    /** @param {MouseEvent} event */
-    (event) => {
-      const { clientX, clientY } = event;
-      const newPosition = { x: clientX, y: clientY, timestamp: Date.now() };
-      const recentMovements = [
-        ...filterForRecency(this._mouseTracker.recentMovements, 500),
-        newPosition,
-      ];
+  _handleMouseMove = (/** @type {MouseEvent} */ event) => {
+    const { clientX, clientY } = event;
+    const newPosition = { x: clientX, y: clientY, timestamp: Date.now() };
+    const recentMovements = [
+      ...filterForRecency(
+        this._mouseTracker.recentMovements,
+        MOUSE_MOVE_DELAY * 10
+      ),
+      newPosition,
+    ];
 
-      this._mouseTracker = {
-        position: newPosition,
-        recentMovements,
-      };
+    this._mouseTracker = {
+      position: newPosition,
+      recentMovements,
+    };
 
-      if (this._mouseIsShaking()) {
-        this._isHighFiving = true;
-      }
-    },
-    20
-  );
+    if (this._mouseIsShaking(recentMovements)) {
+      this._isHighFiving = true;
+    }
+  };
 
-  _mouseIsShaking = () => {
-    const { recentMovements } = this._mouseTracker;
+  /**
+   *
+   * @param {MousePosition[]} recentMovements
+   * @returns
+   */
+  _mouseIsShaking = (recentMovements) => {
     const [first, ...rest] = recentMovements;
 
-    const countAbove = rest.filter((position) => {
-      return greaterThan(position, first);
-    }).length;
+    let [xMax, xMin, yMax, yMin] = [first.x, first.x, first.y, first.y];
+    for (const position of rest) {
+      if (position.y < yMin) {
+        yMin = position.y;
+      }
+      if (position.y > yMax) {
+        yMax = position.y;
+      }
+      if (position.x < xMin) {
+        xMin = position.x;
+      }
+      if (position.x > xMax) {
+        xMax = position.x;
+      }
+    }
 
-    const countBelow = rest.filter((position) => {
-      !greaterThan(position, first);
-    }).length;
+    if (first.y > yMin && first.y < yMax && yMax - yMin > 20) {
+      return true;
+    }
 
-    const score = Math.abs(countAbove - countBelow) / recentMovements.length;
-
-    if (score > 0.35 && score < 0.65) {
+    if (first.x > xMin && first.x < xMax && xMax - xMin > 20) {
       return true;
     }
 
@@ -142,17 +155,6 @@ export class CursorParty extends LitElement {
 customElements.define('cursor-party', CursorParty);
 
 /**
- * @function greaterThan
-
- * @param {MousePosition} position
- * @param {MousePosition} otherPosition
- * @returns Boolean
- */
-function greaterThan(position, otherPosition) {
-  return position.x > otherPosition.x || position.y > otherPosition.y;
-}
-
-/**
  * @function filterForRecency
  *
  * @param {MousePosition[]} positions
@@ -161,6 +163,7 @@ function greaterThan(position, otherPosition) {
  */
 function filterForRecency(positions, threshold) {
   return positions.filter((position) => {
-    return position.timestamp > Date.now() - threshold;
+    return Date.now() - position.timestamp < threshold;
+    // return position.timestamp > Date.now() - threshold;
   });
 }
