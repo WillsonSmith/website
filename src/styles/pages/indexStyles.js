@@ -5,27 +5,13 @@ export const styles = css`
     display: block;
   }
 
-  site-header {
-    padding-block: var(--size-fluid-1);
-    padding-inline: var(--size-fluid-3);
+  .title-bar {
     position: sticky;
     top: 0;
+    padding-block: var(--size-fluid-1);
+    padding-inline: var(--size-fluid-3);
 
     z-index: 2;
-  }
-
-  .site-header__title {
-    font-family: 'Lilita One', sans-serif;
-    font-size: var(--font-size-5);
-    font-weight: var(--font-weight-3);
-    line-height: var(--font-lineheight-1);
-    margin: 0;
-  }
-
-  .site-header__social {
-    display: flex;
-    gap: var(--size-3);
-    align-items: center;
   }
 
   .home-page {
@@ -33,7 +19,7 @@ export const styles = css`
     gap: var(--size-4);
   }
 
-  profile-image {
+  .profile-picture {
     display: grid;
     justify-content: center;
     position: sticky;
@@ -51,14 +37,16 @@ export const styles = css`
   }
 
   .content-background {
+    grid-area: parts;
+
     position: sticky;
     top: var(--size-fluid-4);
-    grid-area: parts;
+
+    display: grid;
+    grid-template-rows: auto 1fr;
 
     width: 100%;
     height: calc(100vh - var(--size-fluid-4));
-    display: grid;
-    grid-template-rows: auto 1fr;
   }
 
   .content-background__color {
@@ -66,11 +54,14 @@ export const styles = css`
   }
 
   .content-triangle {
-    transform: translateY(1px);
-    position: relative;
     display: block;
+    position: relative;
+
+    transform: translateY(1px);
+
     width: 100%;
     height: var(--triangle-height);
+
     fill: hsl(var(--green-3-hsl));
   }
 

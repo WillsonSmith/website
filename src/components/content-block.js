@@ -1,7 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
 
-// @customElement('content-block')
 export class ContentBlock extends LitElement {
   render() {
     return html`
@@ -26,9 +24,3 @@ export class ContentBlock extends LitElement {
 }
 
 customElements.define('content-block', ContentBlock);
-
-// declare global {
-//   interface HTMLElementTagNameMap {
-//     'content-block': ContentBlock;
-//   }
-// }

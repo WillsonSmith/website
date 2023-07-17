@@ -18,17 +18,9 @@ export const styles = css`
 
 export default () => html`
   <div class="home-page">
-    <site-header>
-      <h1 class="site-header__title" slot="title">Willson Smith</h1>
-      <div class="site-header__social" slot="social">
-        <a href="https://github.com/willsonsmith" target="_blank"> Github </a>
-        <a href="https://www.linkedin.com/in/willsonsmith/" target="_blank">
-          Linkedin
-        </a>
-      </div>
-    </site-header>
+    <site-header class="title-bar" title="Willson Smith"></site-header>
 
-    <profile-image></profile-image>
+    <profile-image class="profile-picture"></profile-image>
 
     <div class="content-wrapper">
       <div class="content-background">
