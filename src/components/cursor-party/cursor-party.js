@@ -124,44 +124,9 @@ export class CursorParty extends LitElement {
       recentMovements,
     };
 
-    if (this._mouseIsShaking(recentMovements)) {
+    if (mouseIsShaking(recentMovements)) {
       this._isHighFiving = true;
     }
-  };
-
-  /**
-   *
-   * @param {MousePosition[]} recentMovements
-   * @returns
-   */
-  _mouseIsShaking = (recentMovements) => {
-    const [first, ...rest] = recentMovements;
-
-    let [xMax, xMin, yMax, yMin] = [first.x, first.x, first.y, first.y];
-    for (const position of rest) {
-      if (position.y < yMin) {
-        yMin = position.y;
-      }
-      if (position.y > yMax) {
-        yMax = position.y;
-      }
-      if (position.x < xMin) {
-        xMin = position.x;
-      }
-      if (position.x > xMax) {
-        xMax = position.x;
-      }
-    }
-
-    if (first.y > yMin && first.y < yMax && yMax - yMin > 20) {
-      return true;
-    }
-
-    if (first.x > xMin && first.x < xMax && xMax - xMin > 20) {
-      return true;
-    }
-
-    return false;
   };
 
   static styles = css`
@@ -171,7 +136,7 @@ export class CursorParty extends LitElement {
     }
 
     .cursor {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 20px;
@@ -200,4 +165,40 @@ function filterForRecency(positions, threshold) {
     return Date.now() - position.timestamp < threshold;
     // return position.timestamp > Date.now() - threshold;
   });
+}
+
+/**
+ * @function mouseIsShaking
+ *
+ * @param {MousePosition[]} recentMovements
+ * @returns
+ */
+function mouseIsShaking(recentMovements) {
+  const [first, ...rest] = recentMovements;
+
+  let [xMax, xMin, yMax, yMin] = [first.x, first.x, first.y, first.y];
+  for (const position of rest) {
+    if (position.y < yMin) {
+      yMin = position.y;
+    }
+    if (position.y > yMax) {
+      yMax = position.y;
+    }
+    if (position.x < xMin) {
+      xMin = position.x;
+    }
+    if (position.x > xMax) {
+      xMax = position.x;
+    }
+  }
+
+  if (first.y > yMin && first.y < yMax && yMax - yMin > 50) {
+    return true;
+  }
+
+  if (first.x > xMin && first.x < xMax && xMax - xMin > 50) {
+    return true;
+  }
+
+  return false;
 }
