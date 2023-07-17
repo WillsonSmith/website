@@ -4,17 +4,24 @@ import { LitElement, html, css } from 'lit';
  * @element site-header
  * @slot title - The site title
  * @slot social - The social links
+ * @prop {String} title - The site title
  * @cssprop --gap - The gap between the title and social links
  */
 export class SiteHeader extends LitElement {
+  static properties = {
+    title: { type: String },
+  };
+
   render() {
     return html`
       <header class="site-header">
-        <div class="site-header__title">
-          <slot name="title"></slot>
-        </div>
+        <h1 class="site-header__title">${this.title}</h1>
+
         <div class="site-header__social">
-          <slot name="social"></slot>
+          <a href="https://github.com/willsonsmith" target="_blank"> Github </a>
+          <a href="https://www.linkedin.com/in/willsonsmith/" target="_blank">
+            Linkedin
+          </a>
         </div>
       </header>
     `;
@@ -22,28 +29,40 @@ export class SiteHeader extends LitElement {
 
   static styles = css`
     :host {
-      display: block;
       --gap: var(--size-3);
+      --font-family-title: 'Lilita One', sans-serif;
+      --font-size-title: var(--font-size-5);
+      --font-weight-title: var(--font-weight-3);
+      --font-lineheight-title: var(--font-lineheight-1);
+
+      display: block;
     }
 
-    img {
-      display: block;
+    a {
+      color: inherit;
     }
 
     .site-header {
       display: grid;
-      grid-template-areas: 'title title social';
       gap: var(--gap);
+      grid-template-areas: 'title social';
+      grid-template-columns: 1fr auto;
     }
 
     .site-header__title {
       grid-area: title;
+      font-family: var(--font-family-title);
+      font-size: var(--font-size-title);
+      font-weight: var(--font-weight-title);
+      line-height: var(--font-lineheight-title);
+
+      margin: 0;
     }
 
     .site-header__social {
-      grid-area: social;
       display: flex;
-      justify-content: flex-end;
+      align-items: center;
+      gap: var(--size-3);
     }
   `;
 }
