@@ -20,13 +20,14 @@ export class CursorParty extends LitElement {
    * @type {import('lit').PropertyDeclarations} properties
    * @property {MouseTracker} _mouseTracker
    * @property {MousePosition[]} _cursors
-   *
+   * @property {Boolean} _isHighFiving
    * @static
    * @memberof CursorParty
    */
   static properties = {
     _mouseTracker: { type: Object, state: true },
     _cursors: { type: Array, state: true },
+    _isHighFiving: { type: Boolean, state: true },
   };
 
   constructor() {
@@ -41,6 +42,8 @@ export class CursorParty extends LitElement {
       position: { x: 0, y: 0, timestamp: Date.now() },
       recentMovements: [],
     };
+
+    this._isHighFiving = false;
   }
 
   firstUpdated() {
@@ -51,9 +54,28 @@ export class CursorParty extends LitElement {
     this._teardownCursorParty();
   }
 
+  /**
+   *
+   * @param {Map<string, unknown>} changedProperties
+   */
+  updated(changedProperties) {
+    if (changedProperties.has('_isHighFiving') && this._isHighFiving) {
+      this._playHighFive();
+      console.log('High five! 🙌');
+    }
+  }
+
   render() {
     return html` <slot></slot> `;
   }
+
+  _playHighFive = () => {
+    console.log('Playing high five! 🔊');
+    // const audio = new Audio('/public/audio/high-five.mp3');
+    setTimeout(() => {
+      this._isHighFiving = false;
+    }, 1000);
+  };
 
   _setupCursorParty = () => {
     this._setupMouseEvents();
@@ -83,9 +105,7 @@ export class CursorParty extends LitElement {
       };
 
       if (this._mouseIsShaking()) {
-        console.log('shaking');
-
-        // trigger high-five animation
+        this._isHighFiving = true;
       }
     },
     20
