@@ -31,7 +31,7 @@ export class CursorParty extends LitElement {
 
     /** @type {Cursor} */
     this._cursor = {
-      color: 'red',
+      color: 'transparent',
       position: { x: 0, y: 0, timestamp: Date.now() },
 
       history: [],
@@ -40,7 +40,7 @@ export class CursorParty extends LitElement {
 
     this._virtualCursors = [
       {
-        color: 'hsl(var(--gray-1-hsl))',
+        color: 'hsl(0 0 100% / 0.3)',
         position: { x: 200, y: 200, timestamp: Date.now() },
         history: [],
         state: 'cursor',
@@ -68,16 +68,7 @@ export class CursorParty extends LitElement {
       <slot></slot>
 
       ${this._virtualCursors.map(
-        (cursor) =>
-          html` <div
-            class="cursor"
-            style=${styleMap({
-              '--cursor-x': `${cursor.position.x}px`,
-              '--cursor-y': `${cursor.position.y}px`,
-            })}
-          >
-            <x-cursor color=${cursor.color}></x-cursor>
-          </div>`
+        (cursor) => html` <x-cursor color=${cursor.color}></x-cursor> `
       )}
       <div
         class="cursor"
@@ -138,25 +129,11 @@ export class CursorParty extends LitElement {
   static styles = css`
     :host {
       display: block;
-      cursor: none;
-    }
-
-    :host:slotted(*) {
-      cursor: none;
+      /* cursor: none; */
     }
 
     .cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-
-      transform: translate3d(var(--cursor-x), var(--cursor-y), 0);
-
-      transition: transform 10ms linear;
-
+      position: relative;
       z-index: 1000;
     }
   `;

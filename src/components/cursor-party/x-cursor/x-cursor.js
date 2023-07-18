@@ -1,7 +1,8 @@
-import { LitElement, html, css, svg } from 'lit';
-import { styleMap } from 'lit/directives/style-map.js';
+import { LitElement, html, css, svg, nothing } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 
 import '../types.js';
+import { styleMap } from 'lit/directives/style-map.js';
 
 /**
  *
@@ -12,17 +13,22 @@ import '../types.js';
  *
  * @property {String} color
  * @property {Position[]} positions
+ * @property {Timeout} _moving
  */
 export class XCursor extends LitElement {
   static properties = {
     color: { type: String },
     positions: { type: Array },
-    _rotation: { type: Number, state: true },
+    _moving: { type: Object, state: true },
   };
 
   updated(/** @type {Map<String, unknown>} */ changedProperties) {
     if (changedProperties.has('positions')) {
-      this._rotation = 360 - 45;
+      clearTimeout(this._moving);
+
+      this._moving = setTimeout(() => {
+        this._moving = null;
+      }, 100);
     }
   }
 
@@ -30,28 +36,50 @@ export class XCursor extends LitElement {
     super();
     this.color = '#fff';
 
-    this._rotation = 0;
+    /** @type {Position[]} */
     this.positions = [];
   }
 
   render() {
-    return html`
-      <div class="cursor">
-        <svg
-          width="24"
-          height="24"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill=${this.color}
+    const max = this.positions.length * 10;
+    // const pieces = this.positions.map((position, index) => {
+    //   const primaryCursorSize = max - index * 10;
+    //   const stepped = index + primaryCursorSize;
+    //   return svg`
+    //     <circle
+    //       style=${styleMap({
+    //         transitionDelay: `${index * 10}ms`,
+    //         transformOrigin: `${position.x}px ${position.y}px`,
+    //       })}
+    //       cx=${position.x} cy=${position.y} r=${stepped} />
+    //   `;
+    // });
+
+    const piece = this.positions.at(-1);
+    // const piece = this.positions.at(-1) || { x: 0, y: 0 };
+
+    const pieces = [
+      piece
+        ? svg`
+        <circle
           style=${styleMap({
-            '--rotation': `${this._rotation}deg`,
+            transitionDelay: `50ms`,
+            transformOrigin: `${piece.x}px ${piece.y}px`,
           })}
-        >
-          ${svg`
-          <path d="m12 2-8 8s5.333-2 8-2 8 2 8 2l-8-8Z" />
-          <circle cx="12" cy="13" r="2" />
-          <circle cx="12" cy="19" r="2" />
-          `}
+          cx=${piece.x} cy=${piece.y} r=${15} />
+      `
+        : nothing,
+    ];
+
+    return html`
+      <div
+        class=${classMap({
+          cursor: true,
+          moving: Boolean(this._moving),
+        })}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill=${this.color}>
+          ${pieces}
         </svg>
       </div>
     `;
@@ -60,8 +88,30 @@ export class XCursor extends LitElement {
   static styles = css`
     :host {
       display: block;
-      aspect-ratio: 1;
       pointer-events: none;
+    }
+
+    .cursor {
+      position: fixed;
+      inset: 0;
+    }
+
+    circle {
+      opacity: 0;
+      transform: scale(1.4);
+      transition:
+        transform 250ms ease-in,
+        opacity 250ms ease-in;
+    }
+    /*
+    circle:not(:last-of-type) {
+      opacity: 0;
+      transform: scale(0);
+    } */
+
+    .moving circle {
+      opacity: 1;
+      transform: scale(1);
     }
 
     svg {
