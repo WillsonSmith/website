@@ -1,8 +1,8 @@
 /**
  *
- * @param {function} fn
+ * @param {Function} fn
  * @param {number} wait
- * @return {function(...any): void}
+ * @return {function(...any): any | void}
  */
 export const throttle = (fn, wait) => {
   let last = 0;
