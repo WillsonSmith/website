@@ -4,23 +4,9 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { throttle } from '../../util/throttle.js';
 
 import './x-cursor/x-cursor.js';
+import './types.js';
 
 const MOUSE_MOVE_DELAY = 10;
-
-/**
- * @typedef {Object} Position
- * @property {Number} x
- * @property {Number} y
- * @property {Number} timestamp
- */
-
-/**
- * @typedef {Object} Cursor
- * @property {String} color
- * @property {Position} position
- * @property {Position[]} history
- * @property {('cursor' | 'high-five')} state
- */
 
 /**
  *
@@ -52,7 +38,6 @@ export class CursorParty extends LitElement {
       state: 'cursor',
     };
 
-    /** @type {Cursor[]} */
     this._virtualCursors = [
       {
         color: 'hsl(var(--gray-1-hsl))',
@@ -82,15 +67,6 @@ export class CursorParty extends LitElement {
     return html`
       <slot></slot>
 
-      <div
-        class="cursor"
-        style=${styleMap({
-          '--cursor-x': `${this._cursor.position.x}px`,
-          '--cursor-y': `${this._cursor.position.y}px`,
-        })}
-      >
-        <x-cursor color=${this._cursor.color}></x-cursor>
-      </div>
       ${this._virtualCursors.map(
         (cursor) =>
           html` <div
@@ -103,6 +79,18 @@ export class CursorParty extends LitElement {
             <x-cursor color=${cursor.color}></x-cursor>
           </div>`
       )}
+      <div
+        class="cursor"
+        style=${styleMap({
+          '--cursor-x': `${this._cursor.position.x}px`,
+          '--cursor-y': `${this._cursor.position.y}px`,
+        })}
+      >
+        <x-cursor
+          color=${this._cursor.color}
+          .positions=${this._cursor.history}
+        ></x-cursor>
+      </div>
     `;
   }
 
@@ -150,6 +138,10 @@ export class CursorParty extends LitElement {
   static styles = css`
     :host {
       display: block;
+      cursor: none;
+    }
+
+    :host:slotted(*) {
       cursor: none;
     }
 
