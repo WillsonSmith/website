@@ -83,7 +83,7 @@ export const styles = css`
     transform: translateX(0) rotate(0);
     transform-origin: 100% 100%;
 
-    box-shadow: var(--shadow-2);
+    /* box-shadow: var(--shadow-2); */
   }
 
   @media (min-width: 768px) {
