@@ -29,7 +29,6 @@ export const styles = css`
   .content-wrapper {
     --triangle-height: var(--size-fluid-8);
     position: relative;
-    transform: translateZ(0);
     z-index: 1;
 
     display: grid;
@@ -43,24 +42,13 @@ export const styles = css`
     top: var(--size-fluid-4);
 
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 1fr;
 
     width: 100%;
     height: calc(100vh - var(--size-fluid-4));
-  }
-
-  .content-background__color {
     background: hsl(var(--green-3-hsl));
-  }
 
-  .content-triangle {
-    display: block;
-    position: relative;
-
-    width: 100%;
-    height: var(--triangle-height);
-
-    fill: hsl(var(--green-3-hsl));
+    clip-path: polygon(0 var(--triangle-height), 100% 0, 100% 100%, 0 100%);
   }
 
   .content {
@@ -88,15 +76,21 @@ export const styles = css`
 
   .content > content-block {
     transition: transform 250ms var(--ease-1);
+    transform: translateX(0) rotate(0);
+    transform-origin: 100% 100%;
+
+    box-shadow: var(--shadow-2);
   }
 
   @media (min-width: 768px) {
     .content > content-block:nth-child(odd) {
-      transform: translateX(var(--size-fluid-6));
+      transform-origin: 100% 100%;
+      transform: translateX(var(--size-fluid-6)) rotate(1deg);
     }
 
     .content > content-block:nth-child(even) {
-      transform: translateX(calc(-1 * var(--size-fluid-5)));
+      transform-origin: 0 100%;
+      transform: translateX(calc(-1 * var(--size-fluid-5))) rotate(-1deg);
     }
   }
 `;

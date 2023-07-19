@@ -27,14 +27,14 @@ export default () => html`
 
       <div class="content-wrapper">
         <div class="content-background">
-          <svg
+          <!-- <svg
             class="content-triangle"
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
           >
             <polygon points="0,100 100,100 100,0" />
-          </svg>
-          <div class="content-background__color"></div>
+          </svg> -->
+          <!-- <div class="content-background__color"></div> -->
         </div>
         <main class="content">
           <content-block>
