@@ -42,7 +42,7 @@ export default {
     importMetaAssets(),
     html({
       input: htmlFiles,
-      minify: true,
+      minify: false,
       injectServiceWorker: true,
       serviceWorkerPath: 'build/sw.js',
       transformAsset: [

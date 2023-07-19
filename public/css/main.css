@@ -3,8 +3,7 @@
 @import 'open-props/sizes.min.css';
 
 @import 'open-props/gray-hsl.min.css';
-@import 'open-props/choco-hsl.min.css';
-@import 'open-props/sand-hsl.min.css';
+@import 'open-props/orange-hsl.min.css';
 @import 'open-props/green-hsl.min.css';
 @import 'open-props/gradients.min.css';
 @import 'open-props/shadows.min.css';
@@ -86,5 +85,5 @@ a {
 
 /* Page styles */
 body {
-  background: hsl(var(--choco-0-hsl));
+  background: hsl(var(--orange-0-hsl));
 }

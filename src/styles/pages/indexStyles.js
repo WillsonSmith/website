@@ -65,4 +65,8 @@ export const styles = css`
 
     margin-top: var(--triangle-height);
   }
+
+  project-content {
+    background: hsl(var(--gray-0-hsl));
+  }
 `;

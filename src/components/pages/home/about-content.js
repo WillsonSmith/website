@@ -122,6 +122,8 @@ export class AboutContent extends LitElement {
 
     p {
       margin: 0;
+      font-size: var(--font-size-1);
+      line-height: var(--font-line-height-0);
     }
 
     figure {
