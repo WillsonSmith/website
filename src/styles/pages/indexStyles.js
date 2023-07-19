@@ -74,6 +74,10 @@ export const styles = css`
     line-height: var(--font-lineheight-3);
   }
 
+  strong {
+    font-family: 'Lilita One', cursive;
+  }
+
   .content > content-block {
     transition: transform 250ms var(--ease-1);
     transform: translateX(0) rotate(0);
