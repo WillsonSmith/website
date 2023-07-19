@@ -29,32 +29,37 @@ export default () => html`
         <div class="content-background"></div>
         <main class="content">
           <content-block>
-            <span class="content-heading">Hey! I'm Willson.</span>
+            <span class="content-heading">An introduction.</span>
             <p>
-              At heart I'm a storyteller and I want others to be able to tell
-              their own stories. I specialize in storytelling front-end web
-              experiences.
-            </p>
-            <p>
-              Hey! I'm Willson. I'm a developer and I specialize in building
-              front-end web experiences for people.
-            </p>
-            <p>
-              After ending my 8 years tenure at Shopify I am taking a break to
-              explore new ways to build connections between people.
+              Hey! I'm <strong>Willson</strong>, a developer with a
+              specialization in front-end web experiences.
             </p>
 
             <p>
-              At Shopify I was a Senior Creative Technologist and acted as a
-              bridge between UX and Engineering to find the balance between
-              what's possible and what's delightful. I also contributed to the
-              Shopify Design System, Polaris, and educated coworkers on its use
-              and best practices.
+              I have recently ended my time at Shopify after 8 years. Prior to
+              my leave, I was a <em>Senior Creative Technologist</em>. I wore
+              many hats during my time at the company, but they shared a common
+              thread, to build bridges between people and technology.
+            </p>
+
+            <p>
+              I was a front-end developer, a ux developer, a creative
+              technlogist, but through all these roles my goal was simple: build
+              delightful, accessible, and inclusive experiences for our
+              merchants.
+            </p>
+
+            <p>
+              In addition to building the front-end Shopify admin experience,
+              some of my responsibilities included: Working with designers to
+              find the balance between possible and perfect, educating my team
+              on the best use of Shopify's Polaris design system, and building
+              prototypes to help communicate ideas.
             </p>
           </content-block>
-
           <content-block>
-            <figure>
+            <span class="content-heading">Defeating dragons.</span>
+            <figure style="margin-block-start: 0">
               <blockquote>
                 <p>
                   Fairy tales are more than true: not because they tell us that
@@ -65,45 +70,31 @@ export default () => html`
             </figure>
 
             <p>
-              Stories are core to how we understand the world. They help us make
-              sense of the world around us and our place in it. They help us
-              understand the past, present, and future. They help us understand
-              ourselves and others.
+              Fiary tales show us dragons can be defeated, well crafted user
+              experiences show us that difficult tasks are surmountable.
             </p>
 
             <p>
-              Humans are natural storytellers. We tell stories to share
-              knowledge, to teach, to entertain, to persuade, to inspire, to
-              connect, to build empathy, to build community, to build
-              relationships, to build trust, to build understanding, to build
-              meaning, to build identity, to build culture, to build society.
+              Shopfiy merchants face dragons every day. They are the dragons of
+              a new business, of a new idea, of a new product. The dragons of a
+              new market, a new customer, a new competitor. Technology and the
+              world around us change every day and adapting to every change
+              while building a business is hard. My goal was to provide them
+              with the tools to slay those dragons.
             </p>
           </content-block>
+
           <content-block>
-            <figure>
-              <blockquote>
-                <p>
-                  Fairy tales are more than true: not because they tell us that
-                  dragons exist, but because they tell us dragons can be beaten.
-                </p>
-              </blockquote>
-              <figcaption>—Neil Gaiman, <cite>Coraline</cite></figcaption>
-            </figure>
-
+            <span class="content-heading">What's happening now?</span>
             <p>
-              Stories are core to how we understand the world. They help us make
-              sense of the world around us and our place in it. They help us
-              understand the past, present, and future. They help us understand
-              ourselves and others.
+              I'm taking some time for me these days. I'm learning new skills
+              and working on some personal projects.
             </p>
 
-            <p>
-              Humans are natural storytellers. We tell stories to share
-              knowledge, to teach, to entertain, to persuade, to inspire, to
-              connect, to build empathy, to build community, to build
-              relationships, to build trust, to build understanding, to build
-              meaning, to build identity, to build culture, to build society.
-            </p>
+            <p>I want to tell stories.</p>
+          </content-block>
+          <content-block>
+            <span class="content-heading">A new adventure.</span>
           </content-block>
         </main>
       </div>
