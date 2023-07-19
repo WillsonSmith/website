@@ -1,13 +1,24 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 
+/**
+ * @class ContentBlock
+ * @extends {LitElement}
+ * @property {String} title
+ * @property {Boolean} _visible
+ */
 export class ContentBlock extends LitElement {
   static properties = {
+    heading: { type: String, attribute: 'heading' },
     _visible: { type: Boolean, state: true },
   };
 
   constructor() {
     super();
+    /**
+     * @type {String | undefined}
+     */
+    this.heading = undefined;
     this._visible = false;
   }
 
@@ -20,15 +31,20 @@ export class ContentBlock extends LitElement {
 
   render() {
     return html`
-      <div
+      <section
         class=${classMap({
           'content-block': true,
           visible: this._visible,
         })}
         part="content-block"
       >
+        ${this.heading
+          ? html`<h2 class="content-block__heading" part="title">
+              ${this.heading}
+            </h2>`
+          : nothing}
         <slot></slot>
-      </div>
+      </section>
     `;
   }
 
@@ -61,6 +77,15 @@ export class ContentBlock extends LitElement {
     .visible {
       transform: scale(1);
       box-shadow: var(--shadow-2);
+    }
+
+    .content-block__heading {
+      margin: 0;
+      font-size: var(--size-4);
+      font-family: 'Lilita One', sans-serif;
+      font-size: var(--font-size-4);
+      font-weight: var(--font-weight-3);
+      line-height: var(--font-lineheight-3);
     }
   `;
 }
