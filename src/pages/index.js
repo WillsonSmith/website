@@ -58,6 +58,29 @@ export default () => html`
             </p>
           </content-block>
           <content-block>
+            <span class="content-heading">Telling stories with code.</span>
+            <p>
+              Stories are integral to the human experience. They are how we make
+              sense of the world, how we communicate ideas, how we teach, how we
+              learn, and how we remember.
+            </p>
+            <p>
+              I believe that the best user experiences are the ones that tell a
+              story. They are the ones that guide you through a journey, that do
+              not leave you behind, that do not leave you confused, that do not
+              leave you frustrated. They make you promises and they keep them.
+            </p>
+
+            <p>
+              Stories are also delightful, they are fun, they are engaging, they
+              are memorable. They are the experiences we remember, the ones we
+              tell our friends about, the ones we come back to. I want to tell
+              those stories.
+            </p>
+
+            <p></p>
+          </content-block>
+          <content-block>
             <span class="content-heading">Defeating dragons.</span>
             <figure style="margin-block-start: 0">
               <blockquote>
@@ -85,16 +108,32 @@ export default () => html`
           </content-block>
 
           <content-block>
-            <span class="content-heading">What's happening now?</span>
+            <span class="content-heading">Turning the page.</span>
             <p>
-              I'm taking some time for me these days. I'm learning new skills
-              and working on some personal projects.
+              I've wrapped up my time at Shopify but I am not done telling
+              stories or writing code or building experiences. Front-end
+              development has always been a hobby first, something I take
+              pleasure in. I love it, the challenges it presents, the problems I
+              get to solve, the sheer amount of things to know and creativity to
+              be had.
             </p>
-
-            <p>I want to tell stories.</p>
+            <p>
+              For the time being I'm taking some time for me. I'm learning new
+              skills and working on some personal projects, and I'm trying new
+              ways to connect people, and more ways to tell stories.
+            </p>
           </content-block>
           <content-block>
-            <span class="content-heading">A new adventure.</span>
+            <span class="content-heading">A new adventure?</span>
+            <p>
+              Need a front-end developer? Someone with a keen eye for UX?
+              Performance? Accessibility? Have something you think I can help
+              you with? I'd love to hear about it.
+            </p>
+            <p>
+              Send me an email at
+              <a href="mailto:me@willsonsmith.com">me@willsonsmith.com</a>
+            </p>
           </content-block>
         </main>
       </div>
