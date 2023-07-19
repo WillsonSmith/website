@@ -16,7 +16,7 @@ export class ProfileImage extends LitElement {
 
   firstUpdated() {
     this._observer = new IntersectionObserver(this.#handleIntersection, {
-      rootMargin: '-50px 0 0 0',
+      rootMargin: '-50px 0px 0px 0px',
       threshold: [0.85],
     });
 

@@ -5,6 +5,7 @@ import '../components/cursor-party/cursor-party.js';
 import '../components/site-header.js';
 import '../components/profile-image.js';
 import '../components/content-block.js';
+import '../components/email-link.js';
 
 export { layout } from '../layouts/indexLayout.js';
 export const title = 'Willson • Home';
@@ -53,8 +54,9 @@ export default () => html`
               In addition to building the front-end Shopify admin experience,
               some of my responsibilities included: Working with designers to
               find the balance between possible and perfect, educating my team
-              on the best use of Shopify's Polaris design system, and building
-              prototypes to help communicate ideas.
+              on the best use of and contributing to Shopify's Polaris design
+              system — Polaris, and building prototypes to help communicate
+              ideas.
             </p>
           </content-block>
           <content-block>
@@ -110,12 +112,11 @@ export default () => html`
           <content-block>
             <span class="content-heading">Turning the page.</span>
             <p>
-              I've wrapped up my time at Shopify but I am not done telling
-              stories or writing code or building experiences. Front-end
-              development has always been a hobby first, something I take
-              pleasure in. I love it, the challenges it presents, the problems I
-              get to solve, the sheer amount of things to know and creativity to
-              be had.
+              I've wrapped up my time at Shopify but I am not done building
+              great experiences. Front-end development has always foremost been
+              a hobby, an activity I take pleasure in. I love it. The challenge,
+              the problems I get to solve, the sheer amount of learning and
+              creativity to be had.
             </p>
             <p>
               For the time being I'm taking some time for me. I'm learning new
@@ -131,8 +132,7 @@ export default () => html`
               you with? I'd love to hear about it.
             </p>
             <p>
-              Email at
-              <a href="mailto:me@willsonsmith.com">me@willsonsmith.com</a>
+              Send me an email: <email-link>me[at]willsonsmith.com</email-link>
             </p>
           </content-block>
         </main>
