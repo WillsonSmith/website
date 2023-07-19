@@ -22,41 +22,30 @@ export class XCursor extends LitElement {
     _moving: { type: Object, state: true },
   };
 
-  updated(/** @type {Map<String, unknown>} */ changedProperties) {
-    if (changedProperties.has('positions')) {
-      clearTimeout(this._moving);
-
-      this._moving = setTimeout(() => {
-        this._moving = null;
-      }, 100);
-    }
-  }
-
   constructor() {
     super();
     this.color = '#fff';
 
     /** @type {Position[]} */
     this.positions = [];
+
+    this._moving = false;
+  }
+
+  firstUpdated() {
+    document.addEventListener('mousemove', () => {
+      this._moving = true;
+      clearTimeout(this._movingTimeout);
+      this._movingTimeout = setTimeout(() => {
+        this._movingTimeout = null;
+        this._moving = false;
+      }, 200);
+    });
   }
 
   render() {
-    const max = this.positions.length * 10;
-    // const pieces = this.positions.map((position, index) => {
-    //   const primaryCursorSize = max - index * 10;
-    //   const stepped = index + primaryCursorSize;
-    //   return svg`
-    //     <circle
-    //       style=${styleMap({
-    //         transitionDelay: `${index * 10}ms`,
-    //         transformOrigin: `${position.x}px ${position.y}px`,
-    //       })}
-    //       cx=${position.x} cy=${position.y} r=${stepped} />
-    //   `;
-    // });
-
+    const radius = 20;
     const piece = this.positions.at(-1);
-    // const piece = this.positions.at(-1) || { x: 0, y: 0 };
 
     const pieces = [
       piece
@@ -66,7 +55,7 @@ export class XCursor extends LitElement {
             transitionDelay: `50ms`,
             transformOrigin: `${piece.x}px ${piece.y}px`,
           })}
-          cx=${piece.x} cy=${piece.y} r=${15} />
+          cx=${piece.x} cy=${piece.y} r=${radius} />
       `
         : nothing,
     ];
@@ -75,7 +64,7 @@ export class XCursor extends LitElement {
       <div
         class=${classMap({
           cursor: true,
-          moving: Boolean(this._moving),
+          moving: this._moving,
         })}
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill=${this.color}>

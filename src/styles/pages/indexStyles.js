@@ -57,8 +57,6 @@ export const styles = css`
     display: block;
     position: relative;
 
-    transform: translateY(1px);
-
     width: 100%;
     height: var(--triangle-height);
 
