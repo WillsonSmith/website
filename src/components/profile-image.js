@@ -27,6 +27,8 @@ export class ProfileImage extends LitElement {
     return html`
       <div class="profile-image">
         <img
+          width="420"
+          height="420"
           class=${classMap({
             hello: this.hello,
           })}
@@ -66,6 +68,7 @@ export class ProfileImage extends LitElement {
     img {
       display: block;
       max-width: 100%;
+      height: auto;
 
       grid-area: image;
 
