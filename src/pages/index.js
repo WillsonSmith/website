@@ -26,16 +26,7 @@ export default () => html`
       <profile-image class="profile-picture"></profile-image>
 
       <div class="content-wrapper">
-        <div class="content-background">
-          <!-- <svg
-            class="content-triangle"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-          >
-            <polygon points="0,100 100,100 100,0" />
-          </svg> -->
-          <!-- <div class="content-background__color"></div> -->
-        </div>
+        <div class="content-background"></div>
         <main class="content">
           <content-block>
             <span class="content-heading">Hey! I'm Willson.</span>
