@@ -37,9 +37,9 @@ export default () => html`
 
             <p>
               I have recently ended my time at Shopify after 8 years. Prior to
-              my leave, I was a <em>Senior Creative Technologist</em>. I wore
-              many hats during my time at the company, but they shared a common
-              thread, to build bridges between people and technology.
+              my leave, I was a <strong>Senior Creative Technologist</strong>. I
+              wore many hats during my time at the company, but they shared a
+              common thread, to build bridges between people and technology.
             </p>
 
             <p>
@@ -131,7 +131,7 @@ export default () => html`
               you with? I'd love to hear about it.
             </p>
             <p>
-              Send me an email at
+              Email at
               <a href="mailto:me@willsonsmith.com">me@willsonsmith.com</a>
             </p>
           </content-block>
