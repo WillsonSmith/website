@@ -117,7 +117,7 @@ export class AboutContent extends LitElement {
     }
 
     strong {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Lilita One', sans-serif;
     }
 
     p {

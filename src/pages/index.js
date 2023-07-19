@@ -12,10 +12,6 @@ export const title = 'Willson • Home';
 
 import { styles as indexStyles } from '../styles/pages/indexStyles.js';
 export const styles = css`
-  @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
-  body {
-    background: hsl(var(--choco-0-hsl));
-  }
   ${indexStyles}
 `;
 

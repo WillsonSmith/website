@@ -1,5 +1,4 @@
 /* @import 'open-props/normalize.min.css'; */
-
 @import 'open-props/fonts.min.css';
 @import 'open-props/sizes.min.css';
 
@@ -13,6 +12,8 @@
 @import 'open-props/borders.min.css';
 
 @import 'open-props/easings.min.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
 
 html {
   box-sizing: border-box;
@@ -81,5 +82,9 @@ figure blockquote {
 
 a {
   color: inherit;
-  /* text-decoration: none; */
+}
+
+/* Page styles */
+body {
+  background: hsl(var(--choco-0-hsl));
 }
