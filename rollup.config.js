@@ -41,6 +41,7 @@ export default {
     // }),
     importMetaAssets(),
     html({
+      // rootDir: './',
       input: htmlFiles,
       minify: false,
       injectServiceWorker: true,

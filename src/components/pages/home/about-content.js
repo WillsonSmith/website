@@ -17,21 +17,21 @@ export class AboutContent extends LitElement {
             I have recently ended my time at Shopify after 8 years. Prior to my
             leave, I was a <strong>Senior Creative Technologist</strong>. I wore
             many hats during my time at the company, but they shared a common
-            thread, to build bridges between people and technology.
+            thread, building bridges between people and technology.
           </p>
 
           <p>
-            I was a front-end developer, a ux developer, a creative technlogist,
-            but through all these roles my goal was simple: build delightful,
-            accessible, and inclusive experiences for our merchants.
+            I was a front-end developer, a ux developer, a creative
+            technologist, but through all these roles my goal was simple: build
+            delightful, productive, and inclusive experiences for our merchants.
           </p>
 
           <p>
             In addition to building the front-end Shopify admin experience, some
             of my responsibilities included: Working with designers to find the
             balance between possible and perfect, educating my team on the best
-            use of and contributing to Shopify's Polaris design system —
-            Polaris, and building prototypes to help communicate ideas.
+            use of and contributing to Shopify's Polaris design system, and
+            building prototypes to help communicate ideas.
           </p>
         </content-block>
         <content-block heading="Telling stories with code.">
