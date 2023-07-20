@@ -26,7 +26,6 @@ export default () => html`
           <div class="content-background"></div>
           <about-content class="content"></about-content>
         </div>
-        <project-content> Projects </project-content>
       </main>
     </div>
   </cursor-party>
