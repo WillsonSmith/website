@@ -3,8 +3,7 @@ import { rollupPluginHTML as html } from '@web/rollup-plugin-html';
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 import terser from '@rollup/plugin-terser';
 import { generateSW } from 'rollup-plugin-workbox';
-
-// import typescript from '@rollup/plugin-typescript';
+import { copy } from '@web/rollup-plugin-copy';
 
 import path from 'path';
 
@@ -14,7 +13,6 @@ import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import cssnanoPlugin from 'cssnano';
 import postcssImport from 'postcss-import';
-// import copy from 'rollup-plugin-copy';
 
 const htmlFiles = glob.sync('src/pages/**/*.html').map((file) => {
   return {
@@ -24,7 +22,6 @@ const htmlFiles = glob.sync('src/pages/**/*.html').map((file) => {
 });
 
 export default {
-  // input: 'site/pages/**/*.html',
   output: {
     entryFileNames: '[hash].js',
     chunkFileNames: '[hash].js',
@@ -33,15 +30,8 @@ export default {
     format: 'es',
   },
   plugins: [
-    // copy({
-    //   targets: [{ src: 'public', dest: 'build' }],
-    // }),
-    // typescript({
-    //   tsconfig: 'tsconfig.json',
-    // }),
     importMetaAssets(),
     html({
-      // rootDir: './',
       input: htmlFiles,
       minify: false,
       injectServiceWorker: true,
@@ -72,6 +62,10 @@ export default {
       skipWaiting: true,
       clientsClaim: true,
       runtimeCaching: [{ urlPattern: 'polyfills/*.js', handler: 'CacheFirst' }],
+    }),
+    copy({
+      patterns: '**/*.png',
+      exclude: ['node_modules'],
     }),
   ],
 };
