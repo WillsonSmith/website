@@ -1,24 +1,92 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, nothing } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 
+/**
+ * @class ContentBlock
+ * @extends {LitElement}
+ * @property {String} title
+ * @property {Boolean} _visible
+ */
 export class ContentBlock extends LitElement {
+  static properties = {
+    heading: { type: String, attribute: 'heading' },
+    _visible: { type: Boolean, state: true },
+  };
+
+  constructor() {
+    super();
+    /**
+     * @type {String | undefined}
+     */
+    this.heading = undefined;
+    this._visible = false;
+  }
+
+  firstUpdated() {
+    this._observer = new IntersectionObserver(this._handleIntersection, {
+      threshold: [0.5],
+    });
+    this._observer.observe(this);
+  }
+
   render() {
     return html`
-      <div class="content-block" part="content-block">
+      <section
+        class=${classMap({
+          'content-block': true,
+          visible: this._visible,
+        })}
+        part="content-block"
+      >
+        ${this.heading
+          ? html`<h2 class="content-block__heading" part="title">
+              ${this.heading}
+            </h2>`
+          : nothing}
         <slot></slot>
-      </div>
+      </section>
     `;
   }
+
+  _handleIntersection = (
+    /** @type {IntersectionObserverEntry[]} */ entries
+  ) => {
+    for (const entry of entries) {
+      const { isIntersecting } = entry;
+      this._visible = isIntersecting;
+    }
+  };
 
   static styles = css`
     :host {
       display: block;
-      background: hsl(var(--gray-0-hsl));
     }
 
     .content-block {
-      padding: var(--size-4);
+      border-radius: var(--radius-2);
       display: grid;
       gap: var(--size-3);
+      background: hsl(var(--gray-0-hsl));
+      padding: var(--size-4);
+
+      transform: scale(0.98);
+      transition:
+        transform 250ms var(--ease-out-1),
+        box-shadow 300ms var(--ease-1);
+    }
+
+    .visible {
+      transform: scale(1);
+      box-shadow: var(--shadow-2);
+    }
+
+    .content-block__heading {
+      margin: 0;
+      font-size: var(--size-4);
+      font-family: 'Lilita One', sans-serif;
+      font-size: var(--font-size-4);
+      font-weight: var(--font-weight-3);
+      line-height: var(--font-lineheight-3);
     }
   `;
 }
