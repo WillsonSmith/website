@@ -1,15 +1,19 @@
 import { html, css } from 'lit';
 
-import '../components/cursor-party/cursor-party.js';
-
 import '../components/site-header.js';
 import '../components/profile-image.js';
-import '../components/pages/home/projects/project-content.js';
-
 import '../components/pages/home/about-content.js';
+import '../components/cursor-party/cursor-party.js';
 
 export { layout } from '../layouts/indexLayout.js';
 export const title = 'Willson • Home';
+
+export const metaTags = [
+  {
+    name: 'description',
+    content: 'The personal website of Willson Smith',
+  },
+];
 
 import { styles as indexStyles } from '../styles/pages/indexStyles.js';
 export const styles = css`
