@@ -5,6 +5,7 @@
  * @prop {string} title
  * @prop {import('lit').CSSResult} styles
  * @prop {string[]} hydrate
+ * @prop {{name: String, content: String}[]} metaTags
  */
 
 /**
@@ -32,11 +33,9 @@ export const layout = (page) => {
     <title>${title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     ${metaTags
-      .map(
-        (/** @type {{name: String, content: String}} */ { name, content }) => {
-          return `<meta name="${name}" content="${content}">`;
-        }
-      )
+      .map(({ name, content }) => {
+        return `<meta name="${name}" content="${content}">`;
+      })
       .join('\n')}
     <link rel="stylesheet" href="/public/css/main.css">
     ${styleTag}

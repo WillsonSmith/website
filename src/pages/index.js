@@ -1,12 +1,9 @@
 import { html, css } from 'lit';
 
-import '../components/cursor-party/cursor-party.js';
-
 import '../components/site-header.js';
 import '../components/profile-image.js';
-import '../components/pages/home/projects/project-content.js';
-
 import '../components/pages/home/about-content.js';
+import '../components/cursor-party/cursor-party.js';
 
 export { layout } from '../layouts/indexLayout.js';
 export const title = 'Willson • Home';
