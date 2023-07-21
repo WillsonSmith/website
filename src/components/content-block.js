@@ -63,6 +63,7 @@ export class ContentBlock extends LitElement {
     }
 
     .content-block {
+      border-radius: var(--radius-2);
       display: grid;
       gap: var(--size-3);
       background: hsl(var(--gray-0-hsl));

@@ -92,11 +92,6 @@ export class XCursor extends LitElement {
         transform 250ms ease-in,
         opacity 250ms ease-in;
     }
-    /*
-    circle:not(:last-of-type) {
-      opacity: 0;
-      transform: scale(0);
-    } */
 
     .moving circle {
       opacity: 1;
