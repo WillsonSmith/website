@@ -11,6 +11,13 @@ import '../components/pages/home/about-content.js';
 export { layout } from '../layouts/indexLayout.js';
 export const title = 'Willson • Home';
 
+export const metaTags = [
+  {
+    name: 'description',
+    content: 'The personal website of Willson Smith',
+  },
+];
+
 import { styles as indexStyles } from '../styles/pages/indexStyles.js';
 export const styles = css`
   ${indexStyles}
