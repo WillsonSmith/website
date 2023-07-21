@@ -32,7 +32,7 @@ export default {
     format: 'es',
   },
   plugins: [
-    minifyTemplateLiterals(),
+    // minifyTemplateLiterals(),
     importMetaAssets(),
     html({
       input: htmlFiles,
