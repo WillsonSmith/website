@@ -5,6 +5,8 @@ import terser from '@rollup/plugin-terser';
 import { generateSW } from 'rollup-plugin-workbox';
 import { copy } from '@web/rollup-plugin-copy';
 
+import { minifyTemplateLiterals } from 'rollup-plugin-minify-template-literals';
+
 import path from 'path';
 
 import { glob } from 'glob';
@@ -30,6 +32,7 @@ export default {
     format: 'es',
   },
   plugins: [
+    minifyTemplateLiterals(),
     importMetaAssets(),
     html({
       input: htmlFiles,
