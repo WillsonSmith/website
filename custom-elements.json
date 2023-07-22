@@ -6,10 +6,6 @@
       "path": "./src/components/content-block.js",
       "properties": [
         {
-          "name": "title",
-          "type": "String"
-        },
-        {
           "name": "properties",
           "type": "{ heading: { type: StringConstructor; attribute: string; }; _visible: { type: BooleanConstructor; state: boolean; }; }",
           "default": "{\"heading\":{\"type\":\"String\",\"attribute\":\"heading\"},\"_visible\":{\"type\":\"Boolean\",\"state\":true}}"

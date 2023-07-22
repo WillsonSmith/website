@@ -3,7 +3,7 @@
   "tags": [
     {
       "name": "content-block",
-      "description": "Properties:\n\n  * `title` {String} - \n\n  * `properties` {`{ heading: { type: StringConstructor; attribute: string; }; _visible: { type: BooleanConstructor; state: boolean; }; }`} - \n\n  * `_handleIntersection` - \n\n  * `styles` - \n\n  * `heading` {String | undefined} - \n\n  * `_visible` {Boolean} - ",
+      "description": "Properties:\n\n  * `properties` {`{ heading: { type: StringConstructor; attribute: string; }; _visible: { type: BooleanConstructor; state: boolean; }; }`} - \n\n  * `_handleIntersection` - \n\n  * `styles` - \n\n  * `heading` {String | undefined} - \n\n  * `_visible` {`boolean`} - ",
       "attributes": []
     },
     {

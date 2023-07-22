@@ -35,8 +35,10 @@ export default {
     // minifyTemplateLiterals(),
     importMetaAssets(),
     html({
+      absoluteBaseUrl: 'https://willsonsmith.com',
       input: htmlFiles,
       minify: false,
+      flattenOutput: false,
       injectServiceWorker: true,
       serviceWorkerPath: 'build/sw.js',
       transformAsset: [
@@ -46,8 +48,8 @@ export default {
             return (
               await postcss([
                 postcssImport(),
-                autoprefixer,
-                cssnanoPlugin,
+                autoprefixer(),
+                cssnanoPlugin(),
               ]).process(content, {
                 from: filePath,
               })
