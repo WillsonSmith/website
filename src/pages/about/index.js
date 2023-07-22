@@ -1,8 +1,6 @@
 import { html } from 'lit';
 
-export { layout } from '../../layouts/indexLayout.js';
-
-// import '../../components/profile-image/profile-image.js';
+export { layout } from '../../layouts/minimalLayout.js';
 
 export default async () => html`
   <template>

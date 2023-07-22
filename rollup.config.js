@@ -5,7 +5,9 @@ import terser from '@rollup/plugin-terser';
 import { generateSW } from 'rollup-plugin-workbox';
 import { copy } from '@web/rollup-plugin-copy';
 
-import { minifyTemplateLiterals } from 'rollup-plugin-minify-template-literals';
+import { minify as htmlMinify } from 'html-minifier-terser';
+
+// import { minifyTemplateLiterals } from 'rollup-plugin-minify-template-literals';
 
 import path from 'path';
 
@@ -38,9 +40,16 @@ export default {
       absoluteBaseUrl: 'https://willsonsmith.com',
       input: htmlFiles,
       minify: false,
-      flattenOutput: false,
+      // flattenOutput: false,
       injectServiceWorker: true,
       serviceWorkerPath: 'build/sw.js',
+      transformHtml: [
+        async (html) =>
+          await htmlMinify(html, {
+            collapseWhitespace: true,
+            minifyCSS: true,
+          }),
+      ],
       transformAsset: [
         // @ts-ignore
         async (content, filePath) => {
