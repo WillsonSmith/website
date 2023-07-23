@@ -1,4 +1,4 @@
-import { html, css } from 'lit';
+import { html } from 'lit';
 
 import '../components/site-header.js';
 import '../components/profile-image/profile-image.js';
