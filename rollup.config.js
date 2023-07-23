@@ -8,6 +8,8 @@ import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 
 import { generateSW } from 'rollup-plugin-workbox';
 
+import summary from 'rollup-plugin-summary';
+
 /** Keeping around because I will likely need this eventually. */
 // import { copy } from '@web/rollup-plugin-copy';
 
@@ -80,5 +82,6 @@ export default {
       clientsClaim: true,
       runtimeCaching: [{ urlPattern: 'polyfills/*.js', handler: 'CacheFirst' }],
     }),
+    summary(),
   ],
 };
