@@ -47,6 +47,9 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   ],
   middleware: [
     async (context, next) => {
+      // const pageImageFiles = glob.sync(`${pagesPath}**/*.{png,jpg,jpeg,svg}`);
+    },
+    async (context, next) => {
       // Find all .js files in the src directory and add them to the context
       const javascriptSourceFiles = glob.sync(`${rootPath}**/*.js`);
       context.javascriptSourceFiles = javascriptSourceFiles.filter(

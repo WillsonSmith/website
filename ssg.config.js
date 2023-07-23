@@ -2,7 +2,7 @@ const watchForChanges = argv.includes('--watch');
 
 import { render as renderStatic } from 'ssg';
 
-import { writeFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 
 import { dirname, join } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
@@ -13,6 +13,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 import { watch } from 'chokidar';
 import { glob } from 'glob';
 import { findDependencies } from '@custom-elements-manifest/find-dependencies';
+
+import fm from 'front-matter';
+import { marked } from 'marked';
 
 if (watchForChanges) {
   const dependencyMap = new Map();
@@ -35,12 +38,38 @@ if (watchForChanges) {
   glob('src/pages/**/*.js').then(async (files) => {
     for (const file of files) await buildPage(file);
   });
+
+  glob('src/pages/**/*.md').then(async (files) => {
+    for (const file of files) {
+      const fullFilePath = join(__dirname, file);
+      const fileContents = await readFile(fullFilePath, 'utf-8');
+      const { attributes, body } = fm(fileContents);
+      const html = marked(body, {
+        mangle: false,
+        headerIds: false,
+      });
+
+      const page = join(dirname(fullFilePath), attributes.template);
+
+      try {
+        const res = (
+          await renderStatic(page, {
+            ...attributes,
+            markdown: html,
+          })
+        ).markup;
+        await writeFile(fullFilePath.replace('md', 'html'), res);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  });
 }
 
-async function buildPage(page) {
+async function buildPage(page, options = {}) {
   try {
     const filePath = join(__dirname, page);
-    const result = (await renderStatic(filePath)).markup;
+    const result = (await renderStatic(filePath, options)).markup;
     if (result) {
       const rootFilePathUrl = pathToFileURL(__dirname);
       await writeFile(
