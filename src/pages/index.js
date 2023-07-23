@@ -15,10 +15,12 @@ export const metaTags = [
   },
 ];
 
-import { styles as indexStyles } from '../styles/pages/indexStyles.js';
-export const styles = css`
-  ${indexStyles}
-`;
+export const links = [
+  {
+    rel: 'stylesheet',
+    href: '/public/css/index.css',
+  },
+];
 
 export default () => html`
   <cursor-party>
