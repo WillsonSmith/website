@@ -14,10 +14,10 @@ export class AboutContent extends LitElement {
           </p>
 
           <p>
-            I have recently ended my time at Shopify after 8 years. Prior to my
-            leave, my title was <strong>Senior Creative Technologist</strong>. I
-            wore many hats during my time at the company, but they shared a
-            common thread: building bridges between people and technology.
+            I'm a former Shopify employee of 8 years. Prior to my leave, my
+            title was <strong>Senior Creative Technologist</strong>. I wore many
+            hats during my time at the company, but they shared a common thread:
+            building bridges between people and technology.
           </p>
 
           <p>
