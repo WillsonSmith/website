@@ -6,6 +6,7 @@
  * @prop {import('lit').CSSResult} styles
  * @prop {string[]} hydrate
  * @prop {{name: String, content: String}[]} metaTags
+ * @prop {{rel: String, href: String}[]} links
  */
 
 /**
@@ -21,6 +22,7 @@ export const layout = (page) => {
     styles,
     hydrate = [],
     metaTags = [],
+    links = [],
   } = page;
   const css = styles?.cssText;
   const styleTag = css ? `<style>${css}</style>` : '';
@@ -38,6 +40,9 @@ export const layout = (page) => {
       })
       .join('\n')}
     <link rel="stylesheet" href="/public/css/main.css">
+    ${links
+      .map(({ rel, href }) => `<link rel="${rel}" href="${href}">`)
+      .join('\n')}
     ${styleTag}
   </head>
   <body>
