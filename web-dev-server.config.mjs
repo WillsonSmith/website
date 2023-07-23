@@ -22,7 +22,6 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   open: true,
   rootDir: './',
   watch: !hmr,
-  // watch: false,
   nodeResolve: {
     exportConditions: ['browser'],
   },
