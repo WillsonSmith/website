@@ -77,9 +77,9 @@ export default {
       clientsClaim: true,
       runtimeCaching: [{ urlPattern: 'polyfills/*.js', handler: 'CacheFirst' }],
     }),
-    copy({
-      patterns: '**/*.png',
-      exclude: ['node_modules'],
-    }),
+    // copy({
+    //   patterns: '**/*.png',
+    //   exclude: ['node_modules'],
+    // }),
   ],
 };
