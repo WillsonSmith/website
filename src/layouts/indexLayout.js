@@ -34,11 +34,13 @@ export const layout = (page) => {
     <meta charset="utf-8">
     <title>${title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     ${metaTags
       .map(({ name, content }) => {
         return `<meta name="${name}" content="${content}">`;
       })
       .join('\n')}
+    <link rel="icon" type="image/png" href="/public/favicon.png">
     <link rel="stylesheet" href="/public/css/main.css">
     ${links
       .map(({ rel, href }) => `<link rel="${rel}" href="${href}">`)

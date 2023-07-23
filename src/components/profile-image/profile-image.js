@@ -30,6 +30,7 @@ export class ProfileImage extends LitElement {
     return html`
       <div class="profile-image">
         <img
+          loading="lazy"
           alt="Avatar of Willson smiling and giving a thumbs up to welcome visitors to the website"
           width="420"
           height="420"
@@ -39,6 +40,7 @@ export class ProfileImage extends LitElement {
           src=${thumbsUp}
         />
         <img
+          loading="lazy"
           aria-hidden="true"
           alt="Avatar of Willson waving goodbye as the visitor scrolls down the page"
           width="420"
