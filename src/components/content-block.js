@@ -1,12 +1,6 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 
-/**
- * @class ContentBlock
- * @extends {LitElement}
- * @property {String} title
- * @property {Boolean} _visible
- */
 export class ContentBlock extends LitElement {
   static properties = {
     heading: { type: String, attribute: 'heading' },

@@ -1,0 +1,25 @@
+diff --git a/node_modules/@web/parse5-utils/src/index.js b/node_modules/@web/parse5-utils/src/index.js
+index 099c437..c48fba1 100644
+--- a/node_modules/@web/parse5-utils/src/index.js
++++ b/node_modules/@web/parse5-utils/src/index.js
+@@ -215,7 +215,19 @@ function findNodes(nodes, test) {
+     if (test(node)) {
+       found.push(node);
+     }
+-    const children = adapter.getChildNodes(/** @type {ParentNode} */ (node));
++
++    /** @type {Node[]} */
++    let children = [];
++
++    if (adapter.isElementNode(node) && adapter.getTagName(node) === 'template') {
++      const content = adapter.getTemplateContent(node);
++      if (content) {
++        children = adapter.getChildNodes(content);
++      }
++    } else {
++      children = adapter.getChildNodes(/** @type {ParentNode} */ (node));
++    }
++
+     if (Array.isArray(children)) {
+       n.unshift(...children);
+     }

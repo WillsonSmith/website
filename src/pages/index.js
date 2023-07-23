@@ -1,7 +1,7 @@
 import { html, css } from 'lit';
 
 import '../components/site-header.js';
-import '../components/profile-image.js';
+import '../components/profile-image/profile-image.js';
 import '../components/pages/home/about-content.js';
 import '../components/cursor-party/cursor-party.js';
 

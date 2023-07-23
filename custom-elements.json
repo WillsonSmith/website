@@ -6,15 +6,105 @@
       "path": "./src/components/content-block.js",
       "properties": [
         {
+          "name": "properties",
+          "type": "{ heading: { type: StringConstructor; attribute: string; }; _visible: { type: BooleanConstructor; state: boolean; }; }",
+          "default": "{\"heading\":{\"type\":\"String\",\"attribute\":\"heading\"},\"_visible\":{\"type\":\"Boolean\",\"state\":true}}"
+        },
+        {
           "name": "styles",
           "type": "CSSResult",
-          "default": "\"css`\\n    :host {\\n      display: block;\\n      background: hsl(var(--gray-0-hsl));\\n    }\\n\\n    .content-block {\\n      padding: var(--size-4);\\n      display: grid;\\n      gap: var(--size-3);\\n    }\\n  `\""
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    .content-block {\\n      border-radius: var(--radius-2);\\n      display: grid;\\n      gap: var(--size-3);\\n      background: hsl(var(--gray-0-hsl));\\n      padding: var(--size-4);\\n\\n      transform: scale(0.98);\\n      transition:\\n        transform 250ms var(--ease-out-1),\\n        box-shadow 300ms var(--ease-1);\\n    }\\n\\n    .visible {\\n      transform: scale(1);\\n      box-shadow: var(--shadow-2);\\n    }\\n\\n    .content-block__heading {\\n      margin: 0;\\n      font-size: var(--size-4);\\n      font-family: 'Lilita One', sans-serif;\\n      font-size: var(--font-size-4);\\n      font-weight: var(--font-weight-3);\\n      line-height: var(--font-lineheight-3);\\n    }\\n  `\""
+        },
+        {
+          "name": "heading",
+          "type": "String | undefined",
+          "default": "\"undefined\""
+        }
+      ]
+    },
+    {
+      "name": "cursor-party",
+      "path": "./src/components/cursor-party/cursor-party.js",
+      "properties": [
+        {
+          "name": "properties",
+          "type": "{ _cursor: { type: ObjectConstructor; state: boolean; }; _virtualCursors: { type: ArrayConstructor; state: boolean; }; _isHighFiving: { type: BooleanConstructor; state: boolean; }; }",
+          "default": "{\"_cursor\":{\"type\":\"Object\",\"state\":true},\"_virtualCursors\":{\"type\":\"Array\",\"state\":true},\"_isHighFiving\":{\"type\":\"Boolean\",\"state\":true}}"
+        },
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    :host {\\n      display: block;\\n      /* cursor: none; */\\n    }\\n\\n    .cursor {\\n      position: relative;\\n      z-index: 1000;\\n    }\\n  `\""
+        }
+      ]
+    },
+    {
+      "name": "x-cursor",
+      "path": "./src/components/cursor-party/x-cursor/x-cursor.js",
+      "properties": [
+        {
+          "name": "properties",
+          "type": "{ color: { type: StringConstructor; }; positions: { type: ArrayConstructor; }; _moving: { type: ObjectConstructor; state: boolean; }; }",
+          "default": "{\"color\":{\"type\":\"String\"},\"positions\":{\"type\":\"Array\"},\"_moving\":{\"type\":\"Object\",\"state\":true}}"
+        },
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    :host {\\n      display: block;\\n      pointer-events: none;\\n    }\\n\\n    .cursor {\\n      position: fixed;\\n      inset: 0;\\n    }\\n\\n    circle {\\n      opacity: 0;\\n      transform: scale(1.4);\\n      transition:\\n        transform 250ms ease-in,\\n        opacity 250ms ease-in;\\n    }\\n\\n    .moving circle {\\n      opacity: 1;\\n      transform: scale(1);\\n    }\\n\\n    svg {\\n      width: 100%;\\n      height: 100%;\\n      stroke: currentColor;\\n\\n      transform: rotate(var(--rotation)) translate(-4px, -4px);\\n    }\\n  `\""
+        },
+        {
+          "name": "color",
+          "type": "String",
+          "default": "\"#fff\""
+        },
+        {
+          "name": "positions",
+          "type": "Position[]",
+          "default": "[]"
+        }
+      ]
+    },
+    {
+      "name": "email-link",
+      "path": "./src/components/email-link.js",
+      "properties": [
+        {
+          "name": "properties",
+          "type": "{ _email: { type: StringConstructor; state: boolean; }; }",
+          "default": "{\"_email\":{\"type\":\"String\",\"state\":true}}"
+        },
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    a {\\n      color: inherit;\\n    }\\n  `\""
+        }
+      ]
+    },
+    {
+      "name": "about-content",
+      "path": "./src/components/pages/home/about-content.js",
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    strong {\\n      font-family: 'Lilita One', sans-serif;\\n    }\\n\\n    p {\\n      margin: 0;\\n      font-size: var(--font-size-1);\\n      line-height: var(--font-line-height-0);\\n    }\\n\\n    figure {\\n      margin-block: var(--size-fluid-2);\\n      margin-inline: var(--size-fluid-3);\\n    }\\n\\n    figure blockquote {\\n      margin-block: var(--size-fluid-1);\\n      margin-inline: var(--size-fluid-3);\\n    }\\n\\n    .about-content {\\n      display: grid;\\n      gap: var(--size-8);\\n    }\\n\\n    content-block {\\n      transition: transform 250ms var(--ease-1);\\n      transform: translateX(0) rotate(0);\\n      transform-origin: 100% 100%;\\n    }\\n\\n    @media (min-width: 768px) {\\n      content-block:nth-child(odd) {\\n        transform-origin: 100% 100%;\\n        transform: translateX(var(--size-fluid-6)) rotate(1deg);\\n      }\\n\\n      content-block:nth-child(even) {\\n        transform-origin: 0 100%;\\n        transform: translateX(calc(-1 * var(--size-fluid-5))) rotate(-1deg);\\n      }\\n    }\\n  `\""
+        }
+      ]
+    },
+    {
+      "name": "project-content",
+      "path": "./src/components/pages/home/projects/project-content.js",
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    h3 {\\n      margin: 0;\\n    }\\n  `\""
         }
       ]
     },
     {
       "name": "profile-image",
-      "path": "./src/components/profile-image.js",
+      "path": "./src/components/profile-image/profile-image.js",
       "attributes": [
         {
           "name": "hello",
@@ -26,7 +116,7 @@
         {
           "name": "styles",
           "type": "CSSResult",
-          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    .hello {\\n      opacity: 1;\\n    }\\n\\n    img {\\n      display: block;\\n      max-width: 100%;\\n\\n      grid-area: image;\\n\\n      opacity: 0;\\n      transition: opacity 500ms var(--ease-out-5);\\n    }\\n\\n    .profile-image {\\n      max-width: var(--size-12);\\n      background-image: var(--gradient-14);\\n      border-radius: var(--radius-blob-5);\\n      padding: var(--size-2);\\n\\n      display: grid;\\n      grid-template-areas: 'image';\\n    }\\n\\n    @keyframes blob {\\n      0% {\\n        border-radius: var(--radius-blob-5);\\n      }\\n      25% {\\n        border-radius: var(--radius-blob-2);\\n      }\\n      50% {\\n        border-radius: var(--radius-blob-3);\\n      }\\n      75% {\\n        border-radius: var(--radius-blob-2);\\n      }\\n      100% {\\n        border-radius: var(--radius-blob-5);\\n      }\\n    }\\n  `\""
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    .hello {\\n      opacity: 1;\\n    }\\n\\n    img {\\n      display: block;\\n      max-width: 100%;\\n      height: auto;\\n\\n      grid-area: image;\\n\\n      opacity: 0;\\n      transition: opacity 500ms var(--ease-out-5);\\n    }\\n\\n    .profile-image {\\n      max-width: var(--size-12);\\n      background-image: var(--gradient-14);\\n      border-radius: var(--radius-blob-5);\\n      padding: var(--size-2);\\n\\n      display: grid;\\n      grid-template-areas: 'image';\\n    }\\n  `\""
         },
         {
           "name": "hello",

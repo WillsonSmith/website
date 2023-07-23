@@ -1,5 +1,9 @@
 import { html } from 'lit';
 
-export { layout } from '../../layouts/indexLayout.js';
+export { layout } from '../../layouts/minimalLayout.js';
 
-export default async () => html` <h1>About</h1> `;
+export default async () => html`
+  <template>
+    <link rel="stylesheet" href="/public/css/main.css" />
+  </template>
+`;

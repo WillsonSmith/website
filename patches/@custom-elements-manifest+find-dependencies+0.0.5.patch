@@ -1,0 +1,14 @@
+diff --git a/node_modules/@custom-elements-manifest/find-dependencies/src/find-dependencies.js b/node_modules/@custom-elements-manifest/find-dependencies/src/find-dependencies.js
+index 0932389..26285a6 100644
+--- a/node_modules/@custom-elements-manifest/find-dependencies/src/find-dependencies.js
++++ b/node_modules/@custom-elements-manifest/find-dependencies/src/find-dependencies.js
+@@ -63,7 +63,9 @@ export async function findDependencies(paths, options = {}) {
+       imports?.forEach(i => {
+         /** Skip built-in modules like fs, path, etc */
+         if(builtinModules.includes(i.n)) return;
++        if (!i.n) return;
+         const { packageRoot } = splitPath(dep);
++
+         const fileToFind = isBareModuleSpecifier(i.n) ? i.n : path.join(path.dirname(dep), i.n);
+         try {
+           /**

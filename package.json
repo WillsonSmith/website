@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "postinstall": "patch-package",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "wireit",
     "watch": "wireit",
@@ -22,10 +23,10 @@
       ]
     },
     "analyze:cem": {
-      "command": "wca analyze src/**/*.js --format json --outFile custom-elements.json"
+      "command": "wca analyze \"src/**/*.js\" --format json --outFile custom-elements.json"
     },
     "analyze:vscode": {
-      "command": "wca analyze src/**/*.js --format vscode --outFile vscode-html-custom-data.json"
+      "command": "wca analyze \"src/**/*.js\" --format vscode --outFile vscode-html-custom-data.json"
     },
     "dev": {
       "command": "concurrently \"npm run watch\" \"wds\""
@@ -37,7 +38,7 @@
       ]
     },
     "build": {
-      "command": "tsx ssg.config.js && rollup -c rollup.config.js",
+      "command": "node ssg.config.js && rollup -c rollup.config.js",
       "dependencies": [
         "clean",
         "build:ssg"
@@ -87,7 +88,6 @@
     "rollup-plugin-minify-template-literals": "^1.1.2",
     "rollup-plugin-workbox": "^8.0.1",
     "ssg": "^1.0.0",
-    "tsx": "^3.12.7",
     "typescript": "^5.1.6",
     "web-component-analyzer": "^1.1.7",
     "wireit": "^0.9.5"
@@ -98,6 +98,7 @@
     "@webcomponents/template-shadowroot": "^0.2.1",
     "lit": "^3.0.0-pre.0",
     "open-props": "^1.5.10",
+    "patch-package": "^7.0.2",
     "tslib": "^2.6.0"
   }
 }
