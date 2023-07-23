@@ -26,12 +26,6 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
     exportConditions: ['browser'],
   },
   plugins: [
-    // esbuildPlugin({
-    //   target: 'es2022',
-    // }),
-    {
-      name: '',
-    },
     {
       name: 'postcss',
       async transform(context) {
@@ -53,7 +47,7 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   ],
   middleware: [
     async (context, next) => {
-      // Find all .ts files in the src directory and add them to the context
+      // Find all .js files in the src directory and add them to the context
       const javascriptSourceFiles = glob.sync(`${rootPath}**/*.js`);
       context.javascriptSourceFiles = javascriptSourceFiles.filter(
         (source) => !source.includes('src/pages')

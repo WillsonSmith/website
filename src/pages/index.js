@@ -11,7 +11,8 @@ export const title = 'Willson • Home';
 export const metaTags = [
   {
     name: 'description',
-    content: 'The personal website of Willson Smith',
+    content:
+      'Willson Smith is a software developer with a specialization in front-end development from Toronto, Canada. ',
   },
 ];
 
