@@ -5,7 +5,7 @@ import { render as renderStatic } from 'ssg';
 import { writeFile } from 'fs/promises';
 
 import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import { argv } from 'node:process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -42,7 +42,11 @@ async function buildPage(page) {
     const filePath = join(__dirname, page);
     const result = (await renderStatic(filePath)).markup;
     if (result) {
-      await writeFile(filePath.replace('js', 'html'), result);
+      const rootFilePathUrl = pathToFileURL(__dirname);
+      await writeFile(
+        filePath.replace('js', 'html'),
+        result.replaceAll(rootFilePathUrl.href, '')
+      );
     }
   } catch (e) {
     console.log('No markup found for', page);
@@ -50,8 +54,15 @@ async function buildPage(page) {
 }
 
 async function fetchLocalDependencies(target, basePath) {
+  // try {
   const dependencies = await findDependencies([target], { basePath });
   return dependencies.filter(
     (dependency) => !dependency.includes('node_modules')
   );
+  // } catch (error) {
+  //   console.log(`Error fetching dependencies in ${target}`);
+  //   console.log(`Base path: ${basePath}`);
+
+  //   return [];
+  // }
 }

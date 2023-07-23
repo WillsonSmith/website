@@ -2,6 +2,12 @@ import { LitElement, html, css } from 'lit';
 
 import { classMap } from 'lit/directives/class-map.js';
 
+const thumbsUp = new URL('./img/thumbs-up.png', import.meta.url).href;
+const peace = new URL('./img/peace.png', import.meta.url).href;
+
+// const thumbsUp = './img/thumbs-up.png';
+// const peace = './img/peace.png';
+
 export class ProfileImage extends LitElement {
   static get properties() {
     return {
@@ -33,15 +39,17 @@ export class ProfileImage extends LitElement {
           class=${classMap({
             hello: this.hello,
           })}
-          src="/public/img/me.png"
+          src=${thumbsUp}
         />
         <img
           aria-hidden="true"
           alt="Avatar of Willson waving goodbye as the visitor scrolls down the page"
+          width="420"
+          height="420"
           class=${classMap({
             hello: !this.hello,
           })}
-          src="/public/img/me-bye.png"
+          src=${peace}
         />
       </div>
     `;
@@ -87,24 +95,6 @@ export class ProfileImage extends LitElement {
 
       display: grid;
       grid-template-areas: 'image';
-    }
-
-    @keyframes blob {
-      0% {
-        border-radius: var(--radius-blob-5);
-      }
-      25% {
-        border-radius: var(--radius-blob-2);
-      }
-      50% {
-        border-radius: var(--radius-blob-3);
-      }
-      75% {
-        border-radius: var(--radius-blob-2);
-      }
-      100% {
-        border-radius: var(--radius-blob-5);
-      }
     }
   `;
 }

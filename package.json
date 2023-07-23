@@ -22,10 +22,10 @@
       ]
     },
     "analyze:cem": {
-      "command": "wca analyze src/**/*.js --format json --outFile custom-elements.json"
+      "command": "wca analyze \"src/**/*.js\" --dependencies --format json --outFile custom-elements.json"
     },
     "analyze:vscode": {
-      "command": "wca analyze src/**/*.js --format vscode --outFile vscode-html-custom-data.json"
+      "command": "wca analyze \"src/**/*.js\" --format vscode --outFile vscode-html-custom-data.json"
     },
     "dev": {
       "command": "concurrently \"npm run watch\" \"wds\""
@@ -37,7 +37,7 @@
       ]
     },
     "build": {
-      "command": "tsx ssg.config.js && rollup -c rollup.config.js",
+      "command": "node ssg.config.js && rollup -c rollup.config.js",
       "dependencies": [
         "clean",
         "build:ssg"
