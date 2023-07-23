@@ -12,7 +12,7 @@ export const metaTags = [
   {
     name: 'description',
     content:
-      'Willson Smith is a software developer with a specialization in front-end development from Toronto, Canada. ',
+      'Willson Smith is a software developer with a specialization in user experience and front-end development from Toronto, Canada. ',
   },
 ];
 
