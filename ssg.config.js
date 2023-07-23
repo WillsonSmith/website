@@ -54,15 +54,8 @@ async function buildPage(page) {
 }
 
 async function fetchLocalDependencies(target, basePath) {
-  // try {
   const dependencies = await findDependencies([target], { basePath });
   return dependencies.filter(
     (dependency) => !dependency.includes('node_modules')
   );
-  // } catch (error) {
-  //   console.log(`Error fetching dependencies in ${target}`);
-  //   console.log(`Base path: ${basePath}`);
-
-  //   return [];
-  // }
 }
