@@ -1,12 +1,17 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
-import { rollupPluginHTML as html } from '@web/rollup-plugin-html';
-import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
-import terser from '@rollup/plugin-terser';
-import { generateSW } from 'rollup-plugin-workbox';
-import { copy } from '@web/rollup-plugin-copy';
 
+import { rollupPluginHTML as html } from '@web/rollup-plugin-html';
 import { minify as htmlMinify } from 'html-minifier-terser';
 
+import terser from '@rollup/plugin-terser';
+import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
+
+import { generateSW } from 'rollup-plugin-workbox';
+
+/** Keeping around because I will likely need this eventually. */
+// import { copy } from '@web/rollup-plugin-copy';
+
+/** This plugin breaks hydration, need to investigate. */
 // import { minifyTemplateLiterals } from 'rollup-plugin-minify-template-literals';
 
 import path from 'path';
@@ -34,13 +39,11 @@ export default {
     format: 'es',
   },
   plugins: [
-    // minifyTemplateLiterals(),
     importMetaAssets(),
     html({
       absoluteBaseUrl: 'https://willsonsmith.com',
       input: htmlFiles,
       minify: false,
-      // flattenOutput: false,
       injectServiceWorker: true,
       serviceWorkerPath: 'build/sw.js',
       transformHtml: [
@@ -77,9 +80,5 @@ export default {
       clientsClaim: true,
       runtimeCaching: [{ urlPattern: 'polyfills/*.js', handler: 'CacheFirst' }],
     }),
-    // copy({
-    //   patterns: '**/*.png',
-    //   exclude: ['node_modules'],
-    // }),
   ],
 };
