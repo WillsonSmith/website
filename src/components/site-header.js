@@ -23,6 +23,10 @@ export class SiteHeader extends LitElement {
             Linkedin
           </a>
         </div>
+        <nav class="site-header__links">
+          <a href="/">Home</a>
+          <a href="/games">Games</a>
+        </nav>
       </header>
     `;
   }
@@ -36,6 +40,9 @@ export class SiteHeader extends LitElement {
       --font-lineheight-title: var(--font-lineheight-1);
 
       display: block;
+
+      padding-inline: var(--size-3);
+      padding-block: var(--size-2);
     }
 
     a {
@@ -45,7 +52,8 @@ export class SiteHeader extends LitElement {
     .site-header {
       display: grid;
       gap: var(--gap);
-      grid-template-areas: 'title social';
+      row-gap: var(--size-0);
+      grid-template-areas: 'title social' 'links links';
       grid-template-columns: 1fr auto;
     }
 
@@ -62,6 +70,12 @@ export class SiteHeader extends LitElement {
     .site-header__social {
       display: flex;
       align-items: center;
+      gap: var(--size-3);
+    }
+
+    .site-header__links {
+      grid-area: links;
+      display: flex;
       gap: var(--size-3);
     }
   `;

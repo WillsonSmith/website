@@ -1,9 +1,6 @@
 .title-bar {
   position: sticky;
   top: 0;
-  padding-block: var(--size-fluid-1);
-  padding-inline: var(--size-fluid-3);
-
   z-index: 2;
 }
 
