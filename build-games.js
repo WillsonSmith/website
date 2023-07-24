@@ -22,31 +22,17 @@ async function cacheGames(games) {
   }
 }
 
-async function getGamesWithDetails() {
+export async function getGamesWithDetails() {
   const parsed = JSON.parse(cachedGames);
   if (parsed.length > 0) {
     return JSON.parse(cachedGames);
   }
 
+  // Steam limit of 10 per 10 secinds
   const games = (await getOwnedGames({ sortBy: 'rtime_last_played' })).slice(
     0,
     10
   );
-
-  // const gamesWithDetails = await Promise.all(
-  //   first5Games.map(async (game) => {
-  //     const gameDetails = await getGameDetails(game.appid);
-
-  //     return {
-  //       name: gameDetails.name,
-  //       description: gameDetails.short_description,
-  //       image: gameDetails.header_image,
-  //       url: `https://store.steampowered.com/app/${gameDetails.steam_appid}`,
-  //       playtime: game.playtime_forever,
-  //       lastPlayed: game.rtime_last_played,
-  //     };
-  //   })
-  // );
 
   let gamesWithDetails = [];
   for (const game of games) {
@@ -57,4 +43,9 @@ async function getGamesWithDetails() {
 }
 
 const gamesWithDetails = await getGamesWithDetails();
-console.log(gamesWithDetails);
+
+writeFile(
+  './src/data/games.js',
+  `export const games = ${JSON.stringify(gamesWithDetails, null, 2)};`,
+  'utf-8'
+);
