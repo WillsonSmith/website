@@ -61,7 +61,8 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "packages/ssg"
+    "packages/ssg",
+    "packages/steam-fetch"
   ],
   "devDependencies": {
     "@custom-elements-manifest/find-dependencies": "^0.0.5",
