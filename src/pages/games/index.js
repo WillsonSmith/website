@@ -7,9 +7,10 @@ export { games } from '../../data/games.js';
 
 export const styles = css`
   body {
-    background: hsl(var(--gray-9-hsl));
+    background: hsl(var(--gray-12-hsl));
   }
   site-header {
+    color: hsl(var(--gray-0-hsl));
     position: sticky;
     top: 0;
 
@@ -24,7 +25,7 @@ export const styles = css`
 
   .games-list {
     display: grid;
-    gap: var(--size-3);
+    gap: var(--size-2);
     max-width: 60ch;
     min-width: 0;
   }
@@ -79,11 +80,7 @@ class GameShowcase extends LitElement {
           <p>${this.description}</p>
         </div>
       </div>
-      <img
-        class="game-showcase__background"
-        src=${this.image}
-        alt=${this.name}
-      />
+
       <img class="game-showcase__far-background" src=${this.image} alt="" />
     </div>`;
   }
@@ -103,12 +100,12 @@ class GameShowcase extends LitElement {
       display: grid;
       grid-template-areas: 'main';
 
-      --background-clip: polygon(var(--size-2) 0, 100% 0, 100% 100%, 20% 100%);
+      --background-clip: polygon(15% 0, 100% 0, 100% 100%, 15% 100%);
     }
 
     .game-showcase:focus,
     .game-showcase:hover {
-      --background-clip: polygon(95% 0, 100% 0, 100% 100%, 95% 100%);
+      --background-clip: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
     }
 
     .game-showcase__far-background {
@@ -119,6 +116,8 @@ class GameShowcase extends LitElement {
       height: 100%;
 
       object-fit: cover;
+
+      /* filter: brightness(50%); */
     }
 
     .game-showcase__background {
@@ -141,16 +140,30 @@ class GameShowcase extends LitElement {
 
       /* background: hsl(var(--gray-0-hsl)); */
       padding: var(--size-3);
+
+      display: flex;
+      align-items: flex-end;
     }
 
     .game-showcase__content {
+      border-radius: var(--radius-2);
+
       box-sizing: border-box;
       max-width: 95%;
-      background: hsl(var(--gray-0-hsl));
+      background: hsl(var(--gray-0-hsl) / 40%);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
       padding-inline: var(--size-3);
-      padding-block: var(--size-2);
+      padding-block: var(--size-3);
 
       box-shadow: var(--shadow-3);
+    }
+
+    h2 {
+      margin: 0;
+    }
+    p {
+      margin: 0;
     }
   `;
 }
