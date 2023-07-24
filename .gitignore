@@ -2,6 +2,9 @@
 .cache
 .env
 
+.cache
+.env
+
 .wireit
 node_modules
 site
