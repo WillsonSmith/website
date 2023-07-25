@@ -68,7 +68,6 @@
     "@open-wc/dev-server-hmr": "^0.2.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
-    "@rollup/plugin-typescript": "^11.1.2",
     "@web/dev-server": "^0.3.0",
     "@web/dev-server-esbuild": "^0.4.1",
     "@web/rollup-plugin-copy": "^0.4.0",
