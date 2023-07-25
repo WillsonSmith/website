@@ -21,6 +21,9 @@ export class EmailLink extends LitElement {
   }
 
   static styles = css`
+    :host {
+      display: inline;
+    }
     a {
       color: inherit;
     }

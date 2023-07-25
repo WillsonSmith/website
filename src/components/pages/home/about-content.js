@@ -9,8 +9,8 @@ export class AboutContent extends LitElement {
       <div class="about-content">
         <content-block heading="An introduction.">
           <p>
-            Hey! I'm <strong>Willson</strong>, a software developer with a
-            specialization in front-end web experiences.
+            Hey! I'm <strong>Willson</strong>, a software developer based in
+            Toronto, Canada with a specialization in front-end web experiences.
           </p>
 
           <p>
@@ -103,8 +103,10 @@ export class AboutContent extends LitElement {
             with? I'd love to hear about it.
           </p>
           <p>
-            Send me an email:
-            <email-link>me[at]willsonsmith.com</email-link>
+            <span>
+              Send me an email:
+              <email-link> me[at]willsonsmith.com</email-link></span
+            >
           </p>
         </content-block>
       </div>
