@@ -104,8 +104,8 @@ export class AboutContent extends LitElement {
           </p>
           <p>
             <span>
-              Send me an email:
-              <email-link> me[at]willsonsmith.com</email-link></span
+              Send me an email:&nbsp;
+              <email-link>me[at]willsonsmith.com</email-link></span
             >
           </p>
         </content-block>
