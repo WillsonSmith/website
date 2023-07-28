@@ -38,4 +38,4 @@ export default () => html`
   </cursor-party>
 `;
 
-export const hydrate = ['./index.js'];
+export const hydrate = [new URL('./index.js', import.meta.url).href];
