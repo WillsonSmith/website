@@ -29,7 +29,7 @@
       "command": "wca analyze \"src/**/*.js\" --format vscode --outFile vscode-html-custom-data.json"
     },
     "dev": {
-      "command": "concurrently \"npm run watch\" \"wds\""
+      "command": "wds"
     },
     "watch": {
       "command": "node ssg.config.js --watch",
@@ -98,7 +98,6 @@
     "@webcomponents/template-shadowroot": "^0.2.1",
     "lit": "^3.0.0-pre.0",
     "open-props": "^1.5.10",
-    "patch-package": "^7.0.2",
-    "tslib": "^2.6.0"
+    "patch-package": "^7.0.2"
   }
 }

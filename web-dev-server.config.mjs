@@ -18,6 +18,9 @@ const hmr = process.argv.includes('--hmr');
 const rootPath = `src/`;
 const pagesPath = `${rootPath}pages/`;
 
+import { render } from 'ssg';
+import { pathToFileURL } from 'url';
+
 export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   open: true,
   rootDir: './',
@@ -26,6 +29,19 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
     exportConditions: ['browser'],
   },
   plugins: [
+    {
+      name: 'replace-file-urls',
+      async transform(context) {
+        if (context.response.is('html')) {
+          // @ts-ignore
+          context.body = context.body.replaceAll(
+            pathToFileURL(__dirname).href,
+            ''
+          );
+        }
+        return context.body;
+      },
+    },
     {
       name: 'postcss',
       async transform(context) {
@@ -47,62 +63,63 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   ],
   middleware: [
     async (context, next) => {
-      // Find all .js files in the src directory and add them to the context
-      const javascriptSourceFiles = glob.sync(`${rootPath}**/*.js`);
-      context.javascriptSourceFiles = javascriptSourceFiles.filter(
-        (source) => !source.includes('src/pages')
-      );
+      /**
+       * Handle requests for pages.
+       * When a request comes in for a page, we need to:
+       * 1. Ensure the request is not for a javascript file.
+       * 2. Check if an associated index exists for the page.
+       * 3. If an index exists, render the page and serve it.
+       *
+       * There is an additional step to redirect to a trailing slash if the page exists.
+       */
+      if (!context.url.endsWith('js')) {
+        const pathPattern = join(pagesPath, context.url, 'index.js');
+        const pageFile = glob.sync(pathPattern)[0];
 
-      // Find all .html files in the src/pages directory and add them to the context
-      const htmlFiles = glob
-        .sync(`${pagesPath}**/*.html`)
-        .map((file) => file.replace('src/pages', ''));
-      context.htmlFiles = htmlFiles;
-
-      return next();
-    },
-    async (context, next) => {
-      // Redirect requests that have an html file
-      if (context.htmlFiles.includes(context.url)) {
-        context.url = `${pagesPath}${context.url}`;
-      }
-      return next();
-    },
-
-    async (context, next) => {
-      // Redirect site index
-      if (context.url === '/') {
-        context.url = `${pagesPath}index.html`;
-      }
-      return next();
-    },
-
-    async (context, next) => {
-      // Redirect trailing slash to path plus index.html
-      if (context.htmlFiles.includes(`${context.url}/index.html`)) {
-        context.url = `${pagesPath}${context.url}/index.html`;
-      }
-      return next();
-    },
-
-    async (context, next) => {
-      // redirect page javascript requests
-      if (context.url.endsWith('js')) {
-        const filePath = context.url.replace('.js', '.html');
-        const fileExists = context.htmlFiles.includes(filePath);
-        if (fileExists) {
-          context.url = `${pagesPath}${context.url}`;
+        if (pageFile) {
+          // Redirect to trailing slash
+          if (!context.url.endsWith('/')) {
+            context.redirect(`${context.url}/`);
+          }
+          const { markup } = await render(join(__dirname, pageFile));
+          context.body = markup;
+          context.response.type = 'text/html';
         }
       }
       return next();
     },
+
     async (context, next) => {
-      const normalizedJsPaths = context.javascriptSourceFiles.map((path) =>
-        path.replace('src', '')
-      );
-      if (normalizedJsPaths.includes(context.url)) {
-        context.url = `/src${context.url}`;
+      /**
+       * When a request for an html file comes in, we need to:
+       * 1. Check if an associated javascript file exists for the page.
+       * 2. If an index exists, render the page and serve it.
+       */
+      if (context.url.endsWith('.html')) {
+        const pathPattern = join(pagesPath, context.url.replace('html', 'js'));
+        const pageFile = glob.sync(pathPattern)[0];
+        if (pageFile) {
+          const { markup } = await render(join(__dirname, pageFile));
+          context.body = markup;
+          context.response.type = 'text/html';
+        }
+        // should add a handler to serve actual html pages
       }
+      return next();
+    },
+    async (context, next) => {
+      /**
+       * If a Javascript file is requested we need to:
+       * 1. Check if the file exists in the root directory.
+       * 2. If it exists, serve it from its absolute url.
+       */
+      if (context.url.endsWith('.js')) {
+        const javascriptFile = glob.sync(`${rootPath}**/${context.url}`)[0];
+        if (javascriptFile) {
+          context.url = join('/', javascriptFile);
+        }
+      }
+
       return next();
     },
   ],
