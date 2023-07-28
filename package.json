@@ -8,7 +8,6 @@
     "postinstall": "patch-package",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "wireit",
-    "watch": "wireit",
     "build": "wireit",
     "build:ssg": "wireit",
     "clean": "wireit",
@@ -30,12 +29,6 @@
     },
     "dev": {
       "command": "wds"
-    },
-    "watch": {
-      "command": "node ssg.config.js --watch",
-      "dependencies": [
-        "build:ssg"
-      ]
     },
     "build": {
       "command": "rollup -c rollup.config.js",
