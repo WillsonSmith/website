@@ -29,7 +29,7 @@
       "command": "wca analyze \"src/**/*.js\" --format vscode --outFile vscode-html-custom-data.json"
     },
     "dev": {
-      "command": "concurrently \"npm run watch\" \"wds\""
+      "command": "wds"
     },
     "watch": {
       "command": "node ssg.config.js --watch",
