@@ -33,8 +33,7 @@
     "build": {
       "command": "rollup -c rollup.config.js",
       "dependencies": [
-        "clean",
-        "build:ssg"
+        "clean"
       ]
     },
     "build:ssg": {

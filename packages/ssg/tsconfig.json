@@ -16,7 +16,8 @@
     "sourceMap": false,
     "strict": true,
     "target": "ES2020",
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "checkJs": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["**/*.js"]
 }
