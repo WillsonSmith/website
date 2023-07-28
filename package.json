@@ -38,7 +38,7 @@
       ]
     },
     "build": {
-      "command": "node ssg.config.js && rollup -c rollup.config.js",
+      "command": "rollup -c rollup.config.js",
       "dependencies": [
         "clean",
         "build:ssg"
