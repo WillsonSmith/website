@@ -1,4 +1,4 @@
-interface Result {
+export interface Result {
   markup: string;
   styles?: string;
 }
