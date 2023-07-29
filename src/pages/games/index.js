@@ -25,8 +25,9 @@ export const styles = css`
 
   .games-list {
     display: grid;
-    gap: var(--size-2);
-    max-width: 60ch;
+    /* gap: var(--size-2); */
+    /* max-width: 60ch; */
+    width: 100%;
     min-width: 0;
   }
 `;
@@ -74,12 +75,9 @@ class GameShowcase extends LitElement {
 
   render() {
     return html` <div class="game-showcase" tabindex="0">
-      <div class="game-showcase__content-wrapper">
-        <div class="game-showcase__content">
-          <h2>${this.name}</h2>
-          <p>${this.description}</p>
-        </div>
-      </div>
+      <a href=${ifDefined(this.website)} class="game-showcase__content">
+        <h2>${this.name}</h2>
+      </a>
 
       <img class="game-showcase__far-background" src=${this.image} alt="" />
     </div>`;
@@ -117,7 +115,7 @@ class GameShowcase extends LitElement {
 
       object-fit: cover;
 
-      /* filter: brightness(50%); */
+      filter: blur(var(--size-fluid-1)) brightness(70%);
     }
 
     .game-showcase__background {
@@ -138,7 +136,6 @@ class GameShowcase extends LitElement {
       position: relative;
       grid-area: main;
 
-      /* background: hsl(var(--gray-0-hsl)); */
       padding: var(--size-3);
 
       display: flex;
@@ -146,21 +143,23 @@ class GameShowcase extends LitElement {
     }
 
     .game-showcase__content {
-      border-radius: var(--radius-2);
-
+      grid-area: main;
+      /* border-radius: var(--radius-2); */
+      color: hsl(var(--gray-0-hsl));
       box-sizing: border-box;
       max-width: 95%;
-      background: hsl(var(--gray-0-hsl) / 40%);
-      -webkit-backdrop-filter: blur(10px);
+      /* background: hsl(var(--gray-0-hsl) / 40%); */
+      /* -webkit-backdrop-filter: blur(10px); */
       backdrop-filter: blur(10px);
       padding-inline: var(--size-3);
-      padding-block: var(--size-3);
+      padding-block: var(--size-5);
 
-      box-shadow: var(--shadow-3);
+      /* box-shadow: var(--shadow-3); */
     }
 
     h2 {
       margin: 0;
+      font-size: var(--font-size-fluid-2);
     }
     p {
       margin: 0;
