@@ -51,7 +51,7 @@ export const layout = (page) => {
     ${content}
 
     <script type="module">
-    const HPrototype = HTMLElement.prototype;
+    const HPrototype = HTMLTemplateElement.prototype;
     const shadowRoots = HPrototype.hasOwnProperty('shadowRoot') || HPrototype.hasOwnProperty('shadowRootMode');
     if (!shadowRoots) {
       const { hydrateShadowRoots } = await import(
