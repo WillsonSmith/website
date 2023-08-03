@@ -18,7 +18,8 @@ const hmr = process.argv.includes('--hmr');
 const rootPath = `src/`;
 const pagesPath = `${rootPath}pages/`;
 
-import { render } from 'ssg';
+import { renderInThread } from '@hachi-dev/renderer';
+
 import { pathToFileURL } from 'url';
 
 export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
@@ -81,7 +82,9 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
           if (!context.url.endsWith('/')) {
             context.redirect(`${context.url}/`);
           }
-          const { markup } = await render(join(__dirname, pageFile));
+          const { html: markup } = await renderInThread(
+            join(__dirname, pageFile)
+          );
           context.body = markup;
           context.response.type = 'text/html';
         }
@@ -99,7 +102,9 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
         const pathPattern = join(pagesPath, context.url.replace('html', 'js'));
         const pageFile = glob.sync(pathPattern)[0];
         if (pageFile) {
-          const { markup } = await render(join(__dirname, pageFile));
+          const { html: markup } = await renderInThread(
+            join(__dirname, pageFile)
+          );
           context.body = markup;
           context.response.type = 'text/html';
         }

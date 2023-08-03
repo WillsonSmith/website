@@ -9,7 +9,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "wireit",
     "build": "wireit",
-    "build:ssg": "wireit",
     "clean": "wireit",
     "clean:html": "wireit",
     "analyze": "wireit"
@@ -36,9 +35,6 @@
         "clean"
       ]
     },
-    "build:ssg": {
-      "command": "npm run build -w ssg"
-    },
     "clean": {
       "command": "rimraf build",
       "dependencies": [
@@ -52,9 +48,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "workspaces": [
-    "packages/ssg"
-  ],
   "devDependencies": {
     "@custom-elements-manifest/find-dependencies": "^0.0.5",
     "@open-wc/dev-server-hmr": "^0.2.0",
@@ -79,12 +72,12 @@
     "rollup-plugin-minify-template-literals": "^1.1.2",
     "rollup-plugin-summary": "^2.0.0",
     "rollup-plugin-workbox": "^8.0.1",
-    "ssg": "^1.0.0",
     "typescript": "^5.1.6",
     "web-component-analyzer": "^1.1.7",
     "wireit": "^0.9.5"
   },
   "dependencies": {
+    "@hachi-dev/renderer": "^1.0.0",
     "@lit-labs/observers": "^2.0.0",
     "@lit-labs/ssr-client": "^1.1.2",
     "@webcomponents/template-shadowroot": "^0.2.1",
