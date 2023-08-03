@@ -85,6 +85,7 @@
     "wireit": "^0.9.5"
   },
   "dependencies": {
+    "@hachi-dev/renderer": "^1.0.0",
     "@lit-labs/observers": "^2.0.0",
     "@lit-labs/ssr-client": "^1.1.2",
     "@webcomponents/template-shadowroot": "^0.2.1",

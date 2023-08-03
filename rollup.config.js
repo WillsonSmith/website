@@ -20,7 +20,8 @@ import autoprefixer from 'autoprefixer';
 import cssnanoPlugin from 'cssnano';
 import postcssImport from 'postcss-import';
 
-import { render } from 'ssg';
+import { renderInThread } from '@hachi-dev/renderer';
+// import { render } from 'ssg';
 
 export default {
   output: {
@@ -82,7 +83,7 @@ async function getHTMLInputs() {
 
   let htmlInputs = [];
   for (const page of pageFiles) {
-    const { markup } = await render(join(__dirname, page));
+    const { html: markup } = await renderInThread(join(__dirname, page));
     if (markup) {
       const name = page.replace('src/pages/', '').replace('.js', '.html');
       htmlInputs.push({
