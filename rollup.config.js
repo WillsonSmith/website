@@ -21,7 +21,6 @@ import cssnanoPlugin from 'cssnano';
 import postcssImport from 'postcss-import';
 
 import { renderInThread } from '@hachi-dev/renderer';
-// import { render } from 'ssg';
 
 export default {
   output: {

@@ -20,7 +20,6 @@ const pagesPath = `${rootPath}pages/`;
 
 import { renderInThread } from '@hachi-dev/renderer';
 
-// import { render } from 'ssg';
 import { pathToFileURL } from 'url';
 
 export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
