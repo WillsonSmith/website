@@ -2,7 +2,6 @@ import { LitElement, html, css } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 
 import './v-cursor/v-cursor.js';
-import './types.js';
 
 import { filterForRecency } from './_util/filter-for-recency.js';
 import { cursorIsShaking } from './_util/cursor-is-shaking.js';
@@ -10,15 +9,10 @@ import { cursorIsShaking } from './_util/cursor-is-shaking.js';
 const MOUSE_MOVE_DELAY = 10;
 
 /**
- *
- * @export
- * @class CursorParty
- * @extends {LitElement}
- *
- * @property {Cursor} _cursor
- * @property {Position[]} _virtualCursors
- * @property {Boolean} _isHighFiving
+ * @typedef {import('./_types.js').Position} Position
+ * @typedef {import('./_types.js').Cursor} Cursor
  */
+
 export class CursorParty extends LitElement {
   static properties = {
     _cursor: { type: Object, state: true },

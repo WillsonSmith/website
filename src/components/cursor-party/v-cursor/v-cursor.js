@@ -1,19 +1,17 @@
 import { LitElement, html, css, svg, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 
-import '../types.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
 /**
+ * @typedef {import('../_types.js').Position} Position
+ */
+
+/**
+ * @element v-cursor
+ * @prop {string} color
+ * @prop {Array<Position>} positions
  *
- *
- * @export
- * @class XCursor
- * @extends {LitElement}
- *
- * @property {String} color
- * @property {Position[]} positions
- * @property {Timeout} _moving
  */
 export class VCursor extends LitElement {
   static properties = {

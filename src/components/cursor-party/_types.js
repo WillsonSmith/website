@@ -1,3 +1,4 @@
+export default undefined;
 /**
  * @typedef {Object} Position
  * @property {Number} x
