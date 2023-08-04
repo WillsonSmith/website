@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import './x-cursor/x-cursor.js';
+import './v-cursor/v-cursor.js';
 import './types.js';
 
 import { filterForRecency } from './_util/filter-for-recency.js';
@@ -69,7 +69,7 @@ export class CursorParty extends LitElement {
       <slot></slot>
 
       ${this._virtualCursors.map(
-        cursor => html` <x-cursor color=${cursor.color}></x-cursor> `,
+        cursor => html` <v-cursor color=${cursor.color}></v-cursor> `,
       )}
       <div
         class="cursor"
@@ -78,10 +78,10 @@ export class CursorParty extends LitElement {
           '--cursor-y': `${this._cursor.position.y}px`,
         })}
       >
-        <x-cursor
+        <v-cursor
           color=${this._cursor.color}
           .positions=${this._cursor.history}
-        ></x-cursor>
+        ></v-cursor>
       </div>
     `;
   }

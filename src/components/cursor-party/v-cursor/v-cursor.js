@@ -15,7 +15,7 @@ import { styleMap } from 'lit/directives/style-map.js';
  * @property {Position[]} positions
  * @property {Timeout} _moving
  */
-export class XCursor extends LitElement {
+export class VCursor extends LitElement {
   static properties = {
     color: { type: String },
     positions: { type: Array },
@@ -108,4 +108,4 @@ export class XCursor extends LitElement {
   `;
 }
 
-customElements.define('x-cursor', XCursor);
+customElements.define('v-cursor', VCursor);
