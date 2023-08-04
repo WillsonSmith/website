@@ -3,16 +3,12 @@ import { throttle } from '../../../util/throttle.js';
 /**
  * @function cursorIsShaking
  *
- * @param {Position[]} recentMovements
+ * @param {import('../_types.js').Position} recentMovements
  * @returns
  */
 
 export const cursorIsShaking = throttle(
-  /**
-   *
-   * @param {Position[]} recentMovements
-   * @returns
-   */
+  /** @type {cursorIsShaking} */
   recentMovements => {
     const [first, ...rest] = recentMovements;
 

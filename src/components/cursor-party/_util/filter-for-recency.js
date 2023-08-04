@@ -1,6 +1,6 @@
+/** @typedef {import('../_types').Position} Position */
+
 /**
- * @function filterForRecency
- *
  * @param {Position[]} positions
  * @param {Number} threshold in milliseconds
  * @returns {Position[]}
