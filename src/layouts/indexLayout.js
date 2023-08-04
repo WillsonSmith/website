@@ -41,7 +41,7 @@ export const layout = (page) => {
       })
       .join('\n')}
     <link rel="icon" type="image/png" href="/public/favicon.png">
-    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/src/css/main.css">
     ${links
       .map(({ rel, href }) => `<link rel="${rel}" href="${href}">`)
       .join('\n')}

@@ -18,7 +18,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import cssnanoPlugin from 'cssnano';
-import postcssImport from 'postcss-import';
 
 import { renderInThread } from '@hachi-dev/renderer';
 
@@ -51,13 +50,7 @@ export default {
         async (content, filePath) => {
           if (filePath.endsWith('.css')) {
             return (
-              await postcss([
-                postcssImport(),
-                autoprefixer(),
-                cssnanoPlugin(),
-              ]).process(content, {
-                from: filePath,
-              })
+              await postcss([autoprefixer(), cssnanoPlugin()]).process(content)
             ).css;
           }
         },
@@ -78,13 +71,13 @@ export default {
 };
 
 async function getHTMLInputs() {
-  const pageFiles = glob.sync('src/pages/**/*.js');
+  const pageFiles = glob.sync('src/**/*.hachi.js');
 
   let htmlInputs = [];
   for (const page of pageFiles) {
     const { html: markup } = await renderInThread(join(__dirname, page));
     if (markup) {
-      const name = page.replace('src/pages/', '').replace('.js', '.html');
+      const name = page.replace('src/', '').replace('.hachi.js', '.html');
       htmlInputs.push({
         name: name,
         html: replaceAssetsWithAbsolutePaths(markup),
