@@ -1,3 +1,8 @@
+import path from 'path';
+import { dirname, join } from 'path';
+import { fileURLToPath, pathToFileURL } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 import { rollupPluginHTML as html } from '@web/rollup-plugin-html';
 import { generateSW } from 'rollup-plugin-workbox';
@@ -7,19 +12,12 @@ import terser from '@rollup/plugin-terser';
 import summary from 'rollup-plugin-summary';
 import nodeResolve from '@rollup/plugin-node-resolve';
 
-import { glob } from 'glob';
-
-import path from 'path';
-import { dirname, join } from 'path';
-import { fileURLToPath, pathToFileURL } from 'url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
 import postcss from 'postcss';
-import autoprefixer from 'autoprefixer';
-import cssnanoPlugin from 'cssnano';
 import postcssImport from 'postcss-import';
+import postcssPresetEnv from 'postcss-preset-env';
+import cssnanoPlugin from 'cssnano';
 
+import { glob } from 'glob';
 import { renderInThread } from '@hachi-dev/renderer';
 
 export default {
@@ -53,7 +51,7 @@ export default {
             return (
               await postcss([
                 postcssImport(),
-                autoprefixer(),
+                postcssPresetEnv(),
                 cssnanoPlugin(),
               ]).process(content, {
                 from: filePath,
