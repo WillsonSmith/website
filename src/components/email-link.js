@@ -1,5 +1,8 @@
 import { LitElement, html, css } from 'lit';
 
+/**
+ * @element email-link
+ */
 export class EmailLink extends LitElement {
   static properties = {
     _email: { type: String, state: true },
@@ -10,6 +13,7 @@ export class EmailLink extends LitElement {
     /** @type {String | undefined} */
     this._email = undefined;
   }
+
   firstUpdated() {
     this._email = this.textContent?.replace('[at]', '@');
   }

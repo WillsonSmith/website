@@ -92,17 +92,6 @@
       ]
     },
     {
-      "name": "project-content",
-      "path": "./src/components/pages/home/projects/project-content.js",
-      "properties": [
-        {
-          "name": "styles",
-          "type": "CSSResult",
-          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    h3 {\\n      margin: 0;\\n    }\\n  `\""
-        }
-      ]
-    },
-    {
       "name": "profile-image",
       "path": "./src/components/profile-image/profile-image.js",
       "attributes": [

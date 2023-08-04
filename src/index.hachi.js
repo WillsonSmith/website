@@ -26,7 +26,7 @@ export const links = [
 export default () => html`
   <cursor-party>
     <div class="home-page">
-      <site-header class="title-bar" title="Willson Smith"></site-header>
+      <site-header class="title-bar" heading="Willson Smith"></site-header>
       <profile-image class="profile-picture"></profile-image>
       <main>
         <div class="content-wrapper">
@@ -38,4 +38,6 @@ export default () => html`
   </cursor-party>
 `;
 
-export const hydrate = [new URL('./index.hachi.js', import.meta.url).href];
+export const hydrate = ['./index.hachi.js'].map(
+  asset => new URL(asset, import.meta.url).href,
+);

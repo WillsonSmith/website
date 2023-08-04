@@ -1,21 +1,19 @@
 import { LitElement, html, css, svg, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 
-import '../types.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
 /**
- *
- *
- * @export
- * @class XCursor
- * @extends {LitElement}
- *
- * @property {String} color
- * @property {Position[]} positions
- * @property {Timeout} _moving
+ * @typedef {import('../_types.js').Position} Position
  */
-export class XCursor extends LitElement {
+
+/**
+ * @element v-cursor
+ * @prop {string} color
+ * @prop {Array<Position>} positions
+ *
+ */
+export class VCursor extends LitElement {
   static properties = {
     color: { type: String },
     positions: { type: Array },
@@ -108,4 +106,4 @@ export class XCursor extends LitElement {
   `;
 }
 
-customElements.define('x-cursor', XCursor);
+customElements.define('v-cursor', VCursor);
