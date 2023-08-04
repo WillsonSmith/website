@@ -1,3 +1,5 @@
+import { generateHydrationScript } from './_utils/generate-hydration-script.js';
+
 /**
  * @typedef Page
  * @prop {string} content
@@ -35,7 +37,10 @@ export const layout = ({
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     ${metaTags
-      .map(({ name, content }) => `<meta name="${name}" content="${content}">`)
+      .map(
+        ({ name, content: metaTagContent }) =>
+          `<meta name="${name}" content="${metaTagContent}">`,
+      )
       .join('\n')}
     <link rel="icon" type="image/png" href="/public/favicon.png">
     <link rel="stylesheet" href="/src/css/main.css">
@@ -62,18 +67,3 @@ export const layout = ({
 </html>
 `;
 };
-
-/**
- *
- * @param {string[]} hydrate
- * @returns
- */
-function generateHydrationScript(hydrate) {
-  if (hydrate.length === 0) {
-    return '';
-  }
-  return `
-    const litHydrateSupportInstalled = await import('@lit-labs/ssr-client/lit-element-hydrate-support.js');
-    ${hydrate.map(path => `import('${path}')`).join(';\n    ') || ''}
-    `;
-}

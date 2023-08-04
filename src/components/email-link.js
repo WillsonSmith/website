@@ -10,6 +10,7 @@ export class EmailLink extends LitElement {
     /** @type {String | undefined} */
     this._email = undefined;
   }
+
   firstUpdated() {
     this._email = this.textContent?.replace('[at]', '@');
   }
