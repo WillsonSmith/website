@@ -1,10 +1,11 @@
-import { LitElement, html, css, nothing } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
-
-import { throttle } from '../../util/throttle.js';
 
 import './x-cursor/x-cursor.js';
 import './types.js';
+
+import { filterForRecency } from './_util/filter-for-recency.js';
+import { cursorIsShaking } from './_util/cursor-is-shaking.js';
 
 const MOUSE_MOVE_DELAY = 10;
 
@@ -68,7 +69,7 @@ export class CursorParty extends LitElement {
       <slot></slot>
 
       ${this._virtualCursors.map(
-        (cursor) => html` <x-cursor color=${cursor.color}></x-cursor> `
+        cursor => html` <x-cursor color=${cursor.color}></x-cursor> `,
       )}
       <div
         class="cursor"
@@ -140,61 +141,3 @@ export class CursorParty extends LitElement {
 }
 
 customElements.define('cursor-party', CursorParty);
-
-/**
- * @function filterForRecency
- *
- * @param {Position[]} positions
- * @param {Number} threshold in milliseconds
- * @returns
- */
-function filterForRecency(positions, threshold) {
-  return positions.filter((position) => {
-    return Date.now() - position.timestamp < threshold;
-  });
-}
-
-/**
- * @function mouseIsShaking
- *
- * @param {Position[]} recentMovements
- * @returns
- */
-
-const cursorIsShaking = throttle(
-  /**
-   *
-   * @param {Position[]} recentMovements
-   * @returns
-   */
-  function cursorIsShaking(recentMovements) {
-    const [first, ...rest] = recentMovements;
-
-    let [xMax, xMin, yMax, yMin] = [first.x, first.x, first.y, first.y];
-    for (const position of rest) {
-      if (position.y < yMin) {
-        yMin = position.y;
-      }
-      if (position.y > yMax) {
-        yMax = position.y;
-      }
-      if (position.x < xMin) {
-        xMin = position.x;
-      }
-      if (position.x > xMax) {
-        xMax = position.x;
-      }
-    }
-
-    if (first.y > yMin && first.y < yMax && yMax - yMin > 50) {
-      return true;
-    }
-
-    if (first.x > xMin && first.x < xMax && xMax - xMin > 50) {
-      return true;
-    }
-
-    return false;
-  },
-  100
-);
