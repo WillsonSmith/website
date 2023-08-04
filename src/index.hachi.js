@@ -1,11 +1,11 @@
 import { html } from 'lit';
 
-import '../components/site-header.js';
-import '../components/profile-image/profile-image.js';
-import '../components/pages/home/about-content.js';
-import '../components/cursor-party/cursor-party.js';
+import './components/site-header.js';
+import './components/profile-image/profile-image.js';
+import './components/pages/home/about-content.js';
+import './components/cursor-party/cursor-party.js';
 
-export { layout } from '../layouts/indexLayout.js';
+export { layout } from './_layouts/_index.js';
 export const title = 'Willson • Home';
 
 export const metaTags = [
@@ -19,7 +19,7 @@ export const metaTags = [
 export const links = [
   {
     rel: 'stylesheet',
-    href: '/public/css/index.css',
+    href: new URL('./css/index.css', import.meta.url).href,
   },
 ];
 
@@ -38,4 +38,4 @@ export default () => html`
   </cursor-party>
 `;
 
-export const hydrate = [new URL('./index.js', import.meta.url).href];
+export const hydrate = [new URL('./index.hachi.js', import.meta.url).href];

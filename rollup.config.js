@@ -78,13 +78,13 @@ export default {
 };
 
 async function getHTMLInputs() {
-  const pageFiles = glob.sync('src/pages/**/*.js');
+  const pageFiles = glob.sync('src/**/*.hachi.js');
 
   let htmlInputs = [];
   for (const page of pageFiles) {
     const { html: markup } = await renderInThread(join(__dirname, page));
     if (markup) {
-      const name = page.replace('src/pages/', '').replace('.js', '.html');
+      const name = page.replace('src/', '').replace('.hachi.js', '.html');
       htmlInputs.push({
         name: name,
         html: replaceAssetsWithAbsolutePaths(markup),
