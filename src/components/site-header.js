@@ -2,20 +2,23 @@ import { LitElement, html, css } from 'lit';
 
 /**
  * @element site-header
- * @slot title - The site title
- * @slot social - The social links
- * @prop {String} title - The site title
+ * @prop {String} heading - The site title
  * @cssprop --gap - The gap between the title and social links
  */
 export class SiteHeader extends LitElement {
   static properties = {
-    title: { type: String },
+    heading: { type: String },
   };
+
+  constructor() {
+    super();
+    this.heading = 'Web page';
+  }
 
   render() {
     return html`
       <header class="site-header">
-        <h1 class="site-header__title">${this.title}</h1>
+        <h1 class="site-header__title">${this.heading}</h1>
 
         <div class="site-header__social">
           <a href="https://github.com/willsonsmith" target="_blank"> Github </a>
