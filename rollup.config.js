@@ -18,6 +18,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import cssnanoPlugin from 'cssnano';
+import postcssImport from 'postcss-import';
 
 import { renderInThread } from '@hachi-dev/renderer';
 
@@ -50,7 +51,13 @@ export default {
         async (content, filePath) => {
           if (filePath.endsWith('.css')) {
             return (
-              await postcss([autoprefixer(), cssnanoPlugin()]).process(content)
+              await postcss([
+                postcssImport(),
+                autoprefixer(),
+                cssnanoPlugin(),
+              ]).process(content, {
+                from: filePath,
+              })
             ).css;
           }
         },
