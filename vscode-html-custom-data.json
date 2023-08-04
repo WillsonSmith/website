@@ -27,11 +27,6 @@
       "attributes": []
     },
     {
-      "name": "project-content",
-      "description": "Properties:\n\n  * `styles` - ",
-      "attributes": []
-    },
-    {
       "name": "profile-image",
       "description": "Attributes:\n\n  * `hello` {`boolean`} - \n\nProperties:\n\n  * `styles` - \n\n  * `hello` {`boolean`} - ",
       "attributes": [
