@@ -1,9 +1,10 @@
-import { glob } from 'glob';
-import { dirname, join } from 'path';
+import { dirname } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
-import { renderInThread } from '@hachi-dev/renderer';
+import { trailingSlashMiddleware } from './_dev-server-utils/trailing-slash-middleware.js';
+import { hachiIndexMiddleware } from './_dev-server-utils/hachi-index-middleware.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   open: true,
@@ -20,7 +21,7 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
           // @ts-ignore
           context.body = context.body.replaceAll(
             pathToFileURL(__dirname).href,
-            ''
+            '',
           );
         }
         return context.body;
@@ -29,22 +30,3 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   ],
   middleware: [trailingSlashMiddleware, hachiIndexMiddleware],
 });
-
-async function trailingSlashMiddleware(context, next) {
-  if (!context.url.includes('.') && !context.url.endsWith('/')) {
-    context.redirect(`${context.url}/`);
-  }
-  return next();
-}
-
-async function hachiIndexMiddleware(context, next) {
-  if (context.url.endsWith('/')) {
-    const index = glob.sync(join('src', context.url, 'index.hachi.js'))[0];
-    if (index) {
-      const html = (await renderInThread(join(__dirname, index))).html;
-      context.response.body = html;
-      context.response.type = 'text/html';
-    }
-  }
-  return next();
-}
