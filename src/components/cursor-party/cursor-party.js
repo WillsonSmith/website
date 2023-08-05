@@ -124,7 +124,6 @@ export class CursorParty extends LitElement {
   static styles = css`
     :host {
       display: block;
-      /* cursor: none; */
     }
 
     .cursor {

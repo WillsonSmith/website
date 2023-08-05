@@ -7,6 +7,7 @@
   "scripts": {
     "postinstall": "patch-package",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "wireit",
     "dev": "wireit",
     "build": "wireit",
     "clean": "wireit",
@@ -15,6 +16,18 @@
     "prepare": "husky install"
   },
   "wireit": {
+    "lint": {
+      "dependencies": [
+        "lint:css",
+        "lint:js"
+      ]
+    },
+    "lint:css": {
+      "command": "stylelint \"**/*.css\" --fix"
+    },
+    "lint:js": {
+      "command": "eslint \"**/*.js\" --fix"
+    },
     "analyze": {
       "dependencies": [
         "analyze:vscode",
@@ -97,10 +110,10 @@
   },
   "lint-staged": {
     "**/*.css": [
-      "stylelint --fix"
+      "stylelint \"**/.css\" --fix"
     ],
     "**/*.js": [
-      "stylelint --fix",
+      "stylelint \"**/*.js\" --fix",
       "eslint --fix",
       "prettier --write"
     ]

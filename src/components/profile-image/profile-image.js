@@ -59,7 +59,7 @@ export class ProfileImage extends LitElement {
    * @param {IntersectionObserverEntry[]} entries
    * @returns
    */
-  #handleIntersection = (entries) => {
+  #handleIntersection = entries => {
     for (const entry of entries) {
       const { isIntersecting } = entry;
       this.hello = isIntersecting;
@@ -79,9 +79,7 @@ export class ProfileImage extends LitElement {
       display: block;
       max-width: 100%;
       height: auto;
-
       grid-area: image;
-
       opacity: 0;
       transition: opacity 500ms var(--ease-out-5);
     }
@@ -91,7 +89,6 @@ export class ProfileImage extends LitElement {
       background-image: var(--gradient-14);
       border-radius: var(--radius-blob-5);
       padding: var(--size-2);
-
       display: grid;
       grid-template-areas: 'image';
     }

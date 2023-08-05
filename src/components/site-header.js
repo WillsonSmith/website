@@ -18,9 +18,9 @@ export class SiteHeader extends LitElement {
   render() {
     return html`
       <header class="site-header">
-        <h1 class="site-header__title">${this.heading}</h1>
+        <h1 class="site-header-title">${this.heading}</h1>
 
-        <div class="site-header__social">
+        <div class="site-header-social">
           <a href="https://github.com/willsonsmith" target="_blank"> Github </a>
           <a href="https://www.linkedin.com/in/willsonsmith/" target="_blank">
             Linkedin
@@ -52,17 +52,16 @@ export class SiteHeader extends LitElement {
       grid-template-columns: 1fr auto;
     }
 
-    .site-header__title {
+    .site-header-title {
       grid-area: title;
       font-family: var(--font-family-title);
       font-size: var(--font-size-title);
       font-weight: var(--font-weight-title);
       line-height: var(--font-lineheight-title);
-
       margin: 0;
     }
 
-    .site-header__social {
+    .site-header-social {
       display: flex;
       align-items: center;
       gap: var(--size-3);

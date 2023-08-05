@@ -99,8 +99,7 @@ export class VCursor extends LitElement {
     svg {
       width: 100%;
       height: 100%;
-      stroke: currentColor;
-
+      stroke: currentcolor;
       transform: rotate(var(--rotation)) translate(-4px, -4px);
     }
   `;

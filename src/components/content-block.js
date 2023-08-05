@@ -62,7 +62,6 @@ export class ContentBlock extends LitElement {
       gap: var(--size-3);
       background: hsl(var(--gray-0-hsl));
       padding: var(--size-4);
-
       transform: scale(0.98);
       transition:
         transform 250ms var(--ease-out-1),
