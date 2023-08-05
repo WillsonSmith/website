@@ -1,0 +1,12 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "overrides": [
+    {
+      "files": ["**/*.js"],
+      "customSyntax": "postcss-lit"
+    }
+  ],
+  "rules": {
+    "media-feature-range-notation": "prefix"
+  }
+}

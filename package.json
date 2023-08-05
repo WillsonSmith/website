@@ -71,6 +71,7 @@
     "lint-staged": "^13.2.3",
     "postcss": "^8.4.25",
     "postcss-import": "^15.1.0",
+    "postcss-lit": "^1.1.0",
     "postcss-preset-env": "^9.1.0",
     "prettier": "3.0.1",
     "rimraf": "^5.0.1",
@@ -78,6 +79,8 @@
     "rollup-plugin-minify-template-literals": "^1.1.2",
     "rollup-plugin-summary": "^2.0.0",
     "rollup-plugin-workbox": "^8.0.1",
+    "stylelint": "^15.10.2",
+    "stylelint-config-standard": "^34.0.0",
     "typescript": "^5.1.6",
     "web-component-analyzer": "^1.1.7",
     "wireit": "^0.9.5"
@@ -93,7 +96,11 @@
     "patch-package": "^7.0.2"
   },
   "lint-staged": {
+    "**/*.css": [
+      "stylelint \"**/.css\" --fix"
+    ],
     "**/*.js": [
+      "stylelint \"**/*.js\" --fix",
       "eslint --fix",
       "prettier --write"
     ]

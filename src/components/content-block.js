@@ -33,7 +33,7 @@ export class ContentBlock extends LitElement {
         part="content-block"
       >
         ${this.heading
-          ? html`<h2 class="content-block__heading" part="title">
+          ? html`<h2 class="content-block-heading" part="title">
               ${this.heading}
             </h2>`
           : nothing}
@@ -43,7 +43,7 @@ export class ContentBlock extends LitElement {
   }
 
   _handleIntersection = (
-    /** @type {IntersectionObserverEntry[]} */ entries
+    /** @type {IntersectionObserverEntry[]} */ entries,
   ) => {
     for (const entry of entries) {
       const { isIntersecting } = entry;
@@ -62,7 +62,6 @@ export class ContentBlock extends LitElement {
       gap: var(--size-3);
       background: hsl(var(--gray-0-hsl));
       padding: var(--size-4);
-
       transform: scale(0.98);
       transition:
         transform 250ms var(--ease-out-1),
@@ -74,9 +73,8 @@ export class ContentBlock extends LitElement {
       box-shadow: var(--shadow-2);
     }
 
-    .content-block__heading {
+    .content-block-heading {
       margin: 0;
-      font-size: var(--size-4);
       font-family: 'Lilita One', sans-serif;
       font-size: var(--font-size-4);
       font-weight: var(--font-weight-3);
