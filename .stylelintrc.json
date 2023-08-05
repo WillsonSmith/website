@@ -1,13 +1,13 @@
 {
   "extends": ["stylelint-config-standard"],
-  "rules": {
-    "media-feature-range-notation": "prefix"
-  },
   "overrides": [
     {
       "files": ["**/*.js"],
-      "customSyntax": "postcss-lit",
-      "extends": ["stylelint-config-standard"]
+      "extends": ["stylelint-config-standard"],
+      "customSyntax": "postcss-lit"
     }
-  ]
+  ],
+  "rules": {
+    "media-feature-range-notation": "prefix"
+  }
 }
