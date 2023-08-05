@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 
-import '../../content-block.js';
-import '../../email-link.js';
+import '../components/content-block.js';
+import '../components/email-link.js';
 
 export class AboutContent extends LitElement {
   render() {

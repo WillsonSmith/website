@@ -2,8 +2,9 @@ import { html } from 'lit';
 
 import './components/site-header.js';
 import './components/profile-image/profile-image.js';
-import './components/pages/home/about-content.js';
+import './_index-content/about-content.js';
 import './components/cursor-party/cursor-party.js';
+import './components/star-sheet/star-sheet.js';
 
 export { layout } from './_layouts/_index.js';
 export const title = 'Willson • Home';
@@ -26,6 +27,7 @@ export const links = [
 export default () => html`
   <cursor-party>
     <div class="home-page">
+      <star-sheet class="star-sheet"></star-sheet>
       <site-header class="title-bar" heading="Willson Smith"></site-header>
       <profile-image class="profile-picture"></profile-image>
       <main>
