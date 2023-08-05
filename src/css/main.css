@@ -81,5 +81,6 @@ a {
 
 /* Page styles */
 body {
-  background: hsl(var(--orange-0-hsl));
+  /* background: hsl(var(--gray-11-hsl)); */
+  background-image: var(--gradient-8);
 }

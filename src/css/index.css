@@ -1,4 +1,5 @@
 .title-bar {
+  color: hsl(var(--gray-0-hsl));
   position: sticky;
   top: 0;
   padding-block: var(--size-fluid-1);
@@ -10,6 +11,12 @@
 .home-page {
   display: grid;
   gap: var(--size-4);
+}
+
+.star-sheet {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .profile-picture {
@@ -38,8 +45,9 @@
   grid-template-rows: 1fr;
 
   width: 100%;
-  height: calc(100vh - var(--size-fluid-4));
-  background: hsl(var(--green-3-hsl));
+  height: calc(100dvh - var(--size-fluid-4));
+  /* background: hsl(var(--green-3-hsl)); */
+  background: hsl(210 26% 80% / 0.4);
 
   clip-path: polygon(0 var(--triangle-height), 100% 0, 100% 100%, 0 100%);
 }

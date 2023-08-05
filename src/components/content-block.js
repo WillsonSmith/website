@@ -43,7 +43,7 @@ export class ContentBlock extends LitElement {
   }
 
   _handleIntersection = (
-    /** @type {IntersectionObserverEntry[]} */ entries
+    /** @type {IntersectionObserverEntry[]} */ entries,
   ) => {
     for (const entry of entries) {
       const { isIntersecting } = entry;
