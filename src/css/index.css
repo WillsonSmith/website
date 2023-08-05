@@ -45,9 +45,9 @@
   grid-template-rows: 1fr;
 
   width: 100%;
-  height: calc(100vh - var(--size-fluid-4));
+  height: calc(100dvh - var(--size-fluid-4));
   /* background: hsl(var(--green-3-hsl)); */
-  background: hsl(210 26% 80%);
+  background: hsl(210 26% 80% / 0.4);
 
   clip-path: polygon(0 var(--triangle-height), 100% 0, 100% 100%, 0 100%);
 }

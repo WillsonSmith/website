@@ -13,25 +13,13 @@ export class StarSheet extends LitElement {
     this._stars = [];
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    // this._resizeObserver = new ResizeObserver(this._handleResize);
-  }
-
   firstUpdated() {
-    // this._resizeObserver?.observe(this);
     this._stars = calculateStars(this.clientWidth, this.clientHeight);
   }
 
   render() {
     return html`<div class="star-sheet">
       <svg>
-        <defs>
-          <filter id="blur">
-            <feGaussianBlur stdDeviation="1" />
-          </filter>
-        </defs>
-
         ${this._stars.map(
           star => svg`
           <rect
@@ -42,9 +30,7 @@ export class StarSheet extends LitElement {
             height=${star.size}
             fill="white"
             style="animation-delay: ${Math.random() * 5}s;"
-          />
-
-            `,
+          />`,
         )}
       </svg>
     </div>`;
@@ -76,7 +62,6 @@ export class StarSheet extends LitElement {
       width: 100%;
       height: 100%;
 
-      /* opacity: 0; */
       transition: opacity 500ms var(--ease-out-5);
     }
 
@@ -97,6 +82,7 @@ export class StarSheet extends LitElement {
     }
 
     .star {
+      opacity: 0;
       animation: twinkle 5s infinite;
     }
   `;
