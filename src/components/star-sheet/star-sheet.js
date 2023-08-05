@@ -36,8 +36,8 @@ export class StarSheet extends LitElement {
           star => svg`
           <rect
             class="star"
-            x=${star.x}
-            y=${star.y}
+            x="${star.x}%"
+            y="${star.y}%"
             width=${star.size}
             height=${star.size}
             fill="white"

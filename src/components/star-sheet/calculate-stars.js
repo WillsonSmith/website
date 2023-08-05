@@ -14,8 +14,8 @@
 export function calculateStars(width, height) {
   const starCount = Math.floor((width * height) / 10000);
   const stars = Array.from({ length: starCount }, () => ({
-    x: Math.floor(Math.random() * width),
-    y: Math.floor(Math.random() * height),
+    x: Math.floor(Math.random() * 100),
+    y: Math.floor(Math.random() * 100),
     size: Math.floor(Math.random() * 3),
     opacity: Math.random(),
   }));
