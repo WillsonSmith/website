@@ -3,6 +3,7 @@
   "overrides": [
     {
       "files": ["**/*.js"],
+      "extends": ["stylelint-config-standard"],
       "customSyntax": "postcss-lit"
     }
   ],
