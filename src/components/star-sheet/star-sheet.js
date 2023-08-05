@@ -34,14 +34,16 @@ export class StarSheet extends LitElement {
 
         ${this._stars.map(
           star => svg`
-              <circle
-                class="star"
-                cx="${star.x}"
-                cy="${star.y}"
-                r="${star.size}"
-                fill="white"
-                style="animation-delay: ${Math.random() * 5}s;"
-              />
+          <rect
+            class="star"
+            x=${star.x}
+            y=${star.y}
+            width=${star.size}
+            height=${star.size}
+            fill="white"
+            style="animation-delay: ${Math.random() * 5}s;"
+          />
+
             `,
         )}
       </svg>

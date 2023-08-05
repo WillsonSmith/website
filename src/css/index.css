@@ -47,7 +47,7 @@
   width: 100%;
   height: calc(100vh - var(--size-fluid-4));
   /* background: hsl(var(--green-3-hsl)); */
-  background: hsl(var(--gray-8-hsl));
+  background: hsl(var(--gray-3-hsl));
 
   clip-path: polygon(0 var(--triangle-height), 100% 0, 100% 100%, 0 100%);
 }
