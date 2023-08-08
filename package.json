@@ -30,10 +30,14 @@
     "dev": {
       "command": "wds"
     },
+    "esbuild": {
+      "command": "node ./builder.js"
+    },
     "build": {
       "command": "rollup -c rollup.config.js",
       "dependencies": [
-        "clean"
+        "clean",
+        "esbuild"
       ]
     },
     "clean": {
