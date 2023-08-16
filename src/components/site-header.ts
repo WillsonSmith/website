@@ -1,11 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { property } from 'lit/decorators.js';
 
-/**
- * @element site-header
- * @prop {String} heading - The site title
- * @cssprop --gap - The gap between the title and social links
- */
 export class SiteHeader extends LitElement {
   @property({ type: String })
   heading = '';
@@ -70,3 +65,9 @@ export class SiteHeader extends LitElement {
 }
 
 customElements.define('site-header', SiteHeader);
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'site-header': SiteHeader;
+  }
+}
