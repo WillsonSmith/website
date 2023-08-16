@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import { property } from 'lit/decorators.js';
 
 /**
  * @element site-header
@@ -6,9 +7,8 @@ import { LitElement, html, css } from 'lit';
  * @cssprop --gap - The gap between the title and social links
  */
 export class SiteHeader extends LitElement {
-  static properties = {
-    heading: { type: String },
-  };
+  @property({ type: String })
+  heading = '';
 
   constructor() {
     super();

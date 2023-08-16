@@ -8,7 +8,12 @@
     "checkJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
     "plugins": [{ "name": "ts-lit-plugin" }]
+  },
+  "parserOptions": {
+    "plugins": ["decorators-legacy"]
   },
   "include": ["src/**/*.js"],
   "exclude": ["node_modules", "packages"]
