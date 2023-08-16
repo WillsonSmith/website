@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "wireit",
     "build": "wireit",
+    "watch": "wireit",
     "clean": "wireit",
     "clean:html": "wireit",
     "analyze": "wireit",
@@ -19,10 +20,13 @@
       "command": "npx cem analyze --litelement"
     },
     "dev": {
-      "command": "wds"
+      "command": "concurrently \"npm run watch\" \"wds\""
     },
     "esbuild": {
       "command": "node ./_build-utils/es-builder.js"
+    },
+    "watch": {
+      "command": "node ./_build-utils/es-builder.js --watch"
     },
     "build": {
       "command": "rollup -c rollup.config.js",

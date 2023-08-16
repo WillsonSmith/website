@@ -13,6 +13,8 @@ import { minifyHTMLLiterals } from 'minify-html-literals';
 
 import { writeFile } from 'fs/promises';
 
+import { watch } from 'chokidar';
+
 function buildJavascript(minify = false) {
   esbuild({
     entryPoints: [...glob.sync('src/**/*.js'), ...glob.sync('src/**/*.ts')],
@@ -22,25 +24,33 @@ function buildJavascript(minify = false) {
     allowOverwrite: true,
     sourcemap: true,
     plugins: [
-      ...[
-        minify && {
-          name: 'minify-html-templates',
-          setup(build) {
-            build.onEnd(async () => {
-              const htmlFiles = glob.sync('dist/**/*.js');
+      minify && {
+        name: 'minify-html-templates',
+        setup(build) {
+          build.onEnd(async () => {
+            const htmlFiles = glob.sync('dist/**/*.js');
 
-              for (const htmlFile of htmlFiles) {
-                const contents = await readFile(htmlFile, 'utf8');
+            for (const htmlFile of htmlFiles) {
+              const contents = await readFile(htmlFile, 'utf8');
 
-                const minified = minifyHTMLLiterals(contents);
-                if (minified?.code) await writeFile(htmlFile, minified.code);
-              }
-            });
-          },
+              const minified = minifyHTMLLiterals(contents);
+              if (minified?.code) await writeFile(htmlFile, minified.code);
+            }
+          });
         },
-      ].filter(Boolean),
-    ],
+      },
+    ].filter(Boolean),
   });
 }
 
-buildJavascript();
+const watchForChanges = process.argv.includes('--watch');
+
+if (watchForChanges) {
+  const watcher = watch(['src/**/*.js', 'src/**/*.ts']);
+  watcher.on('all', (event, path) => {
+    console.log(event, path);
+    buildJavascript();
+  });
+} else {
+  buildJavascript(true);
+}
