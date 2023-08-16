@@ -2,8 +2,8 @@ import { LitElement, html, css } from 'lit';
 
 import { classMap } from 'lit/directives/class-map.js';
 
-const thumbsUp = new URL('./img/thumbs-up.png', import.meta.url).href;
-const peace = new URL('./img/peace.png', import.meta.url).href;
+const thumbsUp = '/src/components/profile-image/img/thumbs-up.png';
+const peace = '/src/components/profile-image/img/peace.png';
 
 export class ProfileImage extends LitElement {
   static get properties() {

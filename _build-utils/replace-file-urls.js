@@ -14,6 +14,7 @@ export function replaceFileUrls(html) {
     .split('\n')
     .map(line => {
       if (line.includes('file://')) {
+        console.log(pathToFileURL(__dirname).href);
         if (line.includes('.js')) {
           return line.replace(pathToFileURL(__dirname).href, __dirname);
         }

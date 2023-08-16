@@ -19,7 +19,7 @@ export const metaTags = [
 export const links = [
   {
     rel: 'stylesheet',
-    href: new URL('./css/index.css', import.meta.url).href,
+    href: '/src/css/index.css',
   },
 ];
 
