@@ -18,7 +18,9 @@
     "sourceMap": false,
     "inlineSources": false,
     "incremental": false,
-    "checkJs": true
+    "checkJs": true,
+    // ignore warnings
+    "skipLibCheck": true
   },
   "include": ["src/**/*.js"],
   "exclude": ["node_modules", "packages"]

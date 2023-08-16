@@ -13,7 +13,7 @@
         {
           "name": "styles",
           "type": "CSSResult",
-          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    .content-block {\\n      border-radius: var(--radius-2);\\n      display: grid;\\n      gap: var(--size-3);\\n      background: hsl(var(--gray-0-hsl));\\n      padding: var(--size-4);\\n\\n      transform: scale(0.98);\\n      transition:\\n        transform 250ms var(--ease-out-1),\\n        box-shadow 300ms var(--ease-1);\\n    }\\n\\n    .visible {\\n      transform: scale(1);\\n      box-shadow: var(--shadow-2);\\n    }\\n\\n    .content-block__heading {\\n      margin: 0;\\n      font-size: var(--size-4);\\n      font-family: 'Lilita One', sans-serif;\\n      font-size: var(--font-size-4);\\n      font-weight: var(--font-weight-3);\\n      line-height: var(--font-lineheight-3);\\n    }\\n  `\""
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    .content-block {\\n      border-radius: var(--radius-2);\\n      display: grid;\\n      gap: var(--size-3);\\n      background: hsl(var(--gray-0-hsl));\\n      padding: var(--size-4);\\n      transform: scale(0.98);\\n      transition:\\n        transform 250ms var(--ease-out-1),\\n        box-shadow 300ms var(--ease-1);\\n    }\\n\\n    .visible {\\n      transform: scale(1);\\n      box-shadow: var(--shadow-2);\\n    }\\n\\n    .content-block-heading {\\n      margin: 0;\\n      font-family: 'Lilita One', sans-serif;\\n      font-size: var(--font-size-4);\\n      font-weight: var(--font-weight-3);\\n      line-height: var(--font-lineheight-3);\\n    }\\n  `\""
         },
         {
           "name": "heading",
@@ -34,13 +34,13 @@
         {
           "name": "styles",
           "type": "CSSResult",
-          "default": "\"css`\\n    :host {\\n      display: block;\\n      /* cursor: none; */\\n    }\\n\\n    .cursor {\\n      position: relative;\\n      z-index: 1000;\\n    }\\n  `\""
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    .cursor {\\n      position: relative;\\n      z-index: 1000;\\n    }\\n  `\""
         }
       ]
     },
     {
-      "name": "x-cursor",
-      "path": "./src/components/cursor-party/x-cursor/x-cursor.js",
+      "name": "v-cursor",
+      "path": "./src/components/cursor-party/v-cursor/v-cursor.js",
       "properties": [
         {
           "name": "properties",
@@ -50,16 +50,16 @@
         {
           "name": "styles",
           "type": "CSSResult",
-          "default": "\"css`\\n    :host {\\n      display: block;\\n      pointer-events: none;\\n    }\\n\\n    .cursor {\\n      position: fixed;\\n      inset: 0;\\n    }\\n\\n    circle {\\n      opacity: 0;\\n      transform: scale(1.4);\\n      transition:\\n        transform 250ms ease-in,\\n        opacity 250ms ease-in;\\n    }\\n\\n    .moving circle {\\n      opacity: 1;\\n      transform: scale(1);\\n    }\\n\\n    svg {\\n      width: 100%;\\n      height: 100%;\\n      stroke: currentColor;\\n\\n      transform: rotate(var(--rotation)) translate(-4px, -4px);\\n    }\\n  `\""
+          "default": "\"css`\\n    :host {\\n      display: block;\\n      pointer-events: none;\\n    }\\n\\n    .cursor {\\n      position: fixed;\\n      inset: 0;\\n    }\\n\\n    circle {\\n      opacity: 0;\\n      transform: scale(1.4);\\n      transition:\\n        transform 250ms ease-in,\\n        opacity 250ms ease-in;\\n    }\\n\\n    .moving circle {\\n      opacity: 1;\\n      transform: scale(1);\\n    }\\n\\n    svg {\\n      width: 100%;\\n      height: 100%;\\n      stroke: currentcolor;\\n      transform: rotate(var(--rotation)) translate(-4px, -4px);\\n    }\\n  `\""
         },
         {
           "name": "color",
-          "type": "String",
+          "type": "string",
           "default": "\"#fff\""
         },
         {
           "name": "positions",
-          "type": "Position[]",
+          "type": "Array<Position>",
           "default": "[]"
         }
       ]
@@ -105,7 +105,7 @@
         {
           "name": "styles",
           "type": "CSSResult",
-          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    .hello {\\n      opacity: 1;\\n    }\\n\\n    img {\\n      display: block;\\n      max-width: 100%;\\n      height: auto;\\n\\n      grid-area: image;\\n\\n      opacity: 0;\\n      transition: opacity 500ms var(--ease-out-5);\\n    }\\n\\n    .profile-image {\\n      max-width: var(--size-12);\\n      background-image: var(--gradient-14);\\n      border-radius: var(--radius-blob-5);\\n      padding: var(--size-2);\\n\\n      display: grid;\\n      grid-template-areas: 'image';\\n    }\\n  `\""
+          "default": "\"css`\\n    :host {\\n      display: block;\\n    }\\n\\n    .hello {\\n      opacity: 1;\\n    }\\n\\n    img {\\n      display: block;\\n      max-width: 100%;\\n      height: auto;\\n      grid-area: image;\\n      opacity: 0;\\n      transition: opacity 500ms var(--ease-out-5);\\n    }\\n\\n    .profile-image {\\n      max-width: var(--size-12);\\n      background-image: var(--gradient-14);\\n      border-radius: var(--radius-blob-5);\\n      padding: var(--size-2);\\n      display: grid;\\n      grid-template-areas: 'image';\\n    }\\n  `\""
         },
         {
           "name": "hello",
@@ -120,29 +120,20 @@
       "path": "./src/components/site-header.js",
       "properties": [
         {
-          "name": "title",
-          "description": "The site title",
-          "type": "String"
-        },
-        {
           "name": "properties",
-          "type": "{ title: { type: StringConstructor; }; }",
-          "default": "{\"title\":{\"type\":\"String\"}}"
+          "type": "{ heading: { type: StringConstructor; }; }",
+          "default": "{\"heading\":{\"type\":\"String\"}}"
         },
         {
           "name": "styles",
           "type": "CSSResult",
-          "default": "\"css`\\n    :host {\\n      --gap: var(--size-3);\\n      --font-family-title: 'Lilita One', sans-serif;\\n      --font-size-title: var(--font-size-5);\\n      --font-weight-title: var(--font-weight-3);\\n      --font-lineheight-title: var(--font-lineheight-1);\\n\\n      display: block;\\n    }\\n\\n    a {\\n      color: inherit;\\n    }\\n\\n    .site-header {\\n      display: grid;\\n      gap: var(--gap);\\n      grid-template-areas: 'title social';\\n      grid-template-columns: 1fr auto;\\n    }\\n\\n    .site-header__title {\\n      grid-area: title;\\n      font-family: var(--font-family-title);\\n      font-size: var(--font-size-title);\\n      font-weight: var(--font-weight-title);\\n      line-height: var(--font-lineheight-title);\\n\\n      margin: 0;\\n    }\\n\\n    .site-header__social {\\n      display: flex;\\n      align-items: center;\\n      gap: var(--size-3);\\n    }\\n  `\""
-        }
-      ],
-      "slots": [
-        {
-          "name": "title",
-          "description": "The site title"
+          "default": "\"css`\\n    :host {\\n      --gap: var(--size-3);\\n      --font-family-title: 'Lilita One', sans-serif;\\n      --font-size-title: var(--font-size-5);\\n      --font-weight-title: var(--font-weight-3);\\n      --font-lineheight-title: var(--font-lineheight-1);\\n\\n      display: block;\\n    }\\n\\n    a {\\n      color: inherit;\\n    }\\n\\n    .site-header {\\n      display: grid;\\n      gap: var(--gap);\\n      grid-template-areas: 'title social';\\n      grid-template-columns: 1fr auto;\\n    }\\n\\n    .site-header-title {\\n      grid-area: title;\\n      font-family: var(--font-family-title);\\n      font-size: var(--font-size-title);\\n      font-weight: var(--font-weight-title);\\n      line-height: var(--font-lineheight-title);\\n      margin: 0;\\n    }\\n\\n    .site-header-social {\\n      display: flex;\\n      align-items: center;\\n      gap: var(--size-3);\\n    }\\n  `\""
         },
         {
-          "name": "social",
-          "description": "The social links"
+          "name": "heading",
+          "description": "The site title",
+          "type": "String",
+          "default": "\"Web page\""
         }
       ],
       "cssProperties": [

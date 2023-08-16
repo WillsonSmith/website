@@ -8,12 +8,12 @@
     },
     {
       "name": "cursor-party",
-      "description": "Properties:\n\n  * `properties` {`{ _cursor: { type: ObjectConstructor; state: boolean; }; _virtualCursors: { type: ArrayConstructor; state: boolean; }; _isHighFiving: { type: BooleanConstructor; state: boolean; }; }`} - \n\n  * `_playHighFive` - \n\n  * `_setupCursorParty` - \n\n  * `_teardownCursorParty` - \n\n  * `_setupMouseEvents` - \n\n  * `_handleMouseMove` - \n\n  * `styles` - \n\n  * `_isHighFiving` {Boolean} - \n\n  * `_cursor` {Cursor} - \n\n  * `_virtualCursors` {Position[]} - ",
+      "description": "Properties:\n\n  * `properties` {`{ _cursor: { type: ObjectConstructor; state: boolean; }; _virtualCursors: { type: ArrayConstructor; state: boolean; }; _isHighFiving: { type: BooleanConstructor; state: boolean; }; }`} - \n\n  * `_playHighFive` - \n\n  * `_setupCursorParty` - \n\n  * `_teardownCursorParty` - \n\n  * `_setupMouseEvents` - \n\n  * `_handleMouseMove` - \n\n  * `styles` - \n\n  * `_isHighFiving` {`boolean`} - \n\n  * `_cursor` {Cursor} - \n\n  * `_virtualCursors` {`{}[]`} - ",
       "attributes": []
     },
     {
-      "name": "x-cursor",
-      "description": "Properties:\n\n  * `properties` {`{ color: { type: StringConstructor; }; positions: { type: ArrayConstructor; }; _moving: { type: ObjectConstructor; state: boolean; }; }`} - \n\n  * `styles` - \n\n  * `color` {String} - \n\n  * `positions` {Position[]} - \n\n  * `_moving` {Timeout} - ",
+      "name": "v-cursor",
+      "description": "Properties:\n\n  * `properties` {`{ color: { type: StringConstructor; }; positions: { type: ArrayConstructor; }; _moving: { type: ObjectConstructor; state: boolean; }; }`} - \n\n  * `styles` - \n\n  * `color` {string} - \n\n  * `positions` {Array<Position>} - \n\n  * `_moving` {`boolean`} - ",
       "attributes": []
     },
     {
@@ -39,7 +39,7 @@
     },
     {
       "name": "site-header",
-      "description": "Slots:\n\n  * `title` {} - The site title\n\n  * `social` {} - The social links\n\nProperties:\n\n  * `title` {String} - The site title\n\n  * `properties` {`{ title: { type: StringConstructor; }; }`} - \n\n  * `styles` - ",
+      "description": "Properties:\n\n  * `properties` {`{ heading: { type: StringConstructor; }; }`} - \n\n  * `styles` - \n\n  * `heading` {String} - The site title",
       "attributes": []
     }
   ],
