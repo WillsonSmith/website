@@ -22,7 +22,7 @@
       "command": "wds"
     },
     "esbuild": {
-      "command": "node ./builder.js"
+      "command": "node ./_build-utils/es-builder.js"
     },
     "build": {
       "command": "rollup -c rollup.config.js",
@@ -93,10 +93,10 @@
   },
   "lint-staged": {
     "**/*.css": [
-      "stylelint \"**/.css\" --fix"
+      "stylelint \"src/**/.css\" --fix"
     ],
     "**/*.js": [
-      "stylelint \"**/*.js\" --fix",
+      "stylelint \"src/**/*.js\" --fix",
       "eslint --fix",
       "prettier --write"
     ]
