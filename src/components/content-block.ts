@@ -1,9 +1,12 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
+import { property, state } from 'lit/decorators.js';
 
 export class ContentBlock extends LitElement {
+  @property({ type: String })
   heading: string | undefined;
 
+  @state()
   _visible: boolean = false;
 
   _observer?: IntersectionObserver = undefined;

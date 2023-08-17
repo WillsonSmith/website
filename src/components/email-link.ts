@@ -1,10 +1,8 @@
 import { LitElement, html, css } from 'lit';
+import { state } from 'lit/decorators.js';
 
 export class EmailLink extends LitElement {
-  static properties = {
-    _email: { attribute: false },
-  };
-
+  @state()
   _email?: string = undefined;
 
   firstUpdated() {
