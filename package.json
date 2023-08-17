@@ -17,7 +17,7 @@
   },
   "wireit": {
     "analyze": {
-      "command": "npx cem analyze --litelement"
+      "command": "npx cem analyze --litelement --globs \"src/**/*\""
     },
     "dev": {
       "command": "npm run build; concurrently \"npm run watch\" \"wds\""
