@@ -18,7 +18,18 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
       name: 'replace-file-urls',
       async transform(context) {
         if (context.response.is('html')) {
-          // @ts-ignore
+          const matches = context.body.match(/file:\/\/[^"]*/g);
+
+          if (matches) {
+            for (const match of matches) {
+              if (!match.includes('.js') && match.includes('/dist/')) {
+                context.body = context.body.replace(
+                  match,
+                  match.replace('/dist/', '/src/'),
+                );
+              }
+            }
+          }
           context.body = context.body.replaceAll(
             pathToFileURL(__dirname).href,
             '',
