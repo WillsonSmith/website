@@ -4,1416 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "builder.js",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "_build-utils/generate-html-inputs.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "generateHtmlInputs",
-          "return": {
-            "type": {
-              "text": "Promise<{name: string, html: string}[]>"
-            }
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "generateHtmlInputs",
-          "declaration": {
-            "name": "generateHtmlInputs",
-            "module": "_build-utils/generate-html-inputs.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "_build-utils/replace-file-urls.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "replaceFileUrls",
-          "parameters": [
-            {
-              "name": "html",
-              "type": {
-                "text": "string"
-              }
-            }
-          ],
-          "return": {
-            "type": {
-              "text": "string"
-            }
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "replaceFileUrls",
-          "declaration": {
-            "name": "replaceFileUrls",
-            "module": "_build-utils/replace-file-urls.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "_dev-server-utils/hachi-index-middleware.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "hachiIndexMiddleware",
-          "parameters": [
-            {
-              "name": "context"
-            },
-            {
-              "name": "next"
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "hachiIndexMiddleware",
-          "declaration": {
-            "name": "hachiIndexMiddleware",
-            "module": "_dev-server-utils/hachi-index-middleware.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "_dev-server-utils/trailing-slash-middleware.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "trailingSlashMiddleware",
-          "parameters": [
-            {
-              "name": "context"
-            },
-            {
-              "name": "next"
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "trailingSlashMiddleware",
-          "declaration": {
-            "name": "trailingSlashMiddleware",
-            "module": "_dev-server-utils/trailing-slash-middleware.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/index.hachi.js",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "title",
-          "type": {
-            "text": "string"
-          },
-          "default": "\"Willson \\u2022 Home\""
-        },
-        {
-          "kind": "variable",
-          "name": "metaTags",
-          "type": {
-            "text": "array"
-          },
-          "default": "[\n  {\n    name: \"description\",\n    content: \"Willson Smith is a software developer with a specialization in user experience and front-end development from Toronto, Canada. \"\n  }\n]"
-        },
-        {
-          "kind": "variable",
-          "name": "links",
-          "type": {
-            "text": "array"
-          },
-          "default": "[\n  {\n    rel: \"stylesheet\",\n    href: \"/src/css/index.css\"\n  }\n]"
-        },
-        {
-          "kind": "function",
-          "name": "index_hachi_default"
-        },
-        {
-          "kind": "variable",
-          "name": "hydrate"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "index_hachi_default",
-            "module": "dist/index.hachi.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "hydrate",
-          "declaration": {
-            "name": "hydrate",
-            "module": "dist/index.hachi.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "layout",
-          "declaration": {
-            "name": "layout",
-            "module": "dist/index.hachi.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "links",
-          "declaration": {
-            "name": "links",
-            "module": "dist/index.hachi.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "metaTags",
-          "declaration": {
-            "name": "metaTags",
-            "module": "dist/index.hachi.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "title",
-          "declaration": {
-            "name": "title",
-            "module": "dist/index.hachi.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "build/4c2ffdb8.js",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "build/65d8b300.js",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "build/b21edf40.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "it",
-          "members": [
-            {
-              "kind": "field",
-              "name": "heading",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Web page\""
-            },
-            {
-              "kind": "method",
-              "name": "createRenderRoot",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "renderOptions",
-              "type": {
-                "text": "object"
-              },
-              "default": "{host:this}",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_$Do",
-              "default": "void 0",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handle",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handleAll",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "v",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "q",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "s"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "cacheName",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "plugins",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "fetchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "matchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            }
-          ],
-          "superclass": {
-            "name": "Q",
-            "module": "build/b21edf40.js"
-          },
-          "tagName": "site-header",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "dt",
-          "members": [
-            {
-              "kind": "field",
-              "name": "hello",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "!0",
-              "attribute": "hello"
-            },
-            {
-              "kind": "method",
-              "name": "createRenderRoot",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "renderOptions",
-              "type": {
-                "text": "object"
-              },
-              "default": "{host:this}",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_$Do",
-              "default": "void 0",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handle",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handleAll",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "v",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "q",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "s"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "cacheName",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "plugins",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "fetchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "matchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "hello",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "!0",
-              "fieldName": "hello"
-            }
-          ],
-          "superclass": {
-            "name": "Q",
-            "module": "build/b21edf40.js"
-          },
-          "tagName": "profile-image",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "ft",
-          "members": [
-            {
-              "kind": "field",
-              "name": "heading",
-              "default": "void 0"
-            },
-            {
-              "kind": "field",
-              "name": "_visible",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "!1"
-            },
-            {
-              "kind": "method",
-              "name": "createRenderRoot",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "renderOptions",
-              "type": {
-                "text": "object"
-              },
-              "default": "{host:this}",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_$Do",
-              "default": "void 0",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handle",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handleAll",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "v",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "q",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "s"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "cacheName",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "plugins",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "fetchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "matchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            }
-          ],
-          "superclass": {
-            "name": "Q",
-            "module": "build/b21edf40.js"
-          },
-          "tagName": "content-block",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "bt",
-          "members": [
-            {
-              "kind": "field",
-              "name": "_email",
-              "default": "void 0"
-            },
-            {
-              "kind": "method",
-              "name": "createRenderRoot",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "renderOptions",
-              "type": {
-                "text": "object"
-              },
-              "default": "{host:this}",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_$Do",
-              "default": "void 0",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handle",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handleAll",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "v",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "q",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "s"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "cacheName",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "plugins",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "fetchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "matchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            }
-          ],
-          "superclass": {
-            "name": "Q",
-            "module": "build/b21edf40.js"
-          },
-          "tagName": "email-link",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "$t",
-          "members": [
-            {
-              "kind": "method",
-              "name": "createRenderRoot",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "renderOptions",
-              "type": {
-                "text": "object"
-              },
-              "default": "{host:this}",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_$Do",
-              "default": "void 0",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handle",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handleAll",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "v",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "q",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "s"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "cacheName",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "plugins",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "fetchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "matchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            }
-          ],
-          "superclass": {
-            "name": "Q",
-            "module": "build/b21edf40.js"
-          },
-          "tagName": "about-content",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "kt",
-          "members": [
-            {
-              "kind": "field",
-              "name": "color",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"#fff\""
-            },
-            {
-              "kind": "field",
-              "name": "positions",
-              "type": {
-                "text": "array"
-              },
-              "default": "[]"
-            },
-            {
-              "kind": "field",
-              "name": "_moving",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "!1"
-            },
-            {
-              "kind": "method",
-              "name": "createRenderRoot",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "renderOptions",
-              "type": {
-                "text": "object"
-              },
-              "default": "{host:this}",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_$Do",
-              "default": "void 0",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handle",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handleAll",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "v",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "q",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "s"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "cacheName",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "plugins",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "fetchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "matchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            }
-          ],
-          "superclass": {
-            "name": "Q",
-            "module": "build/b21edf40.js"
-          },
-          "tagName": "v-cursor",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "Ut",
-          "members": [
-            {
-              "kind": "field",
-              "name": "_isHighFiving",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "!1"
-            },
-            {
-              "kind": "field",
-              "name": "_cursor",
-              "type": {
-                "text": "object"
-              },
-              "default": "{color:\"transparent\",position:{x:0,y:0,timestamp:Date.now()},history:[],state:\"cursor\"}"
-            },
-            {
-              "kind": "field",
-              "name": "_virtualCursors",
-              "type": {
-                "text": "array"
-              },
-              "default": "[{color:\"hsl(0 0 100% / 0.3)\",position:{x:200,y:200,timestamp:Date.now()},history:[],state:\"cursor\"}]"
-            },
-            {
-              "kind": "method",
-              "name": "createRenderRoot",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "renderOptions",
-              "type": {
-                "text": "object"
-              },
-              "default": "{host:this}",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_$Do",
-              "default": "void 0",
-              "inheritedFrom": {
-                "name": "Q",
-                "module": "build/b21edf40.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handle",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handleAll",
-              "parameters": [
-                {
-                  "name": "t"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "v",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "q",
-              "parameters": [
-                {
-                  "name": "t"
-                },
-                {
-                  "name": "e"
-                },
-                {
-                  "name": "s"
-                },
-                {
-                  "name": "n"
-                }
-              ],
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "cacheName",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "plugins",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "fetchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "matchOptions",
-              "inheritedFrom": {
-                "name": "m",
-                "module": "build/workbox-dcdedb1c.js"
-              }
-            }
-          ],
-          "superclass": {
-            "name": "Q",
-            "module": "build/b21edf40.js"
-          },
-          "tagName": "cursor-party",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "custom-element-definition",
-          "name": "site-header",
-          "declaration": {
-            "name": "it",
-            "module": "build/b21edf40.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "profile-image",
-          "declaration": {
-            "name": "dt",
-            "module": "build/b21edf40.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "content-block",
-          "declaration": {
-            "name": "ft",
-            "module": "build/b21edf40.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "email-link",
-          "declaration": {
-            "name": "bt",
-            "module": "build/b21edf40.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "about-content",
-          "declaration": {
-            "name": "$t",
-            "module": "build/b21edf40.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "v-cursor",
-          "declaration": {
-            "name": "kt",
-            "module": "build/b21edf40.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "cursor-party",
-          "declaration": {
-            "name": "Ut",
-            "module": "build/b21edf40.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "build/d5ec978b.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "t"
-        },
-        {
-          "kind": "variable",
-          "name": "o"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "hasNativeDeclarativeShadowRoots",
-          "declaration": {
-            "name": "t",
-            "module": "build/d5ec978b.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "hydrateShadowRoots",
-          "declaration": {
-            "name": "o",
-            "module": "build/d5ec978b.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "build/sw.js",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "build/workbox-dcdedb1c.js",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/index.hachi.js",
+      "path": "src/index.hachi.ts",
       "declarations": [
         {
           "kind": "variable",
@@ -1458,7 +49,7 @@
           "name": "title",
           "declaration": {
             "name": "title",
-            "module": "src/index.hachi.js"
+            "module": "src/index.hachi.ts"
           }
         },
         {
@@ -1466,7 +57,7 @@
           "name": "metaTags",
           "declaration": {
             "name": "metaTags",
-            "module": "src/index.hachi.js"
+            "module": "src/index.hachi.ts"
           }
         },
         {
@@ -1474,14 +65,14 @@
           "name": "links",
           "declaration": {
             "name": "links",
-            "module": "src/index.hachi.js"
+            "module": "src/index.hachi.ts"
           }
         },
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/index.hachi.js"
+            "module": "src/index.hachi.ts"
           }
         },
         {
@@ -1489,21 +80,24 @@
           "name": "hydrate",
           "declaration": {
             "name": "hydrate",
-            "module": "src/index.hachi.js"
+            "module": "src/index.hachi.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/_layouts/_index.js",
+      "path": "src/_layouts/_index.ts",
       "declarations": [
         {
           "kind": "function",
           "name": "layout",
           "parameters": [
             {
-              "name": "{\n  content,\n  lang = \"en\",\n  title = \"My app\",\n  styles,\n  hydrate = [],\n  metaTags = [],\n  links = []\n}"
+              "name": "{\n  content,\n  lang = 'en',\n  title = 'My app',\n  styles,\n  hydrate = [],\n  metaTags = [],\n  links = [],\n}",
+              "type": {
+                "text": "Page"
+              }
             }
           ]
         }
@@ -1514,14 +108,14 @@
           "name": "layout",
           "declaration": {
             "name": "layout",
-            "module": "dist/_layouts/_index.js"
+            "module": "src/_layouts/_index.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/components/content-block.js",
+      "path": "src/components/content-block.ts",
       "declarations": [
         {
           "kind": "class",
@@ -1531,7 +125,10 @@
             {
               "kind": "field",
               "name": "heading",
-              "default": "void 0"
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "heading"
             },
             {
               "kind": "field",
@@ -1540,6 +137,27 @@
                 "text": "boolean"
               },
               "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_observer",
+              "type": {
+                "text": "IntersectionObserver | undefined"
+              },
+              "default": "undefined"
+            },
+            {
+              "kind": "field",
+              "name": "_handleIntersection"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "heading",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "heading"
             }
           ],
           "superclass": {
@@ -1552,26 +170,26 @@
       ],
       "exports": [
         {
-          "kind": "custom-element-definition",
-          "name": "content-block",
-          "declaration": {
-            "name": "ContentBlock",
-            "module": "dist/components/content-block.js"
-          }
-        },
-        {
           "kind": "js",
           "name": "ContentBlock",
           "declaration": {
             "name": "ContentBlock",
-            "module": "dist/components/content-block.js"
+            "module": "src/components/content-block.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "content-block",
+          "declaration": {
+            "name": "ContentBlock",
+            "module": "src/components/content-block.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/components/email-link.js",
+      "path": "src/components/email-link.ts",
       "declarations": [
         {
           "kind": "class",
@@ -1581,39 +199,33 @@
             {
               "kind": "field",
               "name": "_email",
-              "default": "void 0"
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "email-link",
           "customElement": true
         }
       ],
       "exports": [
         {
-          "kind": "custom-element-definition",
-          "name": "email-link",
-          "declaration": {
-            "name": "EmailLink",
-            "module": "dist/components/email-link.js"
-          }
-        },
-        {
           "kind": "js",
           "name": "EmailLink",
           "declaration": {
             "name": "EmailLink",
-            "module": "dist/components/email-link.js"
+            "module": "src/components/email-link.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/components/site-header.js",
+      "path": "src/components/site-header.ts",
       "declarations": [
         {
           "kind": "class",
@@ -1626,294 +238,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "\"Web page\""
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "site-header",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "custom-element-definition",
-          "name": "site-header",
-          "declaration": {
-            "name": "SiteHeader",
-            "module": "dist/components/site-header.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "SiteHeader",
-          "declaration": {
-            "name": "SiteHeader",
-            "module": "dist/components/site-header.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/util/debounce.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "debounce",
-          "parameters": [
-            {
-              "name": "fn"
-            },
-            {
-              "name": "wait"
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "debounce",
-          "declaration": {
-            "name": "debounce",
-            "module": "dist/util/debounce.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/util/throttle.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "throttle",
-          "parameters": [
-            {
-              "name": "fn"
-            },
-            {
-              "name": "wait"
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "throttle",
-          "declaration": {
-            "name": "throttle",
-            "module": "dist/util/throttle.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/_layouts/_index.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "layout",
-          "parameters": [
-            {
-              "name": "{\n  content,\n  lang = 'en',\n  title = 'My app',\n  styles,\n  hydrate = [],\n  metaTags = [],\n  links = [],\n}"
-            },
-            {
-              "name": "page",
-              "type": {
-                "text": "Page"
-              }
-            }
-          ],
-          "return": {
-            "type": {
-              "text": "string"
-            }
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "layout",
-          "declaration": {
-            "name": "layout",
-            "module": "src/_layouts/_index.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/content-block.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "ContentBlock",
-          "members": [
-            {
-              "kind": "field",
-              "name": "_handleIntersection"
-            },
-            {
-              "kind": "field",
-              "name": "heading",
-              "privacy": "public",
-              "type": {
-                "text": "String | undefined"
-              },
-              "default": "undefined",
-              "attribute": "heading"
-            },
-            {
-              "kind": "field",
-              "name": "_visible",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "_visible"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "heading",
-              "type": {
-                "text": "String | undefined"
-              },
-              "default": "undefined",
-              "resolveInitializer": {
-                "module": "src/components/content-block.js"
-              },
-              "fieldName": "heading"
-            },
-            {
-              "name": "_visible",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "_visible"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "content-block",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "ContentBlock",
-          "declaration": {
-            "name": "ContentBlock",
-            "module": "src/components/content-block.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "content-block",
-          "declaration": {
-            "name": "ContentBlock",
-            "module": "src/components/content-block.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/email-link.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "EmailLink",
-          "members": [
-            {
-              "kind": "field",
-              "name": "_email",
-              "privacy": "public",
-              "type": {
-                "text": "String | undefined"
-              },
-              "default": "undefined",
-              "attribute": "_email"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "_email",
-              "type": {
-                "text": "String | undefined"
-              },
-              "default": "undefined",
-              "resolveInitializer": {
-                "module": "src/components/email-link.js"
-              },
-              "fieldName": "_email"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "email-link",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "EmailLink",
-          "declaration": {
-            "name": "EmailLink",
-            "module": "src/components/email-link.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "email-link",
-          "declaration": {
-            "name": "EmailLink",
-            "module": "src/components/email-link.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/site-header.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "SiteHeader",
-          "cssProperties": [
-            {
-              "description": "The gap between the title and social links",
-              "name": "--gap"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "heading",
-              "privacy": "public",
-              "type": {
-                "text": "String"
-              },
-              "default": "'Web page'",
-              "description": "The site title",
+              "default": "\"It's a web page :)\"",
               "attribute": "heading"
             }
           ],
@@ -1921,10 +246,9 @@
             {
               "name": "heading",
               "type": {
-                "text": "String"
+                "text": "string"
               },
-              "default": "'Web page'",
-              "description": "The site title",
+              "default": "\"It's a web page :)\"",
               "fieldName": "heading"
             }
           ],
@@ -1942,7 +266,7 @@
           "name": "SiteHeader",
           "declaration": {
             "name": "SiteHeader",
-            "module": "src/components/site-header.js"
+            "module": "src/components/site-header.ts"
           }
         },
         {
@@ -1950,10 +274,22 @@
           "name": "site-header",
           "declaration": {
             "name": "SiteHeader",
-            "module": "src/components/site-header.js"
+            "module": "src/components/site-header.ts"
           }
         }
       ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/css/index.css",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/css/main.css",
+      "declarations": [],
+      "exports": []
     },
     {
       "kind": "javascript-module",
@@ -2035,170 +371,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "dist/_layouts/_utils/generate-hydration-script.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "generateHydrationScript",
-          "parameters": [
-            {
-              "name": "hydrate"
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "generateHydrationScript",
-          "declaration": {
-            "name": "generateHydrationScript",
-            "module": "dist/_layouts/_utils/generate-hydration-script.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/components/cursor-party/_types.js",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "types_default",
-          "default": "void 0"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "types_default",
-            "module": "dist/components/cursor-party/_types.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/components/cursor-party/cursor-party.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "CursorParty",
-          "members": [
-            {
-              "kind": "field",
-              "name": "_isHighFiving",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "_cursor",
-              "type": {
-                "text": "object"
-              },
-              "default": "{\n      color: \"transparent\",\n      position: { x: 0, y: 0, timestamp: Date.now() },\n      history: [],\n      state: \"cursor\"\n    }"
-            },
-            {
-              "kind": "field",
-              "name": "_virtualCursors",
-              "type": {
-                "text": "array"
-              },
-              "default": "[\n      {\n        color: \"hsl(0 0 100% / 0.3)\",\n        position: { x: 200, y: 200, timestamp: Date.now() },\n        history: [],\n        state: \"cursor\"\n      }\n    ]"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "cursor-party",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "custom-element-definition",
-          "name": "cursor-party",
-          "declaration": {
-            "name": "CursorParty",
-            "module": "dist/components/cursor-party/cursor-party.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "CursorParty",
-          "declaration": {
-            "name": "CursorParty",
-            "module": "dist/components/cursor-party/cursor-party.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/components/profile-image/profile-image.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "ProfileImage",
-          "members": [
-            {
-              "kind": "field",
-              "name": "hello",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "true",
-              "attribute": "hello"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "hello",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "true",
-              "fieldName": "hello"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "profile-image",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "custom-element-definition",
-          "name": "profile-image",
-          "declaration": {
-            "name": "ProfileImage",
-            "module": "dist/components/profile-image/profile-image.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "ProfileImage",
-          "declaration": {
-            "name": "ProfileImage",
-            "module": "dist/components/profile-image/profile-image.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/_layouts/_utils/generate-hydration-script.js",
       "declarations": [
         {
@@ -2232,7 +404,7 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/cursor-party/_types.js",
+      "path": "src/components/cursor-party/_types.ts",
       "declarations": [],
       "exports": [
         {
@@ -2240,20 +412,44 @@
           "name": "default",
           "declaration": {
             "name": "undefined",
-            "module": "src/components/cursor-party/_types.js"
+            "module": "src/components/cursor-party/_types.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/cursor-party/cursor-party.js",
+      "path": "src/components/cursor-party/cursor-party.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
           "name": "CursorParty",
           "members": [
+            {
+              "kind": "field",
+              "name": "_cursor",
+              "type": {
+                "text": "Cursor"
+              },
+              "default": "{\n    color: 'transparent',\n    position: { x: 0, y: 0, timestamp: Date.now() },\n\n    history: [],\n    state: 'cursor',\n  }"
+            },
+            {
+              "kind": "field",
+              "name": "_virtualCursors",
+              "type": {
+                "text": "Cursor[]"
+              },
+              "default": "[\n    {\n      color: 'hsl(0 0 100% / 0.3)',\n      position: { x: 200, y: 200, timestamp: Date.now() },\n      history: [],\n      state: 'cursor',\n    },\n  ]"
+            },
+            {
+              "kind": "field",
+              "name": "_isHighFiving",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
             {
               "kind": "field",
               "name": "_playHighFive"
@@ -2273,62 +469,6 @@
             {
               "kind": "field",
               "name": "_handleMouseMove"
-            },
-            {
-              "kind": "field",
-              "name": "_isHighFiving",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "_isHighFiving"
-            },
-            {
-              "kind": "field",
-              "name": "_cursor",
-              "privacy": "public",
-              "type": {
-                "text": "Cursor"
-              },
-              "default": "{\n      color: 'transparent',\n      position: { x: 0, y: 0, timestamp: Date.now() },\n\n      history: [],\n      state: 'cursor',\n    }",
-              "attribute": "_cursor"
-            },
-            {
-              "kind": "field",
-              "name": "_virtualCursors",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "default": "[\n      {\n        color: 'hsl(0 0 100% / 0.3)',\n        position: { x: 200, y: 200, timestamp: Date.now() },\n        history: [],\n        state: 'cursor',\n      },\n    ]",
-              "attribute": "_virtualCursors"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "_cursor",
-              "type": {
-                "text": "Cursor"
-              },
-              "default": "{\n      color: 'transparent',\n      position: { x: 0, y: 0, timestamp: Date.now() },\n\n      history: [],\n      state: 'cursor',\n    }",
-              "fieldName": "_cursor"
-            },
-            {
-              "name": "_virtualCursors",
-              "type": {
-                "text": "array"
-              },
-              "default": "[\n      {\n        color: 'hsl(0 0 100% / 0.3)',\n        position: { x: 200, y: 200, timestamp: Date.now() },\n        history: [],\n        state: 'cursor',\n      },\n    ]",
-              "fieldName": "_virtualCursors"
-            },
-            {
-              "name": "_isHighFiving",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "_isHighFiving"
             }
           ],
           "superclass": {
@@ -2345,7 +485,7 @@
           "name": "CursorParty",
           "declaration": {
             "name": "CursorParty",
-            "module": "src/components/cursor-party/cursor-party.js"
+            "module": "src/components/cursor-party/cursor-party.ts"
           }
         },
         {
@@ -2353,14 +493,14 @@
           "name": "cursor-party",
           "declaration": {
             "name": "CursorParty",
-            "module": "src/components/cursor-party/cursor-party.js"
+            "module": "src/components/cursor-party/cursor-party.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/profile-image/profile-image.js",
+      "path": "src/components/profile-image/profile-image.ts",
       "declarations": [
         {
           "kind": "class",
@@ -2369,41 +509,23 @@
           "members": [
             {
               "kind": "field",
-              "name": "#handleIntersection",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "entries",
-                  "type": {
-                    "text": "IntersectionObserverEntry[]"
-                  }
-                }
-              ],
-              "return": {
-                "type": {
-                  "text": ""
-                }
+              "name": "hello",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "_observer",
+              "type": {
+                "text": "IntersectionObserver | undefined"
               }
             },
             {
               "kind": "field",
-              "name": "hello",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "true",
-              "attribute": "hello"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "hello",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "true",
-              "fieldName": "hello"
+              "name": "handleIntersection",
+              "privacy": "private"
             }
           ],
           "superclass": {
@@ -2420,7 +542,7 @@
           "name": "ProfileImage",
           "declaration": {
             "name": "ProfileImage",
-            "module": "src/components/profile-image/profile-image.js"
+            "module": "src/components/profile-image/profile-image.ts"
           }
         },
         {
@@ -2428,62 +550,14 @@
           "name": "profile-image",
           "declaration": {
             "name": "ProfileImage",
-            "module": "src/components/profile-image/profile-image.js"
+            "module": "src/components/profile-image/profile-image.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/components/cursor-party/_util/cursor-is-shaking.js",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "cursorIsShaking"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "cursorIsShaking",
-          "declaration": {
-            "name": "cursorIsShaking",
-            "module": "dist/components/cursor-party/_util/cursor-is-shaking.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/components/cursor-party/_util/filter-for-recency.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "filterForRecency",
-          "parameters": [
-            {
-              "name": "positions"
-            },
-            {
-              "name": "threshold"
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "filterForRecency",
-          "declaration": {
-            "name": "filterForRecency",
-            "module": "dist/components/cursor-party/_util/filter-for-recency.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/components/cursor-party/v-cursor/v-cursor.js",
+      "path": "src/components/cursor-party/v-cursor/v-cursor.ts",
       "declarations": [
         {
           "kind": "class",
@@ -2493,177 +567,6 @@
             {
               "kind": "field",
               "name": "color",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"#fff\""
-            },
-            {
-              "kind": "field",
-              "name": "positions",
-              "type": {
-                "text": "array"
-              },
-              "default": "[]"
-            },
-            {
-              "kind": "field",
-              "name": "_moving",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "v-cursor",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "custom-element-definition",
-          "name": "v-cursor",
-          "declaration": {
-            "name": "VCursor",
-            "module": "dist/components/cursor-party/v-cursor/v-cursor.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "VCursor",
-          "declaration": {
-            "name": "VCursor",
-            "module": "dist/components/cursor-party/v-cursor/v-cursor.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/components/pages/home/about-content.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "AboutContent",
-          "members": [],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "about-content",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "custom-element-definition",
-          "name": "about-content",
-          "declaration": {
-            "name": "AboutContent",
-            "module": "dist/components/pages/home/about-content.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "AboutContent",
-          "declaration": {
-            "name": "AboutContent",
-            "module": "dist/components/pages/home/about-content.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/cursor-party/_util/cursor-is-shaking.js",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "cursorIsShaking",
-          "parameters": [
-            {
-              "name": "recentMovements",
-              "type": {
-                "text": "Position"
-              }
-            }
-          ],
-          "return": {
-            "type": {
-              "text": ""
-            }
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "cursorIsShaking",
-          "declaration": {
-            "name": "cursorIsShaking",
-            "module": "src/components/cursor-party/_util/cursor-is-shaking.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/cursor-party/_util/filter-for-recency.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "filterForRecency",
-          "parameters": [
-            {
-              "name": "positions",
-              "type": {
-                "text": "Position[]"
-              }
-            },
-            {
-              "name": "threshold",
-              "description": "in milliseconds",
-              "type": {
-                "text": "Number"
-              }
-            }
-          ],
-          "return": {
-            "type": {
-              "text": "Position[]"
-            }
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "filterForRecency",
-          "declaration": {
-            "name": "filterForRecency",
-            "module": "src/components/cursor-party/_util/filter-for-recency.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/cursor-party/v-cursor/v-cursor.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "VCursor",
-          "members": [
-            {
-              "kind": "field",
-              "name": "color",
-              "privacy": "public",
               "type": {
                 "text": "string"
               },
@@ -2673,7 +576,6 @@
             {
               "kind": "field",
               "name": "positions",
-              "privacy": "public",
               "type": {
                 "text": "Position[]"
               },
@@ -2683,12 +585,18 @@
             {
               "kind": "field",
               "name": "_moving",
-              "privacy": "public",
               "type": {
                 "text": "boolean"
               },
-              "default": "false",
-              "attribute": "_moving"
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_movingTimeout",
+              "type": {
+                "text": "ReturnType<typeof setTimeout> | undefined"
+              },
+              "privacy": "private"
             }
           ],
           "attributes": [
@@ -2703,18 +611,10 @@
             {
               "name": "positions",
               "type": {
-                "text": "Array<Position>"
+                "text": "Position[]"
               },
               "default": "[]",
               "fieldName": "positions"
-            },
-            {
-              "name": "_moving",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "_moving"
             }
           ],
           "superclass": {
@@ -2731,7 +631,7 @@
           "name": "VCursor",
           "declaration": {
             "name": "VCursor",
-            "module": "src/components/cursor-party/v-cursor/v-cursor.js"
+            "module": "src/components/cursor-party/v-cursor/v-cursor.ts"
           }
         },
         {
@@ -2739,14 +639,85 @@
           "name": "v-cursor",
           "declaration": {
             "name": "VCursor",
-            "module": "src/components/cursor-party/v-cursor/v-cursor.js"
+            "module": "src/components/cursor-party/v-cursor/v-cursor.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/pages/home/about-content.js",
+      "path": "src/components/cursor-party/_util/cursor-is-shaking.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "cursorIsShaking"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "cursorIsShaking",
+          "declaration": {
+            "name": "cursorIsShaking",
+            "module": "src/components/cursor-party/_util/cursor-is-shaking.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/cursor-party/_util/filter-for-recency.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "filterForRecency",
+          "return": {
+            "type": {
+              "text": "Position[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "positions",
+              "type": {
+                "text": "Position[]"
+              }
+            },
+            {
+              "name": "threshold",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "filterForRecency",
+          "declaration": {
+            "name": "filterForRecency",
+            "module": "src/components/cursor-party/_util/filter-for-recency.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/profile-image/img/peace.png",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/profile-image/img/thumbs-up.png",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/pages/home/about-content.ts",
       "declarations": [
         {
           "kind": "class",
@@ -2767,7 +738,7 @@
           "name": "AboutContent",
           "declaration": {
             "name": "AboutContent",
-            "module": "src/components/pages/home/about-content.js"
+            "module": "src/components/pages/home/about-content.ts"
           }
         },
         {
@@ -2775,7 +746,7 @@
           "name": "about-content",
           "declaration": {
             "name": "AboutContent",
-            "module": "src/components/pages/home/about-content.js"
+            "module": "src/components/pages/home/about-content.ts"
           }
         }
       ]
