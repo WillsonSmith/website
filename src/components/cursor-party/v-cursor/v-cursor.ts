@@ -1,41 +1,26 @@
 import { LitElement, html, css, svg, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-
 import { styleMap } from 'lit/directives/style-map.js';
+import { customElement, property, state } from 'lit/decorators.js';
 
-/**
- * @typedef {import('../_types.js').Position} Position
- */
+import type { Position } from '../_types';
 
-/**
- * @element v-cursor
- * @prop {string} color
- * @prop {Array<Position>} positions
- *
- */
+@customElement('v-cursor')
 export class VCursor extends LitElement {
-  static properties = {
-    color: { type: String },
-    positions: { type: Array },
-    _moving: { type: Object, state: true },
-  };
+  @property({ type: String }) color: string = '#fff';
 
-  constructor() {
-    super();
-    this.color = '#fff';
+  @property({ type: Array }) positions: Position[] = [];
 
-    /** @type {Position[]} */
-    this.positions = [];
+  @state() _moving: boolean = false;
 
-    this._moving = false;
-  }
+  private _movingTimeout?: ReturnType<typeof setTimeout>;
 
   firstUpdated() {
     document.addEventListener('mousemove', () => {
       this._moving = true;
       clearTimeout(this._movingTimeout);
       this._movingTimeout = setTimeout(() => {
-        this._movingTimeout = null;
+        this._movingTimeout = undefined;
         this._moving = false;
       }, 200);
     });
@@ -50,9 +35,9 @@ export class VCursor extends LitElement {
         ? svg`
         <circle
           style=${styleMap({
-            transitionDelay: `50ms`,
-            transformOrigin: `${piece.x}px ${piece.y}px`,
-          })}
+          transitionDelay: `50ms`,
+          transformOrigin: `${piece.x}px ${piece.y}px`,
+        })}
           cx=${piece.x} cy=${piece.y} r=${radius} />
       `
         : nothing,
@@ -61,9 +46,9 @@ export class VCursor extends LitElement {
     return html`
       <div
         class=${classMap({
-          cursor: true,
-          moving: this._moving,
-        })}
+      cursor: true,
+      moving: this._moving,
+    })}
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill=${this.color}>
           ${pieces}
@@ -105,4 +90,8 @@ export class VCursor extends LitElement {
   `;
 }
 
-customElements.define('v-cursor', VCursor);
+declare global {
+  interface HTMLElementTagNameMap {
+    'v-cursor': VCursor;
+  }
+}

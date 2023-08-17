@@ -20,7 +20,7 @@
       "command": "npx cem analyze --litelement"
     },
     "dev": {
-      "command": "concurrently \"npm run watch\" \"wds\""
+      "command": "npm run build; concurrently \"npm run watch\" \"wds\""
     },
     "esbuild": {
       "command": "node ./_build-utils/es-builder.js"
