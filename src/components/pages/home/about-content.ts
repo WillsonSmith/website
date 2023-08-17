@@ -1,8 +1,10 @@
 import { LitElement, html, css } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 import '../../content-block.js';
 import '../../email-link.js';
 
+@customElement('about-content')
 export class AboutContent extends LitElement {
   render() {
     return html`
@@ -163,4 +165,8 @@ export class AboutContent extends LitElement {
   `;
 }
 
-customElements.define('about-content', AboutContent);
+declare global {
+  interface HTMLElementTagNameMap {
+    'about-content': AboutContent;
+  }
+}

@@ -1,21 +1,16 @@
+import type { CSSResult } from 'lit';
 import { generateHydrationScript } from './_utils/generate-hydration-script.js';
 
-/**
- * @typedef Page
- * @prop {string} content
- * @prop {string} [lang="en"]
- * @prop {string} [title="My app"]
- * @prop {import('lit').CSSResult} [styles]
- * @prop {string[]} [hydrate=[]]
- * @prop {{name: String, content: String}[]} [metaTags=[]]
- * @prop {{rel: String, href: String}[]} [links=[]]
- *
+type Page = {
+  content: string;
+  lang?: string;
+  title?: string;
+  styles?: CSSResult;
+  hydrate?: string[];
+  metaTags?: { name: string; content: string }[];
+  links?: { rel: string; href: string }[];
+};
 
-/**
- *
- * @param {Page} page
- * @returns {string}
- */
 export const layout = ({
   content,
   lang = 'en',
@@ -24,7 +19,7 @@ export const layout = ({
   hydrate = [],
   metaTags = [],
   links = [],
-}) => {
+}: Page) => {
   const css = styles?.cssText;
   const styleTag = css ? `<style>${css}</style>` : '';
 

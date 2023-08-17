@@ -2,19 +2,16 @@ import { LitElement, html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 
 export class ContentBlock extends LitElement {
+  heading: string | undefined;
+
+  _visible: boolean = false;
+
   static properties = {
     heading: { type: String, attribute: 'heading' },
-    _visible: { type: Boolean, state: true },
+    _visible: { attribute: false, state: true },
   };
 
-  constructor() {
-    super();
-    /**
-     * @type {String | undefined}
-     */
-    this.heading = undefined;
-    this._visible = false;
-  }
+  _observer?: IntersectionObserver = undefined;
 
   firstUpdated() {
     this._observer = new IntersectionObserver(this._handleIntersection, {
@@ -27,24 +24,22 @@ export class ContentBlock extends LitElement {
     return html`
       <section
         class=${classMap({
-          'content-block': true,
-          visible: this._visible,
-        })}
+      'content-block': true,
+      visible: this._visible,
+    })}
         part="content-block"
       >
         ${this.heading
-          ? html`<h2 class="content-block-heading" part="title">
+        ? html`<h2 class="content-block-heading" part="title">
               ${this.heading}
             </h2>`
-          : nothing}
+        : nothing}
         <slot></slot>
       </section>
     `;
   }
 
-  _handleIntersection = (
-    /** @type {IntersectionObserverEntry[]} */ entries,
-  ) => {
+  _handleIntersection = (entries: IntersectionObserverEntry[]) => {
     for (const entry of entries) {
       const { isIntersecting } = entry;
       this._visible = isIntersecting;
@@ -84,3 +79,9 @@ export class ContentBlock extends LitElement {
 }
 
 customElements.define('content-block', ContentBlock);
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'content-block': ContentBlock;
+  }
+}

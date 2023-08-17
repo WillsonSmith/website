@@ -5,11 +5,16 @@
     "moduleResolution": "bundler",
     "lib": ["ES2020", "DOM"],
     "rootDir": "./src",
+    "allowJs": true,
     "checkJs": true,
     "skipLibCheck": true,
     "strict": true,
+
+    // Lit specific stuff
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
     "plugins": [{ "name": "ts-lit-plugin" }]
   },
-  "include": ["src/**/*.js"],
+  "include": ["src"],
   "exclude": ["node_modules", "packages"]
 }

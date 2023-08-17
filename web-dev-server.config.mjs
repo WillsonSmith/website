@@ -1,6 +1,5 @@
 import { dirname } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
-import { esbuildPlugin } from '@web/dev-server-esbuild';
 
 import { trailingSlashMiddleware } from './_dev-server-utils/trailing-slash-middleware.js';
 import { hachiIndexMiddleware } from './_dev-server-utils/hachi-index-middleware.js';
@@ -15,7 +14,6 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
     exportConditions: ['browser'],
   },
   plugins: [
-    // esbuildPlugin({ ts: true }),
     {
       name: 'replace-file-urls',
       async transform(context) {

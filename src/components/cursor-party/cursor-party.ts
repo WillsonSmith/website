@@ -1,47 +1,38 @@
 import { LitElement, html, css } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
+import { customElement, state } from 'lit/decorators.js';
 
-import './v-cursor/v-cursor.js';
+import type { Cursor } from './_types.js';
 
 import { filterForRecency } from './_util/filter-for-recency.js';
 import { cursorIsShaking } from './_util/cursor-is-shaking.js';
+import './v-cursor/v-cursor.js';
 
 const MOUSE_MOVE_DELAY = 10;
 
-/**
- * @typedef {import('./_types.js').Position} Position
- * @typedef {import('./_types.js').Cursor} Cursor
- */
-
+@customElement('cursor-party')
 export class CursorParty extends LitElement {
-  static properties = {
-    _cursor: { type: Object, state: true },
-    _virtualCursors: { type: Array, state: true },
-    _isHighFiving: { type: Boolean, state: true },
+  @state()
+  _cursor: Cursor = {
+    color: 'transparent',
+    position: { x: 0, y: 0, timestamp: Date.now() },
+
+    history: [],
+    state: 'cursor',
   };
 
-  constructor() {
-    super();
-    this._isHighFiving = false;
-
-    /** @type {Cursor} */
-    this._cursor = {
-      color: 'transparent',
-      position: { x: 0, y: 0, timestamp: Date.now() },
-
+  @state()
+  _virtualCursors: Cursor[] = [
+    {
+      color: 'hsl(0 0 100% / 0.3)',
+      position: { x: 200, y: 200, timestamp: Date.now() },
       history: [],
       state: 'cursor',
-    };
+    },
+  ];
 
-    this._virtualCursors = [
-      {
-        color: 'hsl(0 0 100% / 0.3)',
-        position: { x: 200, y: 200, timestamp: Date.now() },
-        history: [],
-        state: 'cursor',
-      },
-    ];
-  }
+  @state()
+  _isHighFiving = false;
 
   firstUpdated() {
     this._setupCursorParty();
@@ -51,7 +42,7 @@ export class CursorParty extends LitElement {
     this._teardownCursorParty();
   }
 
-  updated(/** @type Map<string, unknown> */ changedProperties) {
+  updated(changedProperties: Map<string, unknown>) {
     if (changedProperties.has('_isHighFiving') && this._isHighFiving) {
       this._playHighFive();
       console.log('High five! 🙌');
@@ -63,14 +54,14 @@ export class CursorParty extends LitElement {
       <slot></slot>
 
       ${this._virtualCursors.map(
-        cursor => html` <v-cursor color=${cursor.color}></v-cursor> `,
-      )}
+      cursor => html` <v-cursor color=${cursor.color}></v-cursor> `,
+    )}
       <div
         class="cursor"
         style=${styleMap({
-          '--cursor-x': `${this._cursor.position.x}px`,
-          '--cursor-y': `${this._cursor.position.y}px`,
-        })}
+      '--cursor-x': `${this._cursor.position.x}px`,
+      '--cursor-y': `${this._cursor.position.y}px`,
+    })}
       >
         <v-cursor
           color=${this._cursor.color}
@@ -101,7 +92,7 @@ export class CursorParty extends LitElement {
     window.addEventListener('mousemove', this._handleMouseMove);
   };
 
-  _handleMouseMove = (/** @type {MouseEvent} */ event) => {
+  _handleMouseMove = (event: MouseEvent) => {
     const { clientX, clientY } = event;
     const newPosition = { x: clientX, y: clientY, timestamp: Date.now() };
 
@@ -133,4 +124,8 @@ export class CursorParty extends LitElement {
   `;
 }
 
-customElements.define('cursor-party', CursorParty);
+declare global {
+  interface HTMLElementTagNameMap {
+    'cursor-party': CursorParty;
+  }
+}

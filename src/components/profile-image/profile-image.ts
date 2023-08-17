@@ -1,24 +1,19 @@
 import { LitElement, html, css } from 'lit';
-
 import { classMap } from 'lit/directives/class-map.js';
+import { customElement, state } from 'lit/decorators.js';
 
 const thumbsUp = '/src/components/profile-image/img/thumbs-up.png';
 const peace = '/src/components/profile-image/img/peace.png';
 
+@customElement('profile-image')
 export class ProfileImage extends LitElement {
-  static get properties() {
-    return {
-      hello: { type: Boolean },
-    };
-  }
+  @state()
+  hello: boolean = true;
 
-  constructor() {
-    super();
-    this.hello = true;
-  }
+  _observer?: IntersectionObserver;
 
   firstUpdated() {
-    this._observer = new IntersectionObserver(this.#handleIntersection, {
+    this._observer = new IntersectionObserver(this.handleIntersection, {
       rootMargin: '-50px 0px 0px 0px',
       threshold: [0.85],
     });
@@ -54,12 +49,7 @@ export class ProfileImage extends LitElement {
     `;
   }
 
-  /**
-   *
-   * @param {IntersectionObserverEntry[]} entries
-   * @returns
-   */
-  #handleIntersection = entries => {
+  private handleIntersection = (entries: IntersectionObserverEntry[]) => {
     for (const entry of entries) {
       const { isIntersecting } = entry;
       this.hello = isIntersecting;
@@ -95,4 +85,8 @@ export class ProfileImage extends LitElement {
   `;
 }
 
-customElements.define('profile-image', ProfileImage);
+declare global {
+  interface HTMLElementTagNameMap {
+    'profile-image': ProfileImage;
+  }
+}

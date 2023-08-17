@@ -1,18 +1,11 @@
 import { LitElement, html, css } from 'lit';
 
-/**
- * @element email-link
- */
 export class EmailLink extends LitElement {
   static properties = {
-    _email: { type: String, state: true },
+    _email: { attribute: false },
   };
 
-  constructor() {
-    super();
-    /** @type {String | undefined} */
-    this._email = undefined;
-  }
+  _email?: string = undefined;
 
   firstUpdated() {
     this._email = this.textContent?.replace('[at]', '@');
@@ -31,4 +24,8 @@ export class EmailLink extends LitElement {
   `;
 }
 
-customElements.define('email-link', EmailLink);
+declare global {
+  interface HTMLElementTagNameMap {
+    'email-link': EmailLink;
+  }
+}
