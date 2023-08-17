@@ -102,7 +102,7 @@
     "**/*.css": [
       "stylelint \"src/**/.css\" --fix"
     ],
-    "**/*.js": [
+    "**/*.{js,ts}": [
       "stylelint \"src/**/*.{js,ts}\" --fix",
       "eslint --fix",
       "prettier --write"
