@@ -3,12 +3,7 @@ import { property } from 'lit/decorators.js';
 
 export class SiteHeader extends LitElement {
   @property({ type: String })
-  heading = '';
-
-  constructor() {
-    super();
-    this.heading = 'Web page';
-  }
+  heading = "It's a web page :)";
 
   render() {
     return html`

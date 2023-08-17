@@ -1,15 +1,13 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
+import { property, state } from 'lit/decorators.js';
 
 export class ContentBlock extends LitElement {
+  @property({ type: String })
   heading: string | undefined;
 
+  @state()
   _visible: boolean = false;
-
-  static properties = {
-    heading: { type: String, attribute: 'heading' },
-    _visible: { attribute: false, state: true },
-  };
 
   _observer?: IntersectionObserver = undefined;
 
@@ -24,16 +22,16 @@ export class ContentBlock extends LitElement {
     return html`
       <section
         class=${classMap({
-      'content-block': true,
-      visible: this._visible,
-    })}
+          'content-block': true,
+          visible: this._visible,
+        })}
         part="content-block"
       >
         ${this.heading
-        ? html`<h2 class="content-block-heading" part="title">
+          ? html`<h2 class="content-block-heading" part="title">
               ${this.heading}
             </h2>`
-        : nothing}
+          : nothing}
         <slot></slot>
       </section>
     `;
