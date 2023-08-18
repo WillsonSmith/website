@@ -5,22 +5,26 @@ import { fileURLToPath, pathToFileURL } from 'url';
 const __dirname = join(dirname(fileURLToPath(import.meta.url)), '../');
 
 /**
- *
- * @param {string} html
+ * @param {string} srcHtml
  * @returns {string}
- */
-export function replaceFileUrls(html) {
-  return html
-    .split('\n')
-    .map(line => {
-      if (line.includes('file://')) {
-        console.log(pathToFileURL(__dirname).href);
-        if (line.includes('.js')) {
-          return line.replace(pathToFileURL(__dirname).href, __dirname);
-        }
-        return line.replace(pathToFileURL(__dirname).href, '');
+ * */
+export function replaceFileUrls(srcHtml) {
+  let html = srcHtml;
+  const matches = html.match(/file:\/\/[^"]*/g);
+  if (matches) {
+    for (const match of matches) {
+      if (match.includes('.js')) {
+        html = html.replace(
+          match,
+          match.replace(pathToFileURL(__dirname).href, __dirname),
+        );
+      } else {
+        html = html
+          .replace('/dist/', '/src/')
+          .replace(pathToFileURL(__dirname).href, '');
       }
-      return line;
-    })
-    .join('\n');
+    }
+  }
+
+  return html;
 }

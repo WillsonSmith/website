@@ -48,7 +48,6 @@ const watchForChanges = process.argv.includes('--watch');
 if (watchForChanges) {
   const watcher = watch(['src/**/*.js', 'src/**/*.ts']);
   watcher.on('all', (event, path) => {
-    console.log(event, path);
     buildJavascript();
   });
 } else {
