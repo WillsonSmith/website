@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 npx lint-staged
-npm run analyze
+npm run analyze; git add ./custom-elements.json

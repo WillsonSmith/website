@@ -38,6 +38,4 @@ export default () => html`
   </cursor-party>
 `;
 
-export const hydrate = ['./index.hachi.js'].map(
-  asset => new URL(asset, import.meta.url).href,
-);
+export const hydrate = [new URL(import.meta.url).href];

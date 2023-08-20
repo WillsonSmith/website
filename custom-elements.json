@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "src/index.hachi.ts",
+      "path": "src/index.h.ts",
       "declarations": [
         {
           "kind": "variable",
@@ -32,7 +32,11 @@
         },
         {
           "kind": "variable",
-          "name": "hydrate"
+          "name": "hydrate",
+          "type": {
+            "text": "array"
+          },
+          "default": "[new URL(import.meta.url).href]"
         }
       ],
       "exports": [
@@ -49,7 +53,7 @@
           "name": "title",
           "declaration": {
             "name": "title",
-            "module": "src/index.hachi.ts"
+            "module": "src/index.h.ts"
           }
         },
         {
@@ -57,7 +61,7 @@
           "name": "metaTags",
           "declaration": {
             "name": "metaTags",
-            "module": "src/index.hachi.ts"
+            "module": "src/index.h.ts"
           }
         },
         {
@@ -65,14 +69,14 @@
           "name": "links",
           "declaration": {
             "name": "links",
-            "module": "src/index.hachi.ts"
+            "module": "src/index.h.ts"
           }
         },
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/index.hachi.ts"
+            "module": "src/index.h.ts"
           }
         },
         {
@@ -80,7 +84,7 @@
           "name": "hydrate",
           "declaration": {
             "name": "hydrate",
-            "module": "src/index.hachi.ts"
+            "module": "src/index.h.ts"
           }
         }
       ]
@@ -112,6 +116,18 @@
           }
         }
       ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/css/index.css",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/css/main.css",
+      "declarations": [],
+      "exports": []
     },
     {
       "kind": "javascript-module",
@@ -278,18 +294,6 @@
           }
         }
       ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/css/index.css",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/css/main.css",
-      "declarations": [],
-      "exports": []
     },
     {
       "kind": "javascript-module",
@@ -557,6 +561,65 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/cursor-party/_util/cursor-is-shaking.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "cursorIsShaking"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "cursorIsShaking",
+          "declaration": {
+            "name": "cursorIsShaking",
+            "module": "src/components/cursor-party/_util/cursor-is-shaking.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/cursor-party/_util/filter-for-recency.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "filterForRecency",
+          "return": {
+            "type": {
+              "text": "Position[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "positions",
+              "type": {
+                "text": "Position[]"
+              }
+            },
+            {
+              "name": "threshold",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "filterForRecency",
+          "declaration": {
+            "name": "filterForRecency",
+            "module": "src/components/cursor-party/_util/filter-for-recency.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/cursor-party/v-cursor/v-cursor.ts",
       "declarations": [
         {
@@ -646,77 +709,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/cursor-party/_util/cursor-is-shaking.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "cursorIsShaking"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "cursorIsShaking",
-          "declaration": {
-            "name": "cursorIsShaking",
-            "module": "src/components/cursor-party/_util/cursor-is-shaking.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/cursor-party/_util/filter-for-recency.ts",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "filterForRecency",
-          "return": {
-            "type": {
-              "text": "Position[]"
-            }
-          },
-          "parameters": [
-            {
-              "name": "positions",
-              "type": {
-                "text": "Position[]"
-              }
-            },
-            {
-              "name": "threshold",
-              "type": {
-                "text": "number"
-              }
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "filterForRecency",
-          "declaration": {
-            "name": "filterForRecency",
-            "module": "src/components/cursor-party/_util/filter-for-recency.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/profile-image/img/peace.png",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/profile-image/img/thumbs-up.png",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/pages/home/about-content.ts",
       "declarations": [
         {
@@ -750,6 +742,18 @@
           }
         }
       ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/profile-image/img/peace.png",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/profile-image/img/thumbs-up.png",
+      "declarations": [],
+      "exports": []
     }
   ]
 }
