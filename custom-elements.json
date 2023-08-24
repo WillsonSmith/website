@@ -225,6 +225,7 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "email-link",
           "customElement": true
         }
       ],
@@ -232,6 +233,14 @@
         {
           "kind": "js",
           "name": "EmailLink",
+          "declaration": {
+            "name": "EmailLink",
+            "module": "src/components/email-link.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "email-link",
           "declaration": {
             "name": "EmailLink",
             "module": "src/components/email-link.ts"
