@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
-import { state } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 
+@customElement('email-link')
 export class EmailLink extends LitElement {
   @state()
   _email?: string = undefined;

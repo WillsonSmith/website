@@ -9,7 +9,7 @@ const __dirname = dirname(join(fileURLToPath(import.meta.url), '../'));
 
 export async function hachiIndexMiddleware(context, next) {
   if (context.url.endsWith('/')) {
-    const index = glob.sync(join('dist', context.url, 'index.hachi.js'))[0];
+    const index = glob.sync(join('dist', context.url, 'index.h.js'))[0];
     if (index) {
       const { html } = await renderInThread(join(__dirname, index));
       context.response.body = html;

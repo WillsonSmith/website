@@ -12,7 +12,7 @@ const __dirname = dirname(join(fileURLToPath(import.meta.url), '../'));
  * @returns {Promise<{name: string, html: string}[]>}
  */
 export async function generateHtmlInputs() {
-  const pageFiles = glob.sync('dist/**/*.hachi.js');
+  const pageFiles = glob.sync('dist/**/*.h.js');
 
   /**
    * @type {Promise<{name: string, html: string}>[]}
@@ -22,7 +22,7 @@ export async function generateHtmlInputs() {
     const filePath = join(__dirname, page);
     htmlInputs.push(
       renderInThread(filePath).then(({ html }) => ({
-        name: page.replace('dist/', '').replace('.hachi.js', '.html'),
+        name: page.replace('dist/', '').replace('.h.js', '.html'),
         html: replaceFileUrls(html),
       })),
     );

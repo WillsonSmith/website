@@ -36,7 +36,7 @@
       ]
     },
     "clean": {
-      "command": "rimraf build",
+      "command": "rimraf build; rimraf dist",
       "dependencies": [
         "clean:html"
       ]
