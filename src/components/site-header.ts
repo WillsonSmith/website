@@ -11,6 +11,7 @@ export class SiteHeader extends LitElement {
         <h1 class="site-header-title">${this.heading}</h1>
 
         <div class="site-header-social">
+          <a href="/movies">A year in film 🍿</a>
           <a href="https://github.com/willsonsmith" target="_blank"> Github </a>
           <a href="https://www.linkedin.com/in/willsonsmith/" target="_blank">
             Linkedin
