@@ -91,31 +91,15 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/_layouts/_index.ts",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "layout",
-          "parameters": [
-            {
-              "name": "{\n  content,\n  lang = 'en',\n  title = 'My app',\n  styles,\n  hydrate = [],\n  metaTags = [],\n  links = [],\n}",
-              "type": {
-                "text": "Page"
-              }
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "layout",
-          "declaration": {
-            "name": "layout",
-            "module": "src/_layouts/_index.ts"
-          }
-        }
-      ]
+      "path": "src/css/index.css",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/css/main.css",
+      "declarations": [],
+      "exports": []
     },
     {
       "kind": "javascript-module",
@@ -294,15 +278,31 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/css/index.css",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/css/main.css",
-      "declarations": [],
-      "exports": []
+      "path": "src/_layouts/_index.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "layout",
+          "parameters": [
+            {
+              "name": "{\n  content,\n  lang = 'en',\n  title = 'My app',\n  styles,\n  hydrate = [],\n  metaTags = [],\n  links = [],\n}",
+              "type": {
+                "text": "Page"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "layout",
+          "declaration": {
+            "name": "layout",
+            "module": "src/_layouts/_index.ts"
+          }
+        }
+      ]
     },
     {
       "kind": "javascript-module",
@@ -378,39 +378,6 @@
           "declaration": {
             "name": "throttle",
             "module": "src/util/throttle.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/_layouts/_utils/generate-hydration-script.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "generateHydrationScript",
-          "parameters": [
-            {
-              "name": "hydrate",
-              "type": {
-                "text": "string[]"
-              }
-            }
-          ],
-          "return": {
-            "type": {
-              "text": "string"
-            }
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "generateHydrationScript",
-          "declaration": {
-            "name": "generateHydrationScript",
-            "module": "src/_layouts/_utils/generate-hydration-script.js"
           }
         }
       ]
@@ -570,6 +537,39 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/_layouts/_utils/generate-hydration-script.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "generateHydrationScript",
+          "parameters": [
+            {
+              "name": "hydrate",
+              "type": {
+                "text": "string[]"
+              }
+            }
+          ],
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "generateHydrationScript",
+          "declaration": {
+            "name": "generateHydrationScript",
+            "module": "src/_layouts/_utils/generate-hydration-script.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/cursor-party/_util/cursor-is-shaking.ts",
       "declarations": [
         {
@@ -718,18 +718,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/profile-image/img/peace.png",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/profile-image/img/thumbs-up.png",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/pages/home/about-content.ts",
       "declarations": [
         {
@@ -763,6 +751,18 @@
           }
         }
       ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/profile-image/img/peace.png",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/profile-image/img/thumbs-up.png",
+      "declarations": [],
+      "exports": []
     }
   ]
 }
