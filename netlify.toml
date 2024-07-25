@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "https://willsonsmith.com/movies/*"
+  to = "https://movies.willsonsmith.com/:splat"
+  status = 200
