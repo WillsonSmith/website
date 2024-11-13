@@ -52,5 +52,6 @@ extension Template {
 // MARK: - Page
 
 protocol Page: HTMLFragment {
+  init()
   static var template: Template { get }
 }

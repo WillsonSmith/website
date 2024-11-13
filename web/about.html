@@ -3,22 +3,25 @@
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home</title>
+    <title>About</title>
     <style>.custom-paragraph {
     font-family: sans-serif;
 }
-</style>
+.about-heading {
+    margin: 0;
+}</style>
     </head>
     <body>
-          <main>
-        <h1>Home</h1>
+          <main class="about-heading">
+        <h1>About me</h1>
         <floating-card>
 <p class="custom-paragraph">
   This is some content for a paragraph. 
 </p>
 </floating-card>
     </main>
-      <script type="module">customElements.get("floating-card") 
+      <script type="module">
+customElements.get("floating-card") 
 ? null 
 : customElements.define(
     'floating-card', 
@@ -31,7 +34,6 @@
             this.style.border = "1px solid black"
             this.style.borderRadius = "4px"
         }
-    })
-</script>
+    })</script>
     </body>
 </html>
