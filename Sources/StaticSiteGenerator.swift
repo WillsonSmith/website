@@ -36,9 +36,22 @@ struct StaticSiteGenerator: AsyncParsableCommand {
   }
 }
 
+// MARK: - HTMLFragment
+
+protocol HTMLFragment: Sendable {
+  func _render() async -> String
+}
+
+extension String.StringInterpolation {
+  mutating func appendInterpolation(_ fragment: HTMLFragment) async {
+    let rendered = await fragment._render()
+    appendLiteral(rendered)
+  }
+}
+
 // MARK: - SubFragment
 
-struct SubFragment: Sendable {
+struct SubFragment: HTMLFragment {
   // MARK: Internal
 
   let css: String = """
@@ -76,7 +89,7 @@ struct SubFragment: Sendable {
 
 // MARK: - Fragment
 
-struct Fragment: Sendable {
+struct Fragment: HTMLFragment {
   // MARK: Internal
 
   let title: String
@@ -93,11 +106,11 @@ struct Fragment: Sendable {
   """
 
   func render() async -> String {
-    """
+    await """
     <div class="my-component">
         <h1>\(title)</h1>
         <div class="content">
-            \(await SubFragment()._render())
+            \(SubFragment())
         </div>
     </div>
     """
