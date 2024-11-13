@@ -16,15 +16,61 @@ struct StaticSiteGenerator: AsyncParsableCommand {
   var name: String?
 
   mutating func run() async {
-    print("Hello, \(name ?? "Anonymous")")
-    let component = Fragment(title: "Hello!")
-    let result = await component._render()
-    let css = await component.resourceCollector.css.joined(separator: "\n")
-    let javascript = await component.resourceCollector.javascript.joined(separator: "\n")
+    let resourceCollector = ResourceCollector()
 
-    print(result)
-    print(css)
-    print(javascript)
+    await ResourceContext.$context.withValue(resourceCollector) {
+      let component = Fragment(title: "Hello!")
+      let result = await component._render()
+      let css = await resourceCollector.css.joined(separator: "\n")
+      let javascript = await resourceCollector.javascript.joined(separator: "\n")
+
+      print(result)
+      print(css)
+      print(javascript)
+    }
+    // let component = Fragment(title: "Hello!")
+    // let result = await component._render()
+    // let css = await component.resourceCollector.css.joined(separator: "\n")
+    // let javascript = await component.resourceCollector.javascript.joined(separator: "\n")
+    //
+  }
+}
+
+// MARK: - SubFragment
+
+struct SubFragment: Sendable {
+  // MARK: Internal
+
+  let css: String = """
+      .sub-component {
+          background: black;
+      }
+  """
+
+  let javascript: String = """
+  console.log("Sub-component")
+  """
+
+  func render() -> String {
+    """
+    <p>Some content</p>
+    """
+  }
+
+  func _render() async -> String {
+    await addAssets()
+    return render()
+  }
+
+  // MARK: Private
+
+  private func addAssets() async {
+    guard let resourceCollector = ResourceContext.context else {
+      print("No ResourceCollector found for this task")
+      return
+    }
+    await resourceCollector.addCSS(css)
+    await resourceCollector.addJS(javascript)
   }
 }
 
@@ -34,8 +80,6 @@ struct Fragment: Sendable {
   // MARK: Internal
 
   let title: String
-
-  var resourceCollector = ResourceCollector()
 
   let css: String = """
   .my-component {
@@ -48,25 +92,39 @@ struct Fragment: Sendable {
   console.log("Test script")
   """
 
-  func render() -> String {
+  func render() async -> String {
     """
     <div class="my-component">
         <h1>\(title)</h1>
+        <div class="content">
+            \(await SubFragment()._render())
+        </div>
     </div>
     """
   }
 
   func _render() async -> String {
     await addAssets()
-    return render()
+    return await render()
   }
 
   // MARK: Private
 
   private func addAssets() async {
+    guard let resourceCollector = ResourceContext.context else {
+      print("No ResourceCollector found for this task")
+      return
+    }
     await resourceCollector.addCSS(css)
     await resourceCollector.addJS(javascript)
   }
+}
+
+// MARK: - ResourceContext
+
+enum ResourceContext {
+  @TaskLocal
+  static var context: ResourceCollector?
 }
 
 // MARK: - ResourceCollector
