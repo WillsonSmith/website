@@ -19,65 +19,40 @@ struct StaticSiteGenerator: AsyncParsableCommand {
     let resourceCollector = ResourceCollector()
 
     await ResourceContext.$context.withValue(resourceCollector) {
-      let component = Fragment(title: "Hello!")
-      let result = await component._render()
+      let page = await PageOne.template.render {
+        PageOne()
+      }
+
+      print(page)
+
+      // let component = PageOneSection(title: "Hello!")
+      // let result = await component._render()
       let css = await resourceCollector.css.joined(separator: "\n")
       let javascript = await resourceCollector.javascript.joined(separator: "\n")
 
-      print(result)
       print(css)
       print(javascript)
     }
-    // let component = Fragment(title: "Hello!")
-    // let result = await component._render()
-    // let css = await component.resourceCollector.css.joined(separator: "\n")
-    // let javascript = await component.resourceCollector.javascript.joined(separator: "\n")
-    //
   }
 }
 
 // MARK: - HTMLFragment
 
 protocol HTMLFragment: Sendable {
-  func _render() async -> String
+  var css: String { get }
+  var javascript: String { get }
+  func render() async -> String
 }
 
-extension String.StringInterpolation {
-  mutating func appendInterpolation(_ fragment: HTMLFragment) async {
-    let rendered = await fragment._render()
-    appendLiteral(rendered)
-  }
-}
-
-// MARK: - SubFragment
-
-struct SubFragment: HTMLFragment {
-  // MARK: Internal
-
-  let css: String = """
-      .sub-component {
-          background: black;
-      }
-  """
-
-  let javascript: String = """
-  console.log("Sub-component")
-  """
-
-  func render() -> String {
-    """
-    <p>Some content</p>
-    """
-  }
-
+extension HTMLFragment {
+  var css: String { "" }
+  var javascript: String { "" }
   func _render() async -> String {
-    await addAssets()
-    return render()
+    await addResources()
+    return await render()
   }
 
-  // MARK: Private
-
-  private func addAssets() async {
+  func addResources() async {
     guard let resourceCollector = ResourceContext.context else {
       print("No ResourceCollector found for this task")
       return
@@ -87,11 +62,60 @@ struct SubFragment: HTMLFragment {
   }
 }
 
-// MARK: - Fragment
+extension String.StringInterpolation {
+  mutating func appendInterpolation(_ fragment: HTMLFragment) async {
+    let rendered = await fragment._render()
+    appendLiteral(rendered)
+  }
+}
 
-struct Fragment: HTMLFragment {
-  // MARK: Internal
+// MARK: - Template
 
+protocol Template: Sendable {
+  func render(content: () -> HTMLFragment) async -> String
+}
+
+// MARK: - Page
+
+protocol Page: Sendable {
+  static var template: Template { get }
+}
+
+// MARK: - PageTemplate
+
+struct PageTemplate: Template {
+  let title: String
+
+  func render(content: () -> HTMLFragment) async -> String {
+    await """
+        <!doctype html>
+        <html>
+        <head>
+            <title>\(title)</title>
+        </head>
+        <body>
+            \(content())
+        </body>
+        </html>
+    """
+  }
+}
+
+// MARK: - PageOne
+
+struct PageOne: HTMLFragment, Page {
+  static let template: Template = PageTemplate(title: "Home")
+
+  func render() async -> String {
+    await """
+        \(PageOneSection(title: "Hello, world!"))
+    """
+  }
+}
+
+// MARK: - PageOneSection
+
+struct PageOneSection: HTMLFragment {
   let title: String
 
   let css: String = """
@@ -110,26 +134,30 @@ struct Fragment: HTMLFragment {
     <div class="my-component">
         <h1>\(title)</h1>
         <div class="content">
-            \(SubFragment())
+            \(PageOneParagraph())
         </div>
     </div>
     """
   }
+}
 
-  func _render() async -> String {
-    await addAssets()
-    return await render()
-  }
+// MARK: - PageOneParagraph
 
-  // MARK: Private
+struct PageOneParagraph: HTMLFragment {
+  let css: String = """
+      .sub-component {
+          background: black;
+      }
+  """
 
-  private func addAssets() async {
-    guard let resourceCollector = ResourceContext.context else {
-      print("No ResourceCollector found for this task")
-      return
-    }
-    await resourceCollector.addCSS(css)
-    await resourceCollector.addJS(javascript)
+  let javascript: String = """
+  console.log("Sub-component")
+  """
+
+  func render() -> String {
+    """
+    <p>Some content</p>
+    """
   }
 }
 
