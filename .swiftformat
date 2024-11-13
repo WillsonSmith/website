@@ -1,0 +1,87 @@
+# Specify version used in a project
+
+--swiftversion 6.0
+
+# Rules
+
+--rules                           \
+blankLinesAroundMark,             \
+blankLinesAtEndOfScope,           \
+blankLinesAtStartOfScope,         \
+blankLinesBetweenScopes,          \
+braces,                           \
+consecutiveBlankLines,            \
+consecutiveSpaces,                \
+duplicateImports,                 \
+elseOnSameLine,                   \
+emptyBraces,                      \
+enumNamespaces,                   \
+extensionAccessControl,           \
+hoistPatternLet,                  \
+indent,                           \
+leadingDelimiters,                \
+linebreakAtEndOfFile,             \
+markTypes,                        \
+organizeDeclarations,             \
+redundantInit,                    \
+redundantParens,                  \
+redundantPattern,                 \
+redundantRawValues,               \
+redundantType,                    \
+redundantVoidReturnType,          \
+semicolons,                       \
+sortImports,                    \
+sortSwitchCases,                \
+spaceAroundBraces,                \
+spaceAroundBrackets,              \
+spaceAroundComments,              \
+spaceAroundGenerics,              \
+spaceAroundOperators,             \
+spaceAroundParens,                \
+spaceInsideBraces,                \
+spaceInsideBrackets,              \
+spaceInsideComments,              \
+spaceInsideGenerics,              \
+spaceInsideParens,                \
+todos,                            \
+trailingClosures,                 \
+trailingCommas,                   \
+trailingSpace,                    \
+typeSugar,                        \
+void,                             \
+wrap,                             \
+wrapArguments,                    \
+wrapAttributes,                   \
+andOperator,                      \
+isEmpty,                          \
+redundantBackticks,               \
+redundantBreak,                   \
+redundantExtensionACL,            \
+redundantGet,                     \
+redundantLetError,                \
+redundantNilInit,                 \
+redundantObjc,                    \
+redundantReturn,                  \
+redundantSelf,                    \
+strongifiedSelf
+
+
+# Basic rules
+#
+--extensionacl on-declarations
+--funcattributes prev-line
+--indent 2
+--maxwidth 100 
+--typeattributes prev-line
+--funcattributes prev-line
+--storedvarattrs prev-line
+--computedvarattrs prev-line
+--complexattrs prev-line
+--voidtype tuple
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--wrapreturntype preserve 
+--wrapconditions after-first
+
+--self init-only
