@@ -18,7 +18,11 @@ struct CustomParagraph: HTMLFragment {
         class extends HTMLElement {
             constructor() {
                 super()
-                print("Init")
+                console.log("init")
+
+                this.style.display = "block"
+                this.style.border = "1px solid black"
+                this.style.borderRadius = "4px"
             }
         })
     """

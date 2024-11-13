@@ -1,5 +1,5 @@
 {
-  "originHash" : "b44657cdfbc9378aebbda12f927168cce42bf68ddc31ffcbc6cd0cfc8ff540ab",
+  "originHash" : "26879faaac57be071c6f63e7e4cbc01ee207a426f52c823d4a1042ad45398448",
   "pins" : [
     {
       "identity" : "swift-argument-parser",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "41982a3656a71c768319979febd796c6fd111d5c",
         "version" : "1.5.0"
+      }
+    },
+    {
+      "identity" : "swift-misc-utils",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/WillsonSmith/swift-misc-utils",
+      "state" : {
+        "branch" : "main",
+        "revision" : "c4d5d61b2922717bee4d468883e21332110e0217"
       }
     }
   ],
