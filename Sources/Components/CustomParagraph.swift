@@ -6,6 +6,10 @@ struct CustomParagraph: HTMLFragment {
     .custom-paragraph {
         font-family: sans-serif;
     }
+
+    floating-card {
+        box-shadow: 0 0 3px 0 rgb(from #efefef r g b / 0.5);
+    }
     """
   }
 

@@ -4,10 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
-    <style>.custom-paragraph {
+    <style>
+.custom-paragraph {
     font-family: sans-serif;
 }
-</style>
+
+floating-card {
+    box-shadow: 0 0 3px 0 rgb(from #efefef r g b / 0.5);
+}</style>
     </head>
     <body>
           <main>
@@ -18,7 +22,8 @@
 </p>
 </floating-card>
     </main>
-      <script type="module">customElements.get("floating-card") 
+      <script type="module">
+customElements.get("floating-card") 
 ? null 
 : customElements.define(
     'floating-card', 
@@ -31,7 +36,6 @@
             this.style.border = "1px solid black"
             this.style.borderRadius = "4px"
         }
-    })
-</script>
+    })</script>
     </body>
 </html>
