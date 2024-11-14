@@ -17,24 +17,23 @@ struct StaticSiteGenerator: AsyncParsableCommand {
   var name: String?
 
   mutating func run() async {
-    let pageDict: [String: Page.Type] = [
-      "index.html": PageIndex.self,
-      "about.html": PageAbout.self,
-    ]
-
-    for (route, pageStruct) in pageDict {
+    for (route, pageStruct) in WebsiteSettings.routes {
       let resourceCollector = ResourceCollector()
 
       await ResourceContext.$context.withValue(resourceCollector) {
         let page = await pageStruct.init()._render()
-        let css = await resourceCollector.css.joined(separator: "\n")
-        let javascript = await resourceCollector.javascript.joined(separator: "\n")
+
+        let css = await resourceCollector.cssString
+        let javascript = await resourceCollector.javascriptString
 
         let template = pageStruct.template.withScripts(javascript).withStyles(css)
         let renderedContent = await template.render { page }
 
         do {
-          let output = FSUtils.joinWithURL(url: FSUtils.cwd(), with: "web/\(route)")
+          let output = FSUtils.joinWithURL(
+            url: FSUtils.cwd(),
+            with: "\(WebsiteSettings.outDir)/\(route)"
+          )
           try IOUtils.writeStringToFile(
             renderedContent,
             toURL: output
@@ -69,6 +68,9 @@ actor ResourceCollector {
 
   var css: Set<String>
   var javascript: Set<String>
+
+  var cssString: String { css.joined(separator: "\n") }
+  var javascriptString: String { javascript.joined(separator: "\n") }
 
   func addCSS(_ styles: String) {
     css.insert(styles)
