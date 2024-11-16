@@ -12,14 +12,9 @@ struct PageAbout: Page {
   }
 
   func render() async -> String {
-    await """
+    """
         <main class="about-heading">
             <h1>\(title)</h1>
-            \(CustomParagraph {
-              """
-              This is some content for a paragraph.
-              """
-            })
         </main>
     """
   }

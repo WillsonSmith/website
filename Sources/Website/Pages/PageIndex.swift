@@ -3,13 +3,25 @@ struct PageIndex: Page {
 
   let title: String = "Home"
 
+  var css: String {
+    """
+        .block {
+            background: #fff;
+            border: 1px solid #efefef;
+            border-radius: 4px;
+            padding-block: calc(1rem / 4); 
+            padding-inline: calc(1rem);
+        }
+    """
+  }
+
   func render() async -> String {
     await """
         <main>
             <h1>\(title)</h1>
-            \(CustomParagraph {
+            \(RaisingBlock(classList: ["block"]) {
               """
-              This is some content for a paragraph.
+              <p>Hello!</p>
               """
             })
         </main>

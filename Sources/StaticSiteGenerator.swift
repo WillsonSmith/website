@@ -26,7 +26,14 @@ struct StaticSiteGenerator: AsyncParsableCommand {
         let css = await resourceCollector.cssString
         let javascript = await resourceCollector.javascriptString
 
-        let template = pageStruct.template.withScripts(javascript).withStyles(css)
+        let template = pageStruct.template.withScripts(
+          javascript.components(separatedBy: .newlines)
+            .map { $0.trimmingCharacters(in: .whitespaces) }.joined()
+        )
+        .withStyles(
+          css.components(separatedBy: .newlines)
+            .map { $0.trimmingCharacters(in: .whitespaces) }.joined()
+        )
         let renderedContent = await template.render { page }
 
         do {

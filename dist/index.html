@@ -4,38 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
-    <style>.custom-paragraph {
-    font-family: sans-serif;
-}
-
-floating-card {
-    box-shadow: 0 0 3px 0 rgb(from #efefef r g b / 0.5);
-}
-</style>
+    <style>raising-block {--shadow-color: 220 3% 15%;--shadow-strength: 1%;--scale: 0.98;display: block;scale: var(--scale);transition:scale 250ms ease-out,box-shadow 300ms ease-in-out;&.visible {--scale: 1;box-shadow:0 3px 5px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),0 7px 14px -5px hsl(var(--shadow-color) /calc(var(--shadow-strength) + 5%));}}.block {background: #fff;border: 1px solid #efefef;border-radius: 4px;padding-block: calc(1rem / 4);padding-inline: calc(1rem);}</style>
     </head>
     <body>
           <main>
         <h1>Home</h1>
-        <floating-card>
-<p class="custom-paragraph">
-  This is some content for a paragraph. 
-</p>
-</floating-card>
+        <raising-block class="block">
+    <p>Hello!</p>
+</raising-block>
     </main>
-      <script type="module">
-customElements.get("floating-card") 
-? null 
-: customElements.define(
-    'floating-card', 
-    class extends HTMLElement {
-        constructor() {
-            super()
-            console.log("init")
-
-            this.style.display = "block"
-            this.style.border = "1px solid black"
-            this.style.borderRadius = "4px"
-        }
-    })</script>
+      <script type="module">customElements.get('raising-block')? null: customElements.define('raising-block',class extends HTMLElement {constructor() {super();this.intersectionObserver = new IntersectionObserver(this._handleIntersection,{threshold: [0.5],},);this.intersectionObserver.observe(this);}_handleIntersection = (entries) => {for (const entry of entries) {this.classList.toggle("visible", entry.isIntersecting);}};},);</script>
     </body>
 </html>

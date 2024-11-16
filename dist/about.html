@@ -4,40 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>About</title>
-    <style>.custom-paragraph {
-    font-family: sans-serif;
-}
-
-floating-card {
-    box-shadow: 0 0 3px 0 rgb(from #efefef r g b / 0.5);
-}
-.about-heading {
-    margin: 0;
-}</style>
+    <style>.about-heading {margin: 0;}</style>
     </head>
     <body>
           <main class="about-heading">
         <h1>About me</h1>
-        <floating-card>
-<p class="custom-paragraph">
-  This is some content for a paragraph. 
-</p>
-</floating-card>
     </main>
-      <script type="module">
-customElements.get("floating-card") 
-? null 
-: customElements.define(
-    'floating-card', 
-    class extends HTMLElement {
-        constructor() {
-            super()
-            console.log("init")
-
-            this.style.display = "block"
-            this.style.border = "1px solid black"
-            this.style.borderRadius = "4px"
-        }
-    })</script>
+      
     </body>
 </html>
