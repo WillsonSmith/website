@@ -70,7 +70,7 @@ export class AboutContent extends LitElement {
           </figure>
 
           <p>
-            Fiary tales show us dragons can be defeated, well crafted user
+            Fairy tales show us dragons can be defeated, well crafted user
             experiences show us that difficult tasks are surmountable.
           </p>
 
