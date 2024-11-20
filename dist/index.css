@@ -7,7 +7,12 @@ body {
 .page-body {
   display: grid;
   gap: var(--size-4);
+}
+
 .content-wrapper {
+  --wave-height: 200px;
+  --background-sticky-offset: var(--size-10);
+
   position: relative;
   display: grid;
   grid-template-areas: "main";
@@ -19,9 +24,9 @@ body {
 
 .wave {
   position: sticky;
-  top: 50px;
+  top: var(--background-sticky-offset);
   background: var(--content-bg-color);
-  height: 200px;
+  height: var(--wave-height);
   width: 100%;
   clip-path: url(#wave-clip);
   translate: 0 1px;
@@ -29,9 +34,9 @@ body {
 
 .content-background {
   position: sticky;
-  top: calc(0px + 200px);
+  top: calc(var(--background-sticky-offset) + var(--wave-height));
 
-  margin-top: 200px;
+  margin-top: var(--wave-height);
   background: var(--content-bg-color);
   width: 100%;
   height: calc(100vh - 200px);
@@ -43,7 +48,7 @@ body {
   justify-content: center;
   gap: var(--size-6);
 
-  margin-block-start: calc(var(--size-10) * 2);
+  margin-block-start: calc(var(--wave-height) + var(--size-5));
   margin-block-end: var(--size-10);
 }
 
@@ -69,6 +74,7 @@ body {
   }
 
   .block {
+    color: #fff;
     display: grid;
     gap: var(--size-3);
     max-width: 60ch;
@@ -78,6 +84,11 @@ body {
     padding-block: var(--size-3);
     padding-block-end: var(--size-4);
     padding-inline: var(--size-6);
+
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   h2 {

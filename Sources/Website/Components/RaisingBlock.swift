@@ -19,13 +19,15 @@ struct RaisingBlock: HTMLFragment {
 
       display: block;
       scale: var(--scale);
+      opacity: 0.6;
 
       transition:
-        scale 250ms var(--ease-out-1), box-shadow .3s var(--ease-1);
+        scale 250ms var(--ease-out-1), box-shadow .3s var(--ease-1), opacity 200ms var(--ease-1);
 
       &.visible {
         --scale: 1;
         box-shadow: var(--shadow-1);
+        opacity: 1;
       }
     }
 
@@ -52,7 +54,7 @@ struct RaisingBlock: HTMLFragment {
 
           _handleIntersection = (entries) => {
             for (const entry of entries) {
-              this.classList.toggle("visible", entry.isIntersecting);
+              this.classList.toggle('visible', entry.isIntersecting);
             }
           };
         },

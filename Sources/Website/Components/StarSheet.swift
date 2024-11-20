@@ -1,15 +1,15 @@
 struct StarSheet: HTMLFragment {
   // MARK: Lifecycle
 
-  init(count: Int, density: Int) {
+  init(count: Int, maximumStarSize: Int = 4) {
     self.count = count
-    self.density = density
+    self.maximumStarSize = maximumStarSize
 
     var tempStars: [Star] = []
     for _ in 1 ... count {
       let x = Double.random(in: 0 ... 100)
       let y = Double.random(in: 0 ... 100)
-      let size = Int.random(in: 1 ... Int(maxSize))
+      let size = Int.random(in: 1 ... maximumStarSize)
       tempStars.append(Star(x: x, y: y, size: size))
     }
 
@@ -24,13 +24,13 @@ struct StarSheet: HTMLFragment {
     let size: Int
   }
 
-  let maxSize: Double = 5
+  let maximumStarSize: Int
   let count: Int
-  let density: Int
 
   var css: String {
     """
      .component--star-sheet {
+         pointer-events: none;
          position: fixed;
          width: 100%;
          height: 100%;
@@ -60,7 +60,6 @@ struct StarSheet: HTMLFragment {
   func render() async -> String {
     """
         <div class="component--star-sheet">
-
                 \(stars.map { star in
                   """
                   <div
@@ -69,7 +68,7 @@ struct StarSheet: HTMLFragment {
                         --x: \(star.x)%;
                         --y: \(star.y)%;
                         --size: \(star.size)px;
-                        --opacity: \(Double(star.size) / maxSize);
+                        --opacity: \(Double(star.size) / Double(maximumStarSize));
                     "></div>
                   """
                 }.joined(separator: "\n"))

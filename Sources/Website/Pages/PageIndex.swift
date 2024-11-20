@@ -29,7 +29,7 @@ struct PageIndex: Page {
     }
 
     return await """
-        \(StarSheet(count: 200, density: 0))
+        \(StarSheet(count: 200))
         <svg width="0" height="0">
           <defs>
             <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">

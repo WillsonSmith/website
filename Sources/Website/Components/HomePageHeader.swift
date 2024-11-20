@@ -12,8 +12,9 @@ struct HomePageHeader: HTMLFragment {
                 super()
                 this.intersectionObserver = new IntersectionObserver(
                 this.handleIntersections, {
-                    rootMargin: '-80px 0px 0px 0px',
-                      threshold: [0.85],
+                    rootMargin: '-130px 0px 0px 0px',
+
+                      threshold: [0.25],
                     }
                 )
                 this.intersectionObserver.observe(this);
@@ -22,7 +23,9 @@ struct HomePageHeader: HTMLFragment {
             handleIntersections = (entries) => {
                 for (const entry of entries) {
                     if (entry.isIntersecting) {
-                        this.setAttribute('data-visible', 2)
+                        this.setAttribute('data-visible', 1)
+                    } else {
+                        this.setAttribute('data-visible', 2);
                     }
                 }
             }
@@ -38,8 +41,9 @@ struct HomePageHeader: HTMLFragment {
     h-image-swap {
         display: grid;
         place-items: center;
+        height: var(--size-12);
         position: sticky;
-        top: var(--size-3);
+        top: 0;
 
 
         .image {
@@ -47,7 +51,7 @@ struct HomePageHeader: HTMLFragment {
             grid-template-areas: "main";
             place-items: center;
 
-            background-image: var(--gradient-9);
+            /* background-image: var(--gradient-9); */
             max-inline-size: var(--size-12);
             border-radius: var(--radius-blob-5);
             padding: var(--size-2);
