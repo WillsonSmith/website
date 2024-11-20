@@ -30,22 +30,53 @@ extension HTMLFragment {
 // MARK: - Template
 
 protocol Template: Sendable {
+  var links: [Link] { get set }
+  var scripts: [Script] { get set }
   var styles: String { get set }
-  var scripts: String { get set }
+  var javascript: String { get set }
   func render(content: () -> String) async -> String
 }
 
 extension Template {
+  func withLinks(_ links: [Link]) -> Self {
+    var copy = self
+    copy.links = links
+    return copy
+  }
+
+  func withScripts(_ scripts: [Script]) -> Self {
+    var copy = self
+    copy.scripts = scripts
+    return copy
+  }
+
   func withStyles(_ styles: String) -> Self {
     var copy = self
     copy.styles = styles
     return copy
   }
 
-  func withScripts(_ scripts: String) -> Self {
+  func withJavascript(_ scripts: String) -> Self {
     var copy = self
-    copy.scripts = scripts
+    copy.javascript = scripts
     return copy
+  }
+}
+
+// MARK: - Link
+
+struct Link: CustomStringConvertible {
+  let rel: String
+  let href: String
+  let additionalAttributes: [String: String] = [:]
+
+  var description: String {
+    """
+    <link rel="\(rel)" href="\(href)" \(
+      additionalAttributes.map { "\($0.key)=\"\($0.value)\"" }
+        .joined(separator: " ")
+    )>
+    """
   }
 }
 
@@ -54,4 +85,24 @@ extension Template {
 protocol Page: HTMLFragment {
   init()
   static var template: Template { get }
+  var links: [Link] { get }
+  var scripts: [Script] { get }
+}
+
+extension Page {
+  var links: [Link] { [] }
+  var scripts: [Script] { [] }
+}
+
+// MARK: - Script
+
+struct Script: CustomStringConvertible {
+  let type: String
+  let src: String
+
+  var description: String {
+    """
+    <script type="\(type)" src="\(src)"></script>
+    """
+  }
 }

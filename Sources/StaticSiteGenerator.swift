@@ -21,20 +21,22 @@ struct StaticSiteGenerator: AsyncParsableCommand {
       let resourceCollector = ResourceCollector()
 
       await ResourceContext.$context.withValue(resourceCollector) {
-        let page = await pageStruct.init()._render()
+        let page = pageStruct.init()
+        let pageContent = await page._render()
 
         let css = await resourceCollector.cssString
         let javascript = await resourceCollector.javascriptString
 
-        let template = pageStruct.template.withScripts(
-          javascript.components(separatedBy: .newlines)
-            .map { $0.trimmingCharacters(in: .whitespaces) }.joined()
+        let template = pageStruct.template.withJavascript(
+          ScriptMinifier(javascript).js
         )
         .withStyles(
-          css.components(separatedBy: .newlines)
-            .map { $0.trimmingCharacters(in: .whitespaces) }.joined()
+          CSSMinifier(css).css
         )
-        let renderedContent = await template.render { page }
+        .withLinks(page.links)
+        .withScripts(page.scripts)
+
+        let renderedContent = await template.render { pageContent }
 
         do {
           let output = FSUtils.joinWithURL(
@@ -80,10 +82,42 @@ actor ResourceCollector {
   var javascriptString: String { javascript.joined(separator: "\n") }
 
   func addCSS(_ styles: String) {
-    css.insert(styles)
+    css.insert(CSSMinifier(styles).css)
   }
 
   func addJS(_ script: String) {
     javascript.insert(script)
   }
+}
+
+// MARK: - CSSMinifier
+
+struct CSSMinifier {
+  // MARK: Lifecycle
+
+  init(_ css: String) {
+    self.css = css
+    // self.css = css.components(separatedBy: .newlines)
+    // .map { $0.trimmingCharacters(in: .whitespaces) }.joined()
+  }
+
+  // MARK: Internal
+
+  let css: String
+}
+
+// MARK: - ScriptMinifier
+
+struct ScriptMinifier {
+  // MARK: Lifecycle
+
+  init(_ script: String) {
+    self.js = script
+    // self.js = script.components(separatedBy: .newlines)
+    //   .map { $0.trimmingCharacters(in: .whitespaces) }.joined()
+  }
+
+  // MARK: Internal
+
+  let js: String
 }
