@@ -1,11 +1,9 @@
 const wavePath = document.querySelector("#wave-clip path");
 
-let mouseX = 0;
-let restingHeight = 0.5;
-let waveAmplitude = 0.05;
-let waveFrequency = 4;
 let time = 0;
 const numPoints = 50;
+
+let amplitudeMultiplier = 1;
 
 const waves = [
   { amplitude: 0.01, frequency: 2, phase: 0, bobSpeed: 0.005 },
@@ -24,6 +22,10 @@ const waves = [
 function animateWave() {
   let pathD = `M0,0.5`; // Start path at the middle of the screen
 
+  if (amplitudeMultiplier > 1) {
+    amplitudeMultiplier -= 0.01;
+  }
+
   for (let i = 0; i <= numPoints; i++) {
     const x = i / numPoints; // Normalized x position (0 to 1)
     let y = 0.5; // Start with baseline height
@@ -32,6 +34,7 @@ function animateWave() {
     for (const wave of waves) {
       y +=
         wave.amplitude *
+        amplitudeMultiplier *
         Math.sin((wave.frequency * x + wave.phase + time) * Math.PI * 2);
     }
 
@@ -52,11 +55,26 @@ function animateWave() {
   requestAnimationFrame(animateWave);
 }
 
-window.addEventListener("mousemove", (e) => {
-  mouseX = e.pageX;
-});
+// globalThis.addEventListener("mousemove", (e) => {
+//   mouseX = e.pageX;
+// });
 
-window.addEventListener("scroll", (e) => {
+let isMoving = false;
+globalThis.addEventListener("scroll", (e) => {
+  const scrollStrength = Math.min(0.1, globalThis.scrollY * 0.0002);
+  if (amplitudeMultiplier < 3) {
+    amplitudeMultiplier += scrollStrength;
+  }
+  // console.log(scrollStrength);
+  // if (amplitudeMultiplier == 1) {
+  //   isMoving = true;
+  //   amplitudeMultiplier = 2;
+  //   // setTimeout(() => {
+  //   //   isMoving = false;
+  //   //   amplitudeMultiplier = 1;
+  //   // }, 1000);
+  // }
+
   //   if (scrollWave.amplitude == 0) {
   //       scrollWave.x = mouseX
   // scrollWave.amplitude = Math.max(scrollWave.amplitude, scrollWave.amplitude + 0.1); // Increase amplitude

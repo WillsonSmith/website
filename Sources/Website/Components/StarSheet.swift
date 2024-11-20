@@ -1,7 +1,7 @@
 struct StarSheet: HTMLFragment {
   // MARK: Lifecycle
 
-  init(count: Int, maximumStarSize: Int = 4) {
+  init(count: Int, maximumStarSize: Int = 4, additionalClasses: [String] = []) {
     self.count = count
     self.maximumStarSize = maximumStarSize
 
@@ -14,6 +14,8 @@ struct StarSheet: HTMLFragment {
     }
 
     self.stars = tempStars
+
+    self.additionalClasses = additionalClasses
   }
 
   // MARK: Internal
@@ -27,11 +29,14 @@ struct StarSheet: HTMLFragment {
   let maximumStarSize: Int
   let count: Int
 
+  let additionalClasses: [String]
+
   var css: String {
     """
      .component--star-sheet {
          pointer-events: none;
          position: fixed;
+         top: 0;
          width: 100%;
          height: 100%;
 
@@ -59,7 +64,7 @@ struct StarSheet: HTMLFragment {
 
   func render() async -> String {
     """
-        <div class="component--star-sheet">
+        <div class="component--star-sheet \(additionalClasses.map { $0 })">
                 \(stars.map { star in
                   """
                   <div

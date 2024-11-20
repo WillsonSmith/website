@@ -12,7 +12,7 @@ struct HomePageHeader: HTMLFragment {
                 super()
                 this.intersectionObserver = new IntersectionObserver(
                 this.handleIntersections, {
-                    rootMargin: '-130px 0px 0px 0px',
+                    rootMargin: '-180px 0px 0px 0px',
 
                       threshold: [0.25],
                     }
@@ -43,7 +43,7 @@ struct HomePageHeader: HTMLFragment {
         place-items: center;
         height: var(--size-12);
         position: sticky;
-        top: 0;
+        top: 50px;
 
 
         .image {

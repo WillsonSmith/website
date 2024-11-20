@@ -5,8 +5,14 @@ body {
 }
 
 .page-body {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: var(--size-4);
+}
+
+.home-star-sheet {
+  z-index: 0;
 }
 
 .content-wrapper {
@@ -48,7 +54,7 @@ body {
   justify-content: center;
   gap: var(--size-6);
 
-  margin-block-start: calc(var(--wave-height) + var(--size-5));
+  margin-block-start: calc(var(--wave-height) + var(--size-2));
   margin-block-end: var(--size-10);
 }
 
@@ -79,16 +85,15 @@ body {
     gap: var(--size-3);
     max-width: 60ch;
     background: #fff;
-    border: 1px solid #efefef;
     border-radius: 4px;
     padding-block: var(--size-3);
     padding-block-end: var(--size-4);
     padding-inline: var(--size-6);
 
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(from var(--gray-10) r g b / 0.4);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgb(from var(--gray-8) r b g / 0.3);
   }
 
   h2 {

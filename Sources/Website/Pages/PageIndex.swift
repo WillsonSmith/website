@@ -29,7 +29,6 @@ struct PageIndex: Page {
     }
 
     return await """
-        \(StarSheet(count: 200))
         <svg width="0" height="0">
           <defs>
             <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
@@ -51,6 +50,7 @@ struct PageIndex: Page {
                 </div>
             </main>
         </div>
+        \(StarSheet(count: 200, additionalClasses: ["home-star-sheet"]))
     """
   }
 }
@@ -58,8 +58,8 @@ struct PageIndex: Page {
 // MARK: - PageIndexContent
 
 enum PageIndexContent {
-  static let contentBlocks: [String: String] = [
-    "An introdiction.": """
+  static let contentBlocks: [(title: String, content: String)] = [
+    ("An introduction.", """
     <p>
       Hey! I'm <strong>Willson</strong>, a software developer with a
       specialization in front-end web experiences.
@@ -85,8 +85,9 @@ enum PageIndexContent {
         use of and contributing to Shopify's Polaris design system, and
         building prototypes to help communicate ideas.
       </p>
-    """,
-    "Telling stories with code.":
+    """),
+    (
+      "Telling stories with code.",
       """
       <p>
             Stories are integral to the human experience. They are how we make
@@ -106,8 +107,10 @@ enum PageIndexContent {
             tell our friends about, the ones we come back to. I want to tell
             those stories.
           </p>
-      """,
-    "Defeating dragons.":
+      """
+    ),
+    (
+      "Defeating dragons.",
       """
       <figure style="margin-block-start: 0">
             <blockquote>
@@ -132,8 +135,10 @@ enum PageIndexContent {
             building a business is hard. My goal was to provide them with the
             tools to slay their own dragons.
           </p>
-      """,
-    "Turning the page.":
+      """
+    ),
+    (
+      "Turning the page.",
       """
       <p>
             I've wrapped up my time at Shopify but I am not done building great
@@ -147,8 +152,10 @@ enum PageIndexContent {
             skills and working on some personal projects and I'm finding new
             ways to connect people, and more ways to tell stories.
           </p>
-      """,
-    "A new adventure?":
+      """
+    ),
+    (
+      "A new adventure?",
       """
       <p>
             Need a front-end developer? Someone with a keen eye for UX?
@@ -161,6 +168,7 @@ enum PageIndexContent {
               <email-link>me[at]willsonsmith.com</email-link></span
             >
           </p>
-      """,
+      """
+    ),
   ]
 }
