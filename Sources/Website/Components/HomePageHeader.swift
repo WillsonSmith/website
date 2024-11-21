@@ -5,33 +5,33 @@ struct HomePageHeader: HTMLFragment {
 
   var javascript: String {
     """
-        if (customElements.get('\(tagName)') == undefined) {
-            customElements.define('\(tagName)', class extends HTMLElement {
-                images = [];
+    if (customElements.get('\(tagName)') == undefined) {
+        customElements.define('\(tagName)', class extends HTMLElement {
+            images = [];
 
-                constructor() {
-                    super()
-                    this.intersectionObserver = new IntersectionObserver(
-                    this.handleIntersections, {
-                        rootMargin: '-180px 0px 0px 0px',
+            constructor() {
+                super()
+                this.intersectionObserver = new IntersectionObserver(
+                this.handleIntersections, {
+                    rootMargin: '-180px 0px 0px 0px',
 
-                          threshold: [0.25],
-                        }
-                    )
-                    this.intersectionObserver.observe(this);
-                }
+                      threshold: [0.25],
+                    }
+                )
+                this.intersectionObserver.observe(this);
+            }
 
-                handleIntersections = (entries) => {
-                    for (const entry of entries) {
-                        if (entry.isIntersecting) {
-                            this.setAttribute('data-visible', 1)
-                        } else {
-                            this.setAttribute('data-visible', 2);
-                        }
+            handleIntersections = (entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        this.setAttribute('data-visible', 1)
+                    } else {
+                        this.setAttribute('data-visible', 2);
                     }
                 }
-            })
-        }
+            }
+        })
+    }
     """
   }
 
@@ -79,28 +79,28 @@ struct HomePageHeader: HTMLFragment {
 
   func render() async -> String {
     """
-        <\(tagName) data-visible="1">
-            <div class="image">
-                <picture>
-                    <source srcset="/images/thumbs-up.avif" type="image/avif">
-                    <img
-                    loading="lazy"
-                    alt="An avatar of Willson waving at the screen."
-                    src="/images/thumbs-up.png"
-                    width="\(imageSize)"
-                    height="\(imageSize)">
-                </picture>
-                <picture>
-                    <source srcset="/images/peace.avif" type="image/avif">
-                    <img
-                    loading="lazy"
-                    alt=""
-                    src="/images/peace.png"
-                    width="\(imageSize)"
-                    height="\(imageSize)">
-                </picture>
-            </div>
-        </\(tagName)>
+    <\(tagName) data-visible="1">
+        <div class="image">
+            <picture>
+                <source srcset="/images/thumbs-up.avif" type="image/avif">
+                <img
+                loading="lazy"
+                alt="An avatar of Willson waving at the screen."
+                src="/images/thumbs-up.png"
+                width="\(imageSize)"
+                height="\(imageSize)">
+            </picture>
+            <picture>
+                <source srcset="/images/peace.avif" type="image/avif">
+                <img
+                loading="lazy"
+                alt=""
+                src="/images/peace.png"
+                width="\(imageSize)"
+                height="\(imageSize)">
+            </picture>
+        </div>
+    </\(tagName)>
     """
   }
 

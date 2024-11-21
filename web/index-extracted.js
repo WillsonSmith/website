@@ -1,31 +1,30 @@
+if (customElements.get('h-image-swap') == undefined) {
+    customElements.define('h-image-swap', class extends HTMLElement {
+        images = [];
 
-    if (customElements.get('h-image-swap') == undefined) {
-        customElements.define('h-image-swap', class extends HTMLElement {
-            images = [];
+        constructor() {
+            super()
+            this.intersectionObserver = new IntersectionObserver(
+            this.handleIntersections, {
+                rootMargin: '-180px 0px 0px 0px',
 
-            constructor() {
-                super()
-                this.intersectionObserver = new IntersectionObserver(
-                this.handleIntersections, {
-                    rootMargin: '-180px 0px 0px 0px',
+                  threshold: [0.25],
+                }
+            )
+            this.intersectionObserver.observe(this);
+        }
 
-                      threshold: [0.25],
-                    }
-                )
-                this.intersectionObserver.observe(this);
-            }
-
-            handleIntersections = (entries) => {
-                for (const entry of entries) {
-                    if (entry.isIntersecting) {
-                        this.setAttribute('data-visible', 1)
-                    } else {
-                        this.setAttribute('data-visible', 2);
-                    }
+        handleIntersections = (entries) => {
+            for (const entry of entries) {
+                if (entry.isIntersecting) {
+                    this.setAttribute('data-visible', 1)
+                } else {
+                    this.setAttribute('data-visible', 2);
                 }
             }
-        })
-    }
+        }
+    })
+}
 if (customElements.get('raising-block') == undefined) {
     customElements.define('raising-block', class extends HTMLElement {
         constructor() {
@@ -46,6 +45,7 @@ if (customElements.get('raising-block') == undefined) {
         } 
     })
 }
+
 if (customElements.get('email-link') == undefined) {
     customElements.define('email-link', class extends HTMLElement {
       constructor() {

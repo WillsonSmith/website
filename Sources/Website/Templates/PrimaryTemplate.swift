@@ -36,6 +36,7 @@ struct PrimaryTemplate: Template {
           \(styleTag)
           </head>
           <body>
+            <!-- All code is intentionally unminified so that others can learn. -->
             \(content())
             \(scriptTag)
             \(scripts.map { String(describing: $0) }.joined(separator: "\n"))
