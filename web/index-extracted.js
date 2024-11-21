@@ -1,4 +1,3 @@
-
 customElements.get('raising-block')
   ? null
   : customElements.define(

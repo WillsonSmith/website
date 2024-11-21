@@ -14,7 +14,6 @@ struct RaisingBlock: HTMLFragment {
 
   var css: String {
     """
-    @import url('/styles/open-props/props.shadows.css');
 
     raising-block {
       --scale: 0.98;

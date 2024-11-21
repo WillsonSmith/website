@@ -1,22 +1,44 @@
-@import url('/styles/open-props/props.shadows.css');
 
-raising-block {
-  --scale: 0.98;
+    .global-navigation {
+        color: var(--gray-1);
+        --font-size-title: var(--font-size-5);
+        --font-weight-title: var(--font-weight-6);
 
-  display: block;
-  scale: var(--scale);
-  opacity: 0.6;
+        position: sticky;
+        top: 0;
 
-  transition:
-    scale 250ms var(--ease-out-1), box-shadow .3s var(--ease-1), opacity 200ms var(--ease-1);
+        display: flex;
+        align-items: center;
 
-  &.visible {
-    --scale: 1;
-    box-shadow: var(--shadow-1);
-    opacity: 1;
-  }
-}
 
+        padding-block: var(--size-1);
+        padding-inline: var(--size-fluid-2);
+
+        .links {
+            display: flex;
+            gap: var(--size-3);
+        }
+
+        a {
+            text-decoration: none;
+            scale: 1;
+            transform-origin: 50% 100%;
+            transition: scale 100ms var(--ease-out-1);
+
+            &:hover {
+                scale: 1.1;
+            }
+        }
+
+        h1 {
+            flex: 1;
+            font-family: var(--font-rounded-sans);
+            font-size: var(--font-size-title);
+            font-weight: var(--font-weight-title);
+
+            /* line-height: var(--font-lineheight-1); */
+        }
+    }
 h-image-swap {
     display: grid;
     place-items: center;
@@ -77,43 +99,20 @@ h-image-swap {
          inset: var(--y) var(--x) auto auto;
      }
  }
-    .global-navigation {
-        color: var(--gray-1);
-        --font-size-title: var(--font-size-5);
-        --font-weight-title: var(--font-weight-6);
 
-        position: sticky;
-        top: 0;
+raising-block {
+  --scale: 0.98;
 
-        display: flex;
-        align-items: center;
+  display: block;
+  scale: var(--scale);
+  opacity: 0.6;
 
+  transition:
+    scale 250ms var(--ease-out-1), box-shadow .3s var(--ease-1), opacity 200ms var(--ease-1);
 
-        padding-block: var(--size-1);
-        padding-inline: var(--size-fluid-2);
-
-        .links {
-            display: flex;
-            gap: var(--size-3);
-        }
-
-        a {
-            text-decoration: none;
-            scale: 1;
-            transform-origin: 50% 100%;
-            transition: scale 100ms var(--ease-out-1);
-
-            &:hover {
-                scale: 1.1;
-            }
-        }
-
-        h1 {
-            flex: 1;
-            font-family: var(--font-rounded-sans);
-            font-size: var(--font-size-title);
-            font-weight: var(--font-weight-title);
-
-            /* line-height: var(--font-lineheight-1); */
-        }
-    }
+  &.visible {
+    --scale: 1;
+    box-shadow: var(--shadow-1);
+    opacity: 1;
+  }
+}
