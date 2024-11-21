@@ -1,3 +1,42 @@
+if (customElements.get('email-link') == undefined) {
+    customElements.define('email-link', class extends HTMLElement {
+      constructor() {
+          super();
+          const email = this.textContent?.replace('[at]', '@');
+          if (email != undefined) {
+              const link = `<a href="mailto:${email}">${email}</a>`;
+              this.innerHTML = link;
+          }
+      }
+    })
+}
+    if (customElements.get('h-image-swap') == undefined) {
+        customElements.define('h-image-swap', class extends HTMLElement {
+            images = [];
+
+            constructor() {
+                super()
+                this.intersectionObserver = new IntersectionObserver(
+                this.handleIntersections, {
+                    rootMargin: '-180px 0px 0px 0px',
+
+                      threshold: [0.25],
+                    }
+                )
+                this.intersectionObserver.observe(this);
+            }
+
+            handleIntersections = (entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        this.setAttribute('data-visible', 1)
+                    } else {
+                        this.setAttribute('data-visible', 2);
+                    }
+                }
+            }
+        })
+    }
 customElements.get('raising-block')
   ? null
   : customElements.define(
@@ -21,46 +60,3 @@ customElements.get('raising-block')
       };
     },
   );
-  customElements.get('h-image-swap') 
-  ? null 
-  : customElements.define('h-image-swap', class extends HTMLElement {
-        images = [];
-
-        constructor() {
-            super()
-            this.intersectionObserver = new IntersectionObserver(
-            this.handleIntersections, {
-                rootMargin: '-180px 0px 0px 0px',
-
-                  threshold: [0.25],
-                }
-            )
-            this.intersectionObserver.observe(this);
-        }
-
-        handleIntersections = (entries) => {
-            for (const entry of entries) {
-                if (entry.isIntersecting) {
-                    this.setAttribute('data-visible', 1)
-                } else {
-                    this.setAttribute('data-visible', 2);
-                }
-            }
-        }
-
-
-
-    })
-
-if (customElements.get('email-link') == undefined) {
-    customElements.define('email-link', class extends HTMLElement {
-      constructor() {
-          super();
-          const email = this.textContent?.replace('[at]', '@');
-          if (email != undefined) {
-              const link = `<a href="mailto:${email}">${email}</a>`;
-              this.innerHTML = link;
-          }
-      }
-    })
-}

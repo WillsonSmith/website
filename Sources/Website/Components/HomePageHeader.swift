@@ -3,42 +3,39 @@ struct HomePageHeader: HTMLFragment {
 
   var javascript: String {
     """
-      customElements.get('\(tagName)') 
-      ? null 
-      : customElements.define('\(tagName)', class extends HTMLElement {
-            images = [];
+        if (customElements.get('\(tagName)') == undefined) {
+            customElements.define('\(tagName)', class extends HTMLElement {
+                images = [];
 
-            constructor() {
-                super()
-                this.intersectionObserver = new IntersectionObserver(
-                this.handleIntersections, {
-                    rootMargin: '-180px 0px 0px 0px',
+                constructor() {
+                    super()
+                    this.intersectionObserver = new IntersectionObserver(
+                    this.handleIntersections, {
+                        rootMargin: '-180px 0px 0px 0px',
 
-                      threshold: [0.25],
-                    }
-                )
-                this.intersectionObserver.observe(this);
-            }
+                          threshold: [0.25],
+                        }
+                    )
+                    this.intersectionObserver.observe(this);
+                }
 
-            handleIntersections = (entries) => {
-                for (const entry of entries) {
-                    if (entry.isIntersecting) {
-                        this.setAttribute('data-visible', 1)
-                    } else {
-                        this.setAttribute('data-visible', 2);
+                handleIntersections = (entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting) {
+                            this.setAttribute('data-visible', 1)
+                        } else {
+                            this.setAttribute('data-visible', 2);
+                        }
                     }
                 }
-            }
-
-
-
-        })
+            })
+        }
     """
   }
 
   var css: String {
     """
-    h-image-swap {
+    \(tagName) {
         display: grid;
         place-items: center;
         height: var(--size-12);
@@ -51,7 +48,6 @@ struct HomePageHeader: HTMLFragment {
             grid-template-areas: "main";
             place-items: center;
 
-            /* background-image: var(--gradient-9); */
             max-inline-size: 144px;
             border-radius: var(--radius-blob-5);
             padding: var(--size-2);
