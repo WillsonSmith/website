@@ -39,9 +39,6 @@ struct PrimaryTemplate: Template {
             \(content())
             \(scriptTag)
             \(scripts.map { String(describing: $0) }.joined(separator: "\n"))
-            <script type="module">
-                navigator.serviceWorker.getRegistration().then((r) => r.unregister())
-            </script>
           </body>
       </html>
       """
