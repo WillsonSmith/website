@@ -79,8 +79,18 @@ struct HomePageHeader: HTMLFragment {
     """
         <\(tagName) data-visible="1">
             <div class="image">
-                <img src="/images/thumbs-up.png" width="420" height="420"></source>
-                <img src="/images/peace.png" width="420" height="420"></source>
+                <img
+                    loading="lazy"
+                    alt="An avatar of Willson waving at the screen."
+                    src="/images/thumbs-up.png"
+                    width="420"
+                    height="420">
+                <img
+                    loading="lazy"
+                    alt=""
+                    src="/images/peace.png"
+                    width="420"
+                    height="420">
             </div>
         </\(tagName)>
     """

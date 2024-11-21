@@ -64,20 +64,23 @@ struct StarSheet: HTMLFragment {
 
   func render() async -> String {
     """
-        <div class="component--star-sheet \(additionalClasses.map { $0 })">
-                \(stars.map { star in
-                  """
-                  <div
-                    class="circle"
-                    style="
-                        --x: \(star.x)%;
-                        --y: \(star.y)%;
-                        --size: \(star.size)px;
-                        --opacity: \(Double(star.size) / Double(maximumStarSize));
-                    "></div>
-                  """
-                }.joined(separator: "\n"))
-        </div>
+    <div aria-hidden="true" class="component--star-sheet \(
+      additionalClasses
+        .joined(separator: " ")
+    )">
+            \(stars.map { star in
+              """
+              <div
+                class="circle"
+                style="
+                    --x: \(star.x)%;
+                    --y: \(star.y)%;
+                    --size: \(star.size)px;
+                    --opacity: \(1 - (Double(star.size) / Double(maximumStarSize + 1)));
+                "></div>
+              """
+            }.joined(separator: "\n"))
+    </div>
     """
   }
 

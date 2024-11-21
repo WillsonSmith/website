@@ -1,17 +1,15 @@
 struct GlobalNavigation: HTMLFragment {
-  let links: [String: String] = [
-    "https://github.com/willsonsmith": "Github",
-    "https://www.linkedin.com/in/willsonsmith/": "LinkedIn",
+  let links: [(url: String, title: String)] = [
+    ("https://github.com/willsonsmith", "Github"),
+    ("https://www.linkedin.com/in/willsonsmith/", "LinkedIn"),
   ]
 
   var css: String {
     """
         .global-navigation {
             color: var(--gray-1);
-
-            --font-family-title: 'Lilita One', sans-serif;
             --font-size-title: var(--font-size-5);
-            --font-weight-title: var(--font-weight-3);
+            --font-weight-title: var(--font-weight-6);
 
             position: sticky;
             top: 0;
@@ -19,7 +17,6 @@ struct GlobalNavigation: HTMLFragment {
             display: flex;
             align-items: center;
 
-            /* background: var(--gray-2); */
 
             padding-block: var(--size-1);
             padding-inline: var(--size-fluid-2);
@@ -31,11 +28,18 @@ struct GlobalNavigation: HTMLFragment {
 
             a {
                 text-decoration: none;
+                scale: 1;
+                transform-origin: 50% 100%;
+                transition: scale 100ms var(--ease-out-1);
+
+                &:hover {
+                    scale: 1.1;
+                }
             }
 
             h1 {
                 flex: 1;
-                font-family: var(--font-family-title);
+                font-family: var(--font-rounded-sans);
                 font-size: var(--font-size-title);
                 font-weight: var(--font-weight-title);
 

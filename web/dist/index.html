@@ -1,0 +1,1883 @@
+<!doctype html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <style>raising-block {
+  --scale: 0.98;
+
+  display: block;
+  scale: var(--scale);
+  opacity: 0.6;
+
+  transition:
+    scale 250ms var(--ease-out-1), box-shadow .3s var(--ease-1), opacity 200ms var(--ease-1);
+
+  &.visible {
+    --scale: 1;
+    box-shadow: var(--shadow-1);
+    opacity: 1;
+  }
+}
+
+    .global-navigation {
+        color: var(--gray-1);
+        --font-size-title: var(--font-size-5);
+        --font-weight-title: var(--font-weight-6);
+
+        position: sticky;
+        top: 0;
+
+        display: flex;
+        align-items: center;
+
+
+        padding-block: var(--size-1);
+        padding-inline: var(--size-fluid-2);
+
+        .links {
+            display: flex;
+            gap: var(--size-3);
+        }
+
+        a {
+            text-decoration: none;
+            scale: 1;
+            transform-origin: 50% 100%;
+            transition: scale 100ms var(--ease-out-1);
+
+            &:hover {
+                scale: 1.1;
+            }
+        }
+
+        h1 {
+            flex: 1;
+            font-family: var(--font-rounded-sans);
+            font-size: var(--font-size-title);
+            font-weight: var(--font-weight-title);
+
+            /* line-height: var(--font-lineheight-1); */
+        }
+    }
+h-image-swap {
+    display: grid;
+    place-items: center;
+    height: var(--size-12);
+    position: sticky;
+    top: 50px;
+
+
+    .image {
+        display: grid;
+        grid-template-areas: "main";
+        place-items: center;
+
+        /* background-image: var(--gradient-9); */
+        max-inline-size: var(--size-12);
+        border-radius: var(--radius-blob-5);
+        padding: var(--size-2);
+    }
+
+    img {
+        grid-area: main;
+        opacity: 0;
+        block-size: auto;
+        max-inline-size: 100%;
+        transition: opacity 500ms var(--ease-out-5);
+    }
+
+    &[data-visible="1"] img:nth-child(1) {
+        opacity: 1;
+    }
+    &[data-visible="2"] img:nth-child(2) {
+        opacity: 1;
+    }
+}
+ .component--star-sheet {
+     pointer-events: none;
+     position: fixed;
+     top: 0;
+     width: 100%;
+     height: 100%;
+
+
+     .circle {
+         --size: 1px;
+         --x: 0%;
+         --y: 0%;
+
+         --opacity: 1;
+
+         background: #fff;
+         opacity: var(--opacity);
+         position: absolute;
+
+         inline-size: var(--size);
+         block-size: var(--size);
+         border-radius: 50%;
+
+         inset: var(--y) var(--x) auto auto;
+     }
+ }
+</style>
+      <script type="module" crossorigin src="/assets/index-vzN4XQ3e.js"></script>
+      <link rel="stylesheet" crossorigin href="/assets/index-C0tv3Yht.css">
+    </head>
+    <body>
+          <svg width="0" height="0">
+      <defs>
+        <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
+          <path d="M0,0.5 C0.25,0.8 0.75,0.2 1,0.5 V1 H0 Z" />
+        </clipPath>
+      </defs>
+    </svg>
+    <div class="page-body">
+            <header class="global-navigation">
+        <h1>Willson Smith</h1>
+        <nav class="links">
+                <a href="https://github.com/willsonsmith" target="_blank">Github</a>
+    <a href="https://www.linkedin.com/in/willsonsmith/" target="_blank">LinkedIn</a>
+        </nav>
+    </header>
+        <main class="page-body">
+                <h-image-swap data-visible="1">
+        <div class="image">
+            <img
+                loading="lazy"
+                alt="An avatar of Willson waving at the screen."
+                src="/assets/thumbs-up-CUhp05GK.png"
+                width="420"
+                height="420">
+            <img
+                loading="lazy"
+                alt=""
+                src="/assets/peace-CBNrWRyX.png"
+                width="420"
+                height="420">
+        </div>
+    </h-image-swap>
+            <div class="content-wrapper">
+                <div class="wave"></div>
+                <div class="content-background"></div>
+
+                <div class="page-content">
+                        <div class="block-wrapper">
+  <raising-block class="block">
+        <h2>An introduction.</h2>
+    <p>
+  Hey! I'm <strong>Willson</strong>, a software developer with a
+  specialization in front-end web experiences.
+</p>
+
+  <p>
+    I'm a former Shopify employee of 8 years. Prior to my leave, my
+    title was <strong>Senior Creative Technologist</strong>. I wore many
+    hats during my time at the company, but they shared a common thread:
+    building bridges between people and technology.
+  </p>
+
+  <p>
+    I was a front-end developer, a ux developer, a creative
+    technologist, but through all these roles my goal was simple: build
+    delightful, productive, and inclusive experiences for our merchants.
+  </p>
+
+  <p>
+    In addition to building the front-end Shopify admin experience, some
+    of my responsibilities included: working with designers to find the
+    balance between possible and perfect, educating my team on the best
+    use of and contributing to Shopify's Polaris design system, and
+    building prototypes to help communicate ideas.
+  </p>
+</raising-block>
+  </div>    <div class="block-wrapper">
+  <raising-block class="block">
+        <h2>Telling stories with code.</h2>
+    <p>
+      Stories are integral to the human experience. They are how we make
+      sense of the world, how we communicate ideas, how we teach, how we
+      learn, and how we remember.
+    </p>
+    <p>
+      I believe that the best user experiences are the ones that tell a
+      story. They are the ones that guide you through a journey, they do
+      not leave you behind, they do not leave you confused, they do not
+      leave you frustrated. They make you promises and they keep them.
+    </p>
+
+    <p>
+      Stories are also delightful, they are fun, they are engaging, they
+      are memorable. They are the experiences we remember, the ones we
+      tell our friends about, the ones we come back to. I want to tell
+      those stories.
+    </p>
+</raising-block>
+  </div>    <div class="block-wrapper">
+  <raising-block class="block">
+        <h2>Defeating dragons.</h2>
+    <figure style="margin-block-start: 0">
+      <blockquote>
+        <p>
+          Fairy tales are more than true: not because they tell us that
+          dragons exist, but because they tell us dragons can be beaten.
+        </p>
+      </blockquote>
+      <figcaption>—Neil Gaiman, <cite>Coraline</cite></figcaption>
+    </figure>
+
+    <p>
+      Fiary tales show us dragons can be defeated, well crafted user
+      experiences show us that difficult tasks are surmountable.
+    </p>
+
+    <p>
+      Shopfiy merchants face dragons every day. They are the dragons of a
+      new business, of a new idea, of a new product. The dragons of a new
+      market, a new customer, a new competitor. Technology and the world
+      around us change every day and adapting to every change while
+      building a business is hard. My goal was to provide them with the
+      tools to slay their own dragons.
+    </p>
+</raising-block>
+  </div>    <div class="block-wrapper">
+  <raising-block class="block">
+        <h2>Turning the page.</h2>
+    <p>
+      I've wrapped up my time at Shopify but I am not done building great
+      experiences. Front-end development has always foremost been a hobby
+      and passion, I take pleasure in building the web. I love it. The
+      challenge, the problems I get to solve, the sheer amount of learning
+      and creativity to be had.
+    </p>
+    <p>
+      For the time being I'm taking some time for me. I'm learning new
+      skills and working on some personal projects and I'm finding new
+      ways to connect people, and more ways to tell stories.
+    </p>
+</raising-block>
+  </div>    <div class="block-wrapper">
+  <raising-block class="block">
+        <h2>A new adventure?</h2>
+    <p>
+      Need a front-end developer? Someone with a keen eye for UX?
+      Performance? Accessibility? Have something you think I can help you
+      with? I'd love to hear about it.
+    </p>
+    <p>
+      <span>
+        Send me an email:&nbsp;
+        <email-link>me[at]willsonsmith.com</email-link></span
+      >
+    </p>
+</raising-block>
+  </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div aria-hidden="true" class="component--star-sheet home-star-sheet">
+        <div
+  class="circle"
+  style="
+      --x: 91.57197301404727%;
+      --y: 29.601913357263943%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 43.86267307858549%;
+      --y: 77.40334006723025%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 80.44158257734864%;
+      --y: 3.9873864436310913%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 2.7648860643812334%;
+      --y: 53.452851746056375%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 82.46066029027911%;
+      --y: 35.53769647036113%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 63.0511973157867%;
+      --y: 4.9403959382626095%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 33.694415349172814%;
+      --y: 96.97265292188128%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 37.72022464187028%;
+      --y: 66.3971281873928%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 56.70815223261529%;
+      --y: 65.57316325892619%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 59.67681763955468%;
+      --y: 34.4837132661861%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 78.49343451882798%;
+      --y: 67.42949781809567%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 92.50612419788828%;
+      --y: 78.93683320474473%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 41.47487429881065%;
+      --y: 18.173662171639837%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 69.22643629451237%;
+      --y: 74.71249780879535%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 30.200180883546825%;
+      --y: 14.282833244181614%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 23.325991054199147%;
+      --y: 47.866192946446894%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 20.69004792316361%;
+      --y: 62.82120047630063%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 60.52660758087668%;
+      --y: 90.51984935217179%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 22.41454410999123%;
+      --y: 97.5223895905896%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 10.770346005740938%;
+      --y: 99.89827274403682%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 66.3650890709967%;
+      --y: 53.78376449140183%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 20.656341643757294%;
+      --y: 99.0562235697905%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 12.413651915698953%;
+      --y: 0.3167002273710251%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 76.87914930834175%;
+      --y: 89.06165532521098%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 50.25200193872591%;
+      --y: 79.87065405317493%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 25.10017905512807%;
+      --y: 85.95453182706218%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 20.136446348917445%;
+      --y: 43.99351091603516%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 61.845788192038086%;
+      --y: 64.33820100173513%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 91.99036832887994%;
+      --y: 24.624303894629683%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 20.14093976260257%;
+      --y: 54.07053168379401%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 84.93569234275164%;
+      --y: 58.693547429556105%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 64.97426072147758%;
+      --y: 22.094341234859883%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 43.00702713139447%;
+      --y: 84.27831407445746%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 31.830903513459287%;
+      --y: 38.73923339810466%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 60.38859714072535%;
+      --y: 7.467056960197393%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 5.012612693980167%;
+      --y: 88.31246710348431%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 74.82238432831656%;
+      --y: 26.02843967420729%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 83.04629687471186%;
+      --y: 54.221895768809084%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 37.99481337126529%;
+      --y: 14.0659470152099%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 38.529664450295066%;
+      --y: 12.717201278682433%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 99.29367168215786%;
+      --y: 71.02823258367494%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 46.50105142442848%;
+      --y: 94.07038860853604%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 92.19429375619363%;
+      --y: 91.99907140875288%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 91.69492702798053%;
+      --y: 99.22784607440745%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 58.57502418483067%;
+      --y: 3.2141436108595656%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 39.65620025092864%;
+      --y: 64.98775072171622%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 27.944149180390664%;
+      --y: 27.813771600468897%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 78.96941718876317%;
+      --y: 24.677845803543143%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 75.29962364291472%;
+      --y: 30.27081445396711%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 51.60681857990422%;
+      --y: 85.2992976925347%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 97.86010880526621%;
+      --y: 96.67388974585187%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 20.38897587073737%;
+      --y: 67.20322879010742%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 41.025969648357595%;
+      --y: 3.3861406278970163%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 93.7895372275207%;
+      --y: 93.53800402999998%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 97.92867119220053%;
+      --y: 59.072082741328394%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 75.81911856840286%;
+      --y: 59.207301238766085%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 48.99149529062701%;
+      --y: 36.95628123163546%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 99.06325134342521%;
+      --y: 0.10743927443718215%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 38.79402217432008%;
+      --y: 83.96579263345657%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 0.42835888015579915%;
+      --y: 40.30516805952973%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 81.38163202742966%;
+      --y: 28.370115283577846%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 22.094943481201035%;
+      --y: 57.56923958513709%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 12.457476338336715%;
+      --y: 68.46992275414227%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 94.09515085442081%;
+      --y: 26.352245329300317%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 29.03358452715382%;
+      --y: 59.955498435208035%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 74.6586406630078%;
+      --y: 72.31935824508656%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 41.13759856240592%;
+      --y: 88.65634384504696%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 35.77934271472899%;
+      --y: 43.875057914916894%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 34.76626737798812%;
+      --y: 26.328389211386227%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 44.00510230629736%;
+      --y: 60.24936201464492%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 18.38873920847578%;
+      --y: 23.37708014460087%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 86.16174649973414%;
+      --y: 97.0654417329584%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 52.08992418474484%;
+      --y: 39.4295902624949%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 37.440066069782375%;
+      --y: 72.16257858086263%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 93.33211951679917%;
+      --y: 55.32670686292519%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 82.9807256181745%;
+      --y: 32.69430279397568%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 49.53176896521902%;
+      --y: 92.56616449723516%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 6.913685593024887%;
+      --y: 98.12711391723471%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 66.30042691639593%;
+      --y: 65.7724736747205%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 65.96454481156336%;
+      --y: 98.84461167143922%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 44.65313855383843%;
+      --y: 68.36020156414024%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 51.125185802170336%;
+      --y: 43.03154132148765%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 10.908853851380428%;
+      --y: 41.488137578971404%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 33.998181701452225%;
+      --y: 6.380536390170077%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 62.751367550798506%;
+      --y: 56.404995499269496%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 11.100748207996268%;
+      --y: 66.68682307806269%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 82.42422299030032%;
+      --y: 26.235876583599005%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 68.25394865834137%;
+      --y: 76.32751057550936%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 2.747156824740271%;
+      --y: 79.19361767619519%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 40.92939138363846%;
+      --y: 23.69996410506857%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 20.231820013731237%;
+      --y: 10.832918647255763%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 32.84878708115582%;
+      --y: 71.56327617378348%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 44.96884367597015%;
+      --y: 89.65441311473155%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 86.29014010495432%;
+      --y: 21.42248401857175%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 26.162812356053077%;
+      --y: 55.77651504632516%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 35.07709043381123%;
+      --y: 30.373040952238483%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 62.10196398233372%;
+      --y: 53.6431209212601%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 10.983135625912166%;
+      --y: 20.234740492315993%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 21.346952978121436%;
+      --y: 53.58098375977025%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 9.882951695476761%;
+      --y: 49.71282015284395%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 77.2825158047972%;
+      --y: 27.45256611487904%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 96.64663868760843%;
+      --y: 3.768314174631493%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 6.909639715488247%;
+      --y: 62.206183237041614%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 28.65954111501152%;
+      --y: 12.603340628720128%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 54.02461694055594%;
+      --y: 62.4870956180235%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 59.170795473863656%;
+      --y: 76.80208629227003%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 36.907902437480544%;
+      --y: 80.21654773022216%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 91.40620343210641%;
+      --y: 66.96250293448816%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 6.056057161880091%;
+      --y: 52.16632559490171%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 93.74389625583261%;
+      --y: 62.5962297353189%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 89.64066024401129%;
+      --y: 82.5321227251549%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 55.49802711585989%;
+      --y: 80.44191833403083%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 98.79195553278996%;
+      --y: 73.34000452543125%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 74.37377102410098%;
+      --y: 79.04819240774353%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 99.64404068043848%;
+      --y: 3.648304901775956%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 33.26649895476741%;
+      --y: 67.39273405919562%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 65.16317249049114%;
+      --y: 58.643559981480294%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 70.44893666657575%;
+      --y: 82.03011332108233%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 84.52083764154365%;
+      --y: 2.455933896162932%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 92.17800933578138%;
+      --y: 34.28688403898106%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 40.01697431541018%;
+      --y: 39.20423133660154%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 6.409632414910471%;
+      --y: 46.79980604475893%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 65.34509088028922%;
+      --y: 24.80561651519867%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 28.302359924835198%;
+      --y: 48.4144930822708%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 94.65244885467949%;
+      --y: 98.90942707345467%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 41.32199354984605%;
+      --y: 59.511526823832305%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 10.217758866646298%;
+      --y: 16.203675526987904%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 54.717660984961526%;
+      --y: 13.574802471292479%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 11.50194721688419%;
+      --y: 51.049934198746286%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 25.91257145473398%;
+      --y: 12.243204520033347%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 0.996156075786836%;
+      --y: 62.67143752822199%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 51.34960491178304%;
+      --y: 45.00771671380053%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 48.02079010639706%;
+      --y: 52.5391728579513%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 81.4359144228798%;
+      --y: 27.212373056854698%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 24.769986484718864%;
+      --y: 70.77118667284483%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 50.00788158765671%;
+      --y: 42.740953888122746%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 24.86801796834106%;
+      --y: 42.553594818050236%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 2.7906764217514923%;
+      --y: 74.94671741097588%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 22.785335897270407%;
+      --y: 65.19582299362159%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 33.41688295116241%;
+      --y: 52.156919846870345%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 12.610922123783064%;
+      --y: 79.76019751440053%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 25.75436033790569%;
+      --y: 96.39427847200412%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 74.30783116245836%;
+      --y: 92.8942582708674%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 40.21228615066692%;
+      --y: 6.834940153075841%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 94.2423474368983%;
+      --y: 24.726202029868038%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 21.196903688606163%;
+      --y: 20.40017780899469%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 51.53085571549521%;
+      --y: 49.53734496660164%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 49.3773492421429%;
+      --y: 16.397522529483886%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 27.922522472562818%;
+      --y: 91.68303573392433%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 93.55102853576084%;
+      --y: 2.525119220914218%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 31.487997724984098%;
+      --y: 42.77440240610982%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 6.215325866326005%;
+      --y: 38.8222540174698%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 55.36087052902771%;
+      --y: 93.31500368069263%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 9.669514900102506%;
+      --y: 2.96486801558441%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 2.4141057283405543%;
+      --y: 8.645670599362255%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 83.53137552772371%;
+      --y: 4.25368171590248%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 40.128418140806986%;
+      --y: 95.3776351787313%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 24.159572042842616%;
+      --y: 84.95782333190596%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 96.05980737546153%;
+      --y: 4.015225397258448%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 56.054465501963925%;
+      --y: 71.64156217307995%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 32.331034723760524%;
+      --y: 23.323020808085104%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 11.06326712942044%;
+      --y: 73.45218553857225%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 48.594860775694656%;
+      --y: 18.979102197226748%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 90.95463698548946%;
+      --y: 47.730119946050756%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 73.01966466525133%;
+      --y: 83.90051835987946%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 88.27276233726657%;
+      --y: 22.198497744503687%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 44.166504203490874%;
+      --y: 52.74316595385111%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 12.661142005779169%;
+      --y: 86.22819801980356%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 78.54294964281509%;
+      --y: 12.240744520987857%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 76.56392324224058%;
+      --y: 75.7088298194887%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 72.77613426814462%;
+      --y: 27.65205977646341%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 45.371978351406725%;
+      --y: 56.03443684058621%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 49.79550164652045%;
+      --y: 95.61739075110148%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 79.6149408052251%;
+      --y: 64.49357879625992%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 26.759340317707892%;
+      --y: 76.29032352958014%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 24.979645552967146%;
+      --y: 27.914245866893207%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 97.7268911979726%;
+      --y: 63.91111415758505%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 65.26087109997074%;
+      --y: 71.90936222672987%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 90.28903494878794%;
+      --y: 78.40396397579133%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 4.6352114274109235%;
+      --y: 52.48689231027927%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 93.79211180588257%;
+      --y: 65.8417452427512%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 95.76643859818803%;
+      --y: 64.24226880747054%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 50.69037341262821%;
+      --y: 22.229250213175956%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 91.71653810195383%;
+      --y: 73.22775778090137%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 0.04392464370712723%;
+      --y: 99.032752339107%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 3.42759571511132%;
+      --y: 6.567885102202631%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 87.15171223171251%;
+      --y: 84.73958981606545%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 66.29051191219204%;
+      --y: 41.39530613349574%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 36.81253264816243%;
+      --y: 16.554506885220775%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 48.99826963167947%;
+      --y: 50.71384501851461%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 2.561183403487133%;
+      --y: 4.995544528683493%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 97.85915462896038%;
+      --y: 92.34229925367178%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 80.33019229778013%;
+      --y: 63.26774155660423%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 50.85291686936979%;
+      --y: 61.34098190459253%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 31.821900446780703%;
+      --y: 11.48066044878333%;
+      --size: 1px;
+      --opacity: 0.8;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 42.44974229237582%;
+      --y: 89.17680228601402%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 55.15310132184589%;
+      --y: 72.30083488855828%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 28.729875707311624%;
+      --y: 2.7066708134816597%;
+      --size: 3px;
+      --opacity: 0.4;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 71.7154192164119%;
+      --y: 84.31171606748987%;
+      --size: 4px;
+      --opacity: 0.19999999999999996;
+  "></div>
+<div
+  class="circle"
+  style="
+      --x: 6.611768203625735%;
+      --y: 6.086918274391195%;
+      --size: 2px;
+      --opacity: 0.6;
+  "></div>
+</div>
+    </body>
+</html>

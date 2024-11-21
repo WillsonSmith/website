@@ -1,4 +1,2 @@
 #!/usr/bin/env bash
-touch .build/browser-dev-sync
-browser-sync start --server "dist" --files "dist"
-watchexec -w Sources -e .swift -r 'swift run StaticSiteGenerator && touch .build/browser-dev-sync'
+watchexec -w Sources -e .swift -r 'swift run StaticSiteGenerator'
