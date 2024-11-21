@@ -1,4 +1,6 @@
-@import url("./global-props.css");
+@import url("./open-props/props.fonts.css");
+@import url("./open-props/props.gray.css");
+@import url("./open-props/props.sizes.css");
 
 html {
   box-sizing: border-box;

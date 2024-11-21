@@ -33,32 +33,30 @@ struct StarSheet: HTMLFragment {
 
   var css: String {
     """
-     .component--star-sheet {
-         pointer-events: none;
-         position: fixed;
-         top: 0;
-         width: 100%;
-         height: 100%;
+    .component--star-sheet {
+        pointer-events: none;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 100%;
 
+        .circle {
+            --size: 1px;
+            --x: 0%;
+            --y: 0%;
+            --opacity: 1;
 
-         .circle {
-             --size: 1px;
-             --x: 0%;
-             --y: 0%;
+            position: absolute;
+            inset: var(--y) var(--x) auto auto;
 
-             --opacity: 1;
+            background: #fff;
+            opacity: var(--opacity);
 
-             background: #fff;
-             opacity: var(--opacity);
-             position: absolute;
-
-             inline-size: var(--size);
-             block-size: var(--size);
-             border-radius: 50%;
-
-             inset: var(--y) var(--x) auto auto;
-         }
-     }
+            inline-size: var(--size);
+            block-size: var(--size);
+            border-radius: 50%;
+        }
+    }
     """
   }
 
