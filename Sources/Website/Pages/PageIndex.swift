@@ -8,6 +8,23 @@ struct PageIndex: Page {
 
   let title: String = "Home"
 
+  var javascript: String {
+    """
+    if (customElements.get('email-link') == undefined) {
+        customElements.define('email-link', class extends HTMLElement {
+          constructor() {
+              super();
+              const email = this.textContent?.replace('[at]', '@');
+              if (email != undefined) {
+                  const link = `<a href="mailto:${email}">${email}</a>`;
+                  this.innerHTML = link;
+              }
+          }
+        })
+    }
+    """
+  }
+
   func render() async -> String {
     var blocks: [String] = []
 
