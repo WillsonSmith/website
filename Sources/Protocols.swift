@@ -40,13 +40,13 @@ protocol Template: Sendable {
 extension Template {
   func withLinks(_ links: [Link]) -> Self {
     var copy = self
-    copy.links = links
+    copy.links.append(contentsOf: links)
     return copy
   }
 
   func withScripts(_ scripts: [Script]) -> Self {
     var copy = self
-    copy.scripts = scripts
+    copy.scripts.append(contentsOf: scripts)
     return copy
   }
 

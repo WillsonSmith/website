@@ -27,14 +27,49 @@ struct StaticSiteGenerator: AsyncParsableCommand {
         let css = await resourceCollector.cssString
         let javascript = await resourceCollector.javascriptString
 
-        let template = pageStruct.template.withJavascript(
-          ScriptMinifier(javascript).js
-        )
-        .withStyles(
-          CSSMinifier(css).css
-        )
-        .withLinks(page.links)
-        .withScripts(page.scripts)
+        var template = pageStruct.template
+
+        do {
+          if !javascript.isEmpty {
+            let output = FSUtils.joinWithURL(
+              url: FSUtils.cwd(),
+              with: "\(WebsiteSettings.outDir)/\(route.replacingOccurrences(of: ".html", with: "-extracted.js"))"
+            )
+
+            try IOUtils.writeStringToFile(
+              javascript,
+              toURL: output
+            )
+
+            template = template.withScripts([Script(
+              type: "module",
+              src: route.replacingOccurrences(of: ".html", with: "-extracted.js")
+            )])
+          }
+
+          if !css.isEmpty {
+            let output = FSUtils.joinWithURL(
+              url: FSUtils.cwd(),
+              with: "\(WebsiteSettings.outDir)/\(route.replacingOccurrences(of: ".html", with: "-extracted.css"))"
+            )
+            try IOUtils.writeStringToFile(
+              css,
+              toURL: output
+            )
+            print(route.replacingOccurrences(of: ".html", with: "-extracted.css"))
+
+            template = template.withLinks([Link(
+              rel: "stylesheet",
+              href: route.replacingOccurrences(of: ".html", with: "-extracted.css")
+            )])
+          }
+        } catch {
+          print("Error \(error)")
+        }
+
+        template = template
+          .withLinks(page.links)
+          .withScripts(page.scripts)
 
         let renderedContent = await template.render { pageContent }
 
