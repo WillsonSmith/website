@@ -21,7 +21,6 @@ customElements.get('raising-block')
       };
     },
   );
-
   customElements.get('h-image-swap') 
   ? null 
   : customElements.define('h-image-swap', class extends HTMLElement {
