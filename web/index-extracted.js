@@ -1,15 +1,26 @@
-if (customElements.get('email-link') == undefined) {
-    customElements.define('email-link', class extends HTMLElement {
+customElements.get('raising-block')
+  ? null
+  : customElements.define(
+    'raising-block',
+    class extends HTMLElement {
       constructor() {
-          super();
-          const email = this.textContent?.replace('[at]', '@');
-          if (email != undefined) {
-              const link = `<a href="mailto:${email}">${email}</a>`;
-              this.innerHTML = link;
-          }
+        super();
+        this.intersectionObserver = new IntersectionObserver(
+          this._handleIntersection,
+          {
+            threshold: [0.5],
+          },
+        );
+        this.intersectionObserver.observe(this);
       }
-    })
-}
+
+      _handleIntersection = (entries) => {
+        for (const entry of entries) {
+          this.classList.toggle('visible', entry.isIntersecting);
+        }
+      };
+    },
+  );
 
   customElements.get('h-image-swap') 
   ? null 
@@ -41,26 +52,15 @@ if (customElements.get('email-link') == undefined) {
 
 
     })
-customElements.get('raising-block')
-  ? null
-  : customElements.define(
-    'raising-block',
-    class extends HTMLElement {
+if (customElements.get('email-link') == undefined) {
+    customElements.define('email-link', class extends HTMLElement {
       constructor() {
-        super();
-        this.intersectionObserver = new IntersectionObserver(
-          this._handleIntersection,
-          {
-            threshold: [0.5],
-          },
-        );
-        this.intersectionObserver.observe(this);
+          super();
+          const email = this.textContent?.replace('[at]', '@');
+          if (email != undefined) {
+              const link = `<a href="mailto:${email}">${email}</a>`;
+              this.innerHTML = link;
+          }
       }
-
-      _handleIntersection = (entries) => {
-        for (const entry of entries) {
-          this.classList.toggle('visible', entry.isIntersecting);
-        }
-      };
-    },
-  );
+    })
+}
