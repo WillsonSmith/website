@@ -20,10 +20,13 @@ struct RaisingBlock: HTMLFragment {
 
       display: block;
       scale: var(--scale);
-      opacity: 0.6;
-
+        opacity: 1;
       transition:
         scale 250ms var(--ease-out-1), opacity 200ms var(--ease-1);
+
+      &.ready {
+        opacity: 0.6;
+      }
 
       &.visible {
         --scale: 1;
@@ -44,6 +47,7 @@ struct RaisingBlock: HTMLFragment {
         class extends HTMLElement {
           constructor() {
             super();
+            this.classList.add('ready');
             this.intersectionObserver = new IntersectionObserver(
               this._handleIntersection,
               {

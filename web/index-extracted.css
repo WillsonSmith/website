@@ -1,47 +1,3 @@
- .component--star-sheet {
-     pointer-events: none;
-     position: fixed;
-     top: 0;
-     width: 100%;
-     height: 100%;
-
-
-     .circle {
-         --size: 1px;
-         --x: 0%;
-         --y: 0%;
-
-         --opacity: 1;
-
-         background: #fff;
-         opacity: var(--opacity);
-         position: absolute;
-
-         inline-size: var(--size);
-         block-size: var(--size);
-         border-radius: 50%;
-
-         inset: var(--y) var(--x) auto auto;
-     }
- }
-
-raising-block {
-  --scale: 0.98;
-
-  display: block;
-  scale: var(--scale);
-  opacity: 0.6;
-
-  transition:
-    scale 250ms var(--ease-out-1), opacity 200ms var(--ease-1);
-
-  &.visible {
-    --scale: 1;
-    box-shadow: var(--shadow-1);
-    opacity: 1;
-  }
-}
-
     .global-navigation {
         color: var(--gray-1);
         --font-size-title: var(--font-size-5);
@@ -97,7 +53,8 @@ h-image-swap {
         grid-template-areas: "main";
         place-items: center;
 
-        max-inline-size: 144px;
+        max-inline-size: 200px;
+        aspect-ratio: 1 / 1;
         border-radius: var(--radius-blob-5);
         padding: var(--size-2);
     }
@@ -116,4 +73,50 @@ h-image-swap {
     &[data-visible="2"] img:nth-child(2) {
         opacity: 1;
     }
+}
+ .component--star-sheet {
+     pointer-events: none;
+     position: fixed;
+     top: 0;
+     width: 100%;
+     height: 100%;
+
+
+     .circle {
+         --size: 1px;
+         --x: 0%;
+         --y: 0%;
+
+         --opacity: 1;
+
+         background: #fff;
+         opacity: var(--opacity);
+         position: absolute;
+
+         inline-size: var(--size);
+         block-size: var(--size);
+         border-radius: 50%;
+
+         inset: var(--y) var(--x) auto auto;
+     }
+ }
+
+raising-block {
+  --scale: 0.98;
+
+  display: block;
+  scale: var(--scale);
+    opacity: 1;
+  transition:
+    scale 250ms var(--ease-out-1), opacity 200ms var(--ease-1);
+
+  &.ready {
+    opacity: 0.6;
+  }
+
+  &.visible {
+    --scale: 1;
+    box-shadow: var(--shadow-1);
+    opacity: 1;
+  }
 }

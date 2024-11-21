@@ -1,4 +1,6 @@
 struct HomePageHeader: HTMLFragment {
+  // MARK: Internal
+
   let tagName = "h-image-swap"
 
   var javascript: String {
@@ -48,7 +50,8 @@ struct HomePageHeader: HTMLFragment {
             grid-template-areas: "main";
             place-items: center;
 
-            max-inline-size: 144px;
+            max-inline-size: \(imageSize)px;
+            aspect-ratio: 1 / 1;
             border-radius: var(--radius-blob-5);
             padding: var(--size-2);
         }
@@ -79,16 +82,20 @@ struct HomePageHeader: HTMLFragment {
                     loading="lazy"
                     alt="An avatar of Willson waving at the screen."
                     src="/images/thumbs-up.png"
-                    width="144"
-                    height="144">
+                    width="\(imageSize)"
+                    height="\(imageSize)">
                 <img
                     loading="lazy"
                     alt=""
                     src="/images/peace.png"
-                    width="144"
-                    height="144">
+                    width="\(imageSize)"
+                    height="\(imageSize)">
             </div>
         </\(tagName)>
     """
   }
+
+  // MARK: Private
+
+  private let imageSize: Int = 200
 }
