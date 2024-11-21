@@ -57,17 +57,20 @@ struct HomePageHeader: HTMLFragment {
         }
 
         img {
-            grid-area: main;
-            opacity: 0;
             block-size: auto;
             max-inline-size: 100%;
+        }
+
+        picture {
+            grid-area: main;
+            opacity: 0;
             transition: opacity 500ms var(--ease-out-5);
         }
 
-        &[data-visible="1"] img:nth-child(1) {
+        &[data-visible="1"] picture:nth-child(1) {
             opacity: 1;
         }
-        &[data-visible="2"] img:nth-child(2) {
+        &[data-visible="2"] picture:nth-child(2) {
             opacity: 1;
         }
     }
@@ -78,18 +81,24 @@ struct HomePageHeader: HTMLFragment {
     """
         <\(tagName) data-visible="1">
             <div class="image">
-                <img
+                <picture>
+                    <source srcset="/images/thumbs-up.avif" type="image/avif">
+                    <img
                     loading="lazy"
                     alt="An avatar of Willson waving at the screen."
                     src="/images/thumbs-up.png"
                     width="\(imageSize)"
                     height="\(imageSize)">
-                <img
+                </picture>
+                <picture>
+                    <source srcset="/images/peace.avif" type="image/avif">
+                    <img
                     loading="lazy"
                     alt=""
                     src="/images/peace.png"
                     width="\(imageSize)"
                     height="\(imageSize)">
+                </picture>
             </div>
         </\(tagName)>
     """
