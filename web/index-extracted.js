@@ -18,18 +18,6 @@ if (customElements.get('raising-block') == undefined) {
         } 
     })
 }
-if (customElements.get('email-link') == undefined) {
-    customElements.define('email-link', class extends HTMLElement {
-      constructor() {
-          super();
-          const email = this.textContent?.replace('[at]', '@');
-          if (email != undefined) {
-              const link = `<a href="mailto:${email}">${email}</a>`;
-              this.innerHTML = link;
-          }
-      }
-    })
-}
 
     if (customElements.get('h-image-swap') == undefined) {
         customElements.define('h-image-swap', class extends HTMLElement {
@@ -58,3 +46,15 @@ if (customElements.get('email-link') == undefined) {
             }
         })
     }
+if (customElements.get('email-link') == undefined) {
+    customElements.define('email-link', class extends HTMLElement {
+      constructor() {
+          super();
+          const email = this.textContent?.replace('[at]', '@');
+          if (email != undefined) {
+              const link = `<a href="mailto:${email}">${email}</a>`;
+              this.innerHTML = link;
+          }
+      }
+    })
+}
