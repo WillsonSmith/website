@@ -1,4 +1,4 @@
 [build]
-  base = "/"
-  command = "swift run"
-  publish = "/web"
+  base = "web/"
+  command = ""
+  publish = ""
