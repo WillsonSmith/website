@@ -1,4 +1,3 @@
-
 if (customElements.get('email-link') == undefined) {
     customElements.define('email-link', class extends HTMLElement {
       constructor() {
@@ -31,6 +30,7 @@ if (customElements.get('raising-block') == undefined) {
         } 
     })
 }
+
     if (customElements.get('h-image-swap') == undefined) {
         customElements.define('h-image-swap', class extends HTMLElement {
             images = [];
