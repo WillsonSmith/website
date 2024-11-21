@@ -1,3 +1,25 @@
+raising-block {
+  --scale: 0.98;
+
+  display: block;
+
+  scale: var(--scale);
+  opacity: 1;
+
+  transition:
+    scale 250ms var(--ease-out-1), opacity 200ms var(--ease-1);
+
+  &.ready {
+    opacity: 0.6;
+  }
+
+  &.visible {
+    --scale: 1;
+    box-shadow: var(--shadow-1);
+    opacity: 1;
+  }
+}
+
 h-image-swap {
     display: grid;
     place-items: center;
@@ -35,7 +57,6 @@ h-image-swap {
         opacity: 1;
     }
 }
-
 .global-navigation {
     color: var(--gray-1);
     --font-size-title: var(--font-size-5);
@@ -76,27 +97,6 @@ h-image-swap {
 
         /* line-height: var(--font-lineheight-1); */
     }
-}
-raising-block {
-  --scale: 0.98;
-
-  display: block;
-
-  scale: var(--scale);
-  opacity: 1;
-
-  transition:
-    scale 250ms var(--ease-out-1), opacity 200ms var(--ease-1);
-
-  &.ready {
-    opacity: 0.6;
-  }
-
-  &.visible {
-    --scale: 1;
-    box-shadow: var(--shadow-1);
-    opacity: 1;
-  }
 }
 .component--star-sheet {
     pointer-events: none;
