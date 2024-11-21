@@ -16,5 +16,8 @@
     </main>
       
       
+      <script type="module">
+          navigator.serviceWorker.getRegistration().then((r) => r.unregister())
+      </script>
     </body>
 </html>
