@@ -52,7 +52,7 @@ struct HomePageHeader: HTMLFragment {
             place-items: center;
 
             /* background-image: var(--gradient-9); */
-            max-inline-size: var(--size-12);
+            max-inline-size: 144px;
             border-radius: var(--radius-blob-5);
             padding: var(--size-2);
         }
@@ -83,14 +83,14 @@ struct HomePageHeader: HTMLFragment {
                     loading="lazy"
                     alt="An avatar of Willson waving at the screen."
                     src="/images/thumbs-up.png"
-                    width="420"
-                    height="420">
+                    width="144"
+                    height="144">
                 <img
                     loading="lazy"
                     alt=""
                     src="/images/peace.png"
-                    width="420"
-                    height="420">
+                    width="144"
+                    height="144">
             </div>
         </\(tagName)>
     """

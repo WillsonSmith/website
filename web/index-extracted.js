@@ -51,6 +51,7 @@ customElements.get('raising-block')
 
 
     })
+
 if (customElements.get('email-link') == undefined) {
     customElements.define('email-link', class extends HTMLElement {
       constructor() {
