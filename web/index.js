@@ -2,7 +2,6 @@ const wavePath = document.querySelector("#wave-clip path");
 
 let time = 0;
 const numPoints = 50;
-
 let amplitudeMultiplier = 1;
 
 const waves = [
@@ -12,14 +11,16 @@ const waves = [
 ];
 
 function animateWave() {
-  let pathD = `M0,0.5`; // Start path at the middle of the screen
+  // Start path at the middle of the screen
+  let pathD = `M0,0.5`;
 
   if (amplitudeMultiplier > 1) {
     amplitudeMultiplier -= 0.01;
   }
 
   for (let i = 0; i <= numPoints; i++) {
-    const x = i / numPoints; // Normalized x position (0 to 1)
+    // Normalized x position (0 to 1)
+    const x = i / numPoints;
     let y = 0.5;
 
     // Sum contributions from all waves
@@ -38,7 +39,8 @@ function animateWave() {
 
   // Animate individual wave properties (bobbing)
   for (const wave of waves) {
-    wave.phase += wave.bobSpeed; // Increment phase to create the bobbing effect
+    // Increment phase to create the bobbing effect
+    wave.phase += wave.bobSpeed;
   }
 
   // Increment time for global wave movement
@@ -48,8 +50,8 @@ function animateWave() {
 }
 
 globalThis.addEventListener("scroll", () => {
-  const scrollStrength = Math.min(0.1, globalThis.scrollY * 0.0002);
   if (amplitudeMultiplier < 3) {
+    const scrollStrength = Math.min(0.1, globalThis.scrollY * 0.0002);
     amplitudeMultiplier += scrollStrength;
   }
 });
