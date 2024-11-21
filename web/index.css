@@ -1,6 +1,7 @@
 @import url("./styles/open-props/props.gray.css");
 @import url("./styles/open-props/props.blue.css");
 @import url("./styles/open-props/props.easing.css");
+@import url("./styles/open-props/props.shadows.css");
 
 :root {
   /* Colours */
