@@ -60,7 +60,6 @@ struct PageIndex: Page {
                 <div class="content-wrapper">
                     <div class="wave"></div>
                     <div class="content-background"></div>
-
                     <div class="page-content">
                         \(blocks.joined())
                     </div>
