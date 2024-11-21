@@ -1,3 +1,23 @@
+if (customElements.get('raising-block') == undefined) {
+    customElements.define('raising-block', class extends HTMLElement {
+        constructor() {
+            super();
+            this.classList.add('ready');
+            this.intersectionObserver = new IntersectionObserver(
+                this.handleIntersection,
+                { threshold: [0.5] },
+            );
+
+            this.intersectionObserver.observe(this);
+        }
+
+        handleIntersection = (entries) => {
+            for (const entry of entries) {
+                this.classList.toggle('visible', entry.isIntersecting);
+            }
+        } 
+    })
+}
 if (customElements.get('email-link') == undefined) {
     customElements.define('email-link', class extends HTMLElement {
       constructor() {
@@ -38,23 +58,3 @@ if (customElements.get('email-link') == undefined) {
             }
         })
     }
-if (customElements.get('raising-block') == undefined) {
-    customElements.define('raising-block', class extends HTMLElement {
-        constructor() {
-            super();
-            this.classList.add('ready');
-            this.intersectionObserver = new IntersectionObserver(
-                this.handleIntersection,
-                { threshold: [0.5] },
-            );
-
-            this.intersectionObserver.observe(this);
-        }
-
-        handleIntersection = (entries) => {
-            for (const entry of entries) {
-                this.classList.toggle('visible', entry.isIntersecting);
-            }
-        } 
-    })
-}
