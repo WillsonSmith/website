@@ -1,51 +1,53 @@
 // MARK: - PageIndex
 
 struct PageIndex: Page {
-  static let template: Template = PrimaryTemplate(title: "Home")
+    static let template: Template = PrimaryTemplate(title: "Home")
 
-  let links = [Link(rel: "stylesheet", href: "index.css")]
-  let scripts = [Script(type: "module", src: "index.js")]
+    let links = [Link(rel: "stylesheet", href: "index.css")]
+    let scripts = [Script(type: "module", src: "index.js")]
 
-  let title: String = "Home"
+    let title: String = "Home"
 
-  var javascript: String {
-    """
-    if (customElements.get('email-link') == undefined) {
-        customElements.define('email-link', class extends HTMLElement {
-          constructor() {
-              super();
-              const email = this.textContent?.replace('[at]', '@');
-              if (email != undefined) {
-                  const link = `<a href="mailto:${email}">${email}</a>`;
-                  this.innerHTML = link;
-              }
-          }
-        })
-    }
-    """
-  }
-
-  func render() async -> String {
-    var blocks: [String] = []
-
-    for (title, section) in PageIndexContent.contentBlocks {
-      blocks.append(
-        await """
-            <div class="block-wrapper">
-          \(
-            RaisingBlock(classList: ["block"]) {
-              """
-                  <h2>\(title)</h2>
-                  \(section)
-              """
-            }._render()
-          )
-          </div>
+    var javascript: String {
+        // LANG:JS
         """
-      )
+        if (customElements.get('email-link') == undefined) {
+            customElements.define('email-link', class extends HTMLElement {
+              constructor() {
+                  super();
+                  const email = this.textContent?.replace('[at]', '@');
+                  if (email != undefined) {
+                      const link = `<a href='mailto:${email}'>${email}</a>`;
+                      this.innerHTML = link;
+                  }
+              }
+            })
+        }
+        """
     }
 
-    return await """
+    func render() -> String {
+        var blocks: [String] = []
+
+        for (title, section) in PageIndexContent.contentBlocks {
+            blocks.append(
+                """
+                    <div class="block-wrapper">
+                  \(
+                      RaisingBlock(classList: ["block"]) {
+                          """
+                              <h2>\(title)</h2>
+                              \(section)
+                          """
+                      }
+                  )
+                  </div>
+                """
+            )
+        }
+
+        // LANG:HTML
+        return """
         <svg width="0" height="0">
           <defs>
             <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
@@ -67,6 +69,6 @@ struct PageIndex: Page {
             </main>
         </div>
         \(StarSheet(count: 200, additionalClasses: ["home-star-sheet"]))
-    """
-  }
+        """
+    }
 }
