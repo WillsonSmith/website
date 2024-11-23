@@ -150,4 +150,14 @@ body {
     line-height: var(--font-lineheight-1);
     font-weight: var(--font-weight-3);
   }
+
+  figure {
+    margin-block: var(--size-fluid-1);
+    margin-inline: var(--size-fluid-3);
+
+    blockquote {
+      margin-inline: var(--size-3);
+      margin-inline-end: var(--size-6);
+    }
+  }
 }
