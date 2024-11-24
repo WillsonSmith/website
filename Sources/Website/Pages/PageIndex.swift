@@ -41,7 +41,6 @@ struct PageIndex: Page {
 
     let pages: [(title: String, html: String, order: Int)]
 
-    // let pageContent: []
     let links = [Link(rel: "stylesheet", href: "index.css")]
     let scripts = [Script(type: "module", src: "index.js")]
 

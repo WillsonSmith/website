@@ -1,40 +1,3 @@
-h-image-swap {
-    display: grid;
-    place-items: center;
-    height: var(--size-12);
-    position: sticky;
-    top: 50px;
-
-
-    .image {
-        display: grid;
-        grid-template-areas: "main";
-        place-items: center;
-
-        max-inline-size: 200px;
-        aspect-ratio: 1 / 1;
-        border-radius: var(--radius-blob-5);
-        padding: var(--size-2);
-    }
-
-    img {
-        block-size: auto;
-        max-inline-size: 100%;
-    }
-
-    picture {
-        grid-area: main;
-        opacity: 0;
-        transition: opacity 500ms var(--ease-out-5);
-    }
-
-    &[data-visible="1"] picture:nth-child(1) {
-        opacity: 1;
-    }
-    &[data-visible="2"] picture:nth-child(2) {
-        opacity: 1;
-    }
-}
 .global-navigation {
     color: var(--gray-1);
     --font-size-title: var(--font-size-5);
@@ -76,6 +39,65 @@ h-image-swap {
         /* line-height: var(--font-lineheight-1); */
     }
 }
+raising-block {
+  --scale: 0.98;
+
+  display: block;
+
+  scale: var(--scale);
+  opacity: 1;
+
+  transition:
+    scale 250ms var(--ease-out-1), opacity 200ms var(--ease-1);
+
+  &.ready {
+    opacity: 0.6;
+  }
+
+  &.visible {
+    --scale: 1;
+    box-shadow: var(--shadow-1);
+    opacity: 1;
+  }
+}
+h-image-swap {
+    display: grid;
+    place-items: center;
+    height: var(--size-12);
+    position: sticky;
+    top: 50px;
+
+
+    .image {
+        display: grid;
+        grid-template-areas: "main";
+        place-items: center;
+
+        max-inline-size: 200px;
+        aspect-ratio: 1 / 1;
+        border-radius: var(--radius-blob-5);
+        padding: var(--size-2);
+    }
+
+    img {
+        block-size: auto;
+        max-inline-size: 100%;
+    }
+
+    picture {
+        grid-area: main;
+        opacity: 0;
+        transition: opacity 500ms var(--ease-out-5);
+    }
+
+    &[data-visible="1"] picture:nth-child(1) {
+        opacity: 1;
+    }
+    &[data-visible="2"] picture:nth-child(2) {
+        opacity: 1;
+    }
+}
+
 .component--star-sheet {
     pointer-events: none;
     position: fixed;
@@ -99,26 +121,4 @@ h-image-swap {
         block-size: var(--size);
         border-radius: 50%;
     }
-}
-
-raising-block {
-  --scale: 0.98;
-
-  display: block;
-
-  scale: var(--scale);
-  opacity: 1;
-
-  transition:
-    scale 250ms var(--ease-out-1), opacity 200ms var(--ease-1);
-
-  &.ready {
-    opacity: 0.6;
-  }
-
-  &.visible {
-    --scale: 1;
-    box-shadow: var(--shadow-1);
-    opacity: 1;
-  }
 }
