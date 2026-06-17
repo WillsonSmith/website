@@ -1,12 +1,15 @@
 ---
-// The time-of-day control: a luminary you drag around a ring centred on
-// the horizon. Above the waterline it's the sun; drag it below and it
-// becomes the moon as night falls. Progressive enhancement — without JS
-// the scene still renders at its default time and this stays inert.
+// The time-of-day control: a luminary orbiting the avatar on a ring.
+// Drag it around to set the hour; the icon (Lucide) changes with the
+// time — sunrise, sun, sunset, moon — and is tinted by the live accent.
+// Progressive enhancement: without JS the scene renders at its default
+// time and this stays inert. The avatar is provided via the slot.
+import sunset from "lucide-static/icons/sunset.svg?raw";
 ---
 
 <sky-dial class="sky-dial">
   <div class="dial-track" aria-hidden="true"></div>
+  <div class="dial-center"><slot /></div>
   <button
     type="button"
     class="dial-handle"
@@ -17,34 +20,38 @@
     aria-valuenow="18"
     aria-valuetext="Dusk"
   >
-    <span class="dial-body" aria-hidden="true"></span>
+    <span class="dial-icon" set:html={sunset} />
   </button>
 </sky-dial>
 
 <style>
   .sky-dial {
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: 0;
-    block-size: 100svh;
-    z-index: 4;
-    pointer-events: none; /* only the handle is interactive */
-
-    --dial-horizon: 47%;
-    --dial-size: min(74vmin, 620px);
-    --dial-hit: 56px;
-  }
-
-  /* The sun/moon's daily path */
-  .dial-track {
-    position: absolute;
-    inset-block-start: var(--dial-horizon);
-    inset-inline-start: 50%;
+    position: relative;
+    display: grid;
+    place-items: center;
     inline-size: var(--dial-size);
     block-size: var(--dial-size);
-    transform: translate(-50%, -50%);
+    margin-inline: auto;
+
+    --dial-size: clamp(280px, 62vmin, 380px);
+    --dial-hit: 52px;
+  }
+
+  /* The sun/moon's orbit around the portrait */
+  .dial-track,
+  .dial-center {
+    grid-area: 1 / 1;
+  }
+  .dial-track {
+    inline-size: 100%;
+    block-size: 100%;
     border-radius: 50%;
     border: 1px dashed color-mix(in oklch, var(--color-accent), transparent 72%);
+    pointer-events: none;
+  }
+  .dial-center {
+    display: grid;
+    place-items: center;
   }
 
   .dial-handle {
@@ -60,8 +67,8 @@
     border-radius: 50%;
     display: grid;
     place-items: center;
+    color: var(--color-accent);
     cursor: grab;
-    pointer-events: auto;
     touch-action: none; /* dragging shouldn't scroll the page */
     /* positioned on the ring by script via transform */
   }
@@ -73,33 +80,21 @@
     outline-offset: 4px;
   }
 
-  .dial-body {
-    inline-size: 38px;
-    block-size: 38px;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle at 50% 42%,
-      var(--color-accent),
-      color-mix(in oklch, var(--color-accent), black 28%)
-    );
-    box-shadow:
-      0 0 0 1px color-mix(in oklch, var(--color-accent), transparent 45%),
-      0 0 30px 7px color-mix(in oklch, var(--color-accent), transparent 55%);
-    transition:
-      background 250ms var(--ease-in-out),
-      box-shadow 250ms var(--ease-in-out);
+  .dial-icon {
+    display: grid;
+    place-items: center;
   }
-
-  /* The moon, once dragged below the horizon */
-  .sky-dial[data-phase="night"] .dial-body {
-    background: radial-gradient(circle at 38% 38%, #eef2ff, #c4cae4);
-    box-shadow:
-      0 0 0 1px rgb(255 255 255 / 0.45),
-      0 0 24px 5px rgb(200 210 255 / 0.35);
+  .dial-icon :global(svg) {
+    inline-size: 30px;
+    block-size: 30px;
+    /* A luminous halo in the hour's accent, plus a dark edge so a pale
+       midday sun still reads against a bright sky. */
+    filter: drop-shadow(0 0 7px color-mix(in oklch, var(--color-accent), transparent 30%))
+      drop-shadow(0 1px 2px rgb(0 0 0 / 0.45));
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .dial-body {
+    .dial-icon :global(svg) {
       transition: none;
     }
   }
@@ -111,6 +106,30 @@
     currentTimeOfDay,
     labelForTime,
   } from "../scripts/sky";
+  import sun from "lucide-static/icons/sun.svg?raw";
+  import moon from "lucide-static/icons/moon.svg?raw";
+  import moonStar from "lucide-static/icons/moon-star.svg?raw";
+  import sunrise from "lucide-static/icons/sunrise.svg?raw";
+  import sunset from "lucide-static/icons/sunset.svg?raw";
+
+  const ICONS: Record<string, string> = {
+    sun,
+    moon,
+    "moon-star": moonStar,
+    sunrise,
+    sunset,
+  };
+
+  /** Which luminary to show for a given hour. */
+  function iconForTime(hour: number): string {
+    const t = ((hour % 24) + 24) % 24;
+    if (t >= 23 || t < 1) return "moon-star";
+    if (t < 5) return "moon";
+    if (t < 7) return "sunrise";
+    if (t < 16) return "sun";
+    if (t < 19) return "sunset";
+    return "moon";
+  }
 
   const TAU = Math.PI * 2;
   const wrap24 = (t: number) => ((t % 24) + 24) % 24;
@@ -118,18 +137,21 @@
   class SkyDial extends HTMLElement {
     private track!: HTMLElement;
     private handle!: HTMLButtonElement;
+    private icon!: HTMLElement;
     private time = 18;
+    private iconName = "";
 
     connectedCallback() {
       this.track = this.querySelector(".dial-track")!;
       this.handle = this.querySelector(".dial-handle")!;
+      this.icon = this.querySelector(".dial-icon")!;
       this.time = currentTimeOfDay();
 
       this.handle.addEventListener("pointerdown", this.onPointerDown);
       this.handle.addEventListener("keydown", this.onKeyDown);
       window.addEventListener("resize", this.position);
 
-      // Wait a frame so layout (and the track's size) is settled.
+      // Wait a frame so layout (and the ring's size) is settled.
       requestAnimationFrame(() => this.setTime(this.time));
     }
 
@@ -140,11 +162,7 @@
     /** Centre + radius of the ring in viewport coordinates (for dragging). */
     private metrics() {
       const r = this.track.getBoundingClientRect();
-      return {
-        cx: r.left + r.width / 2,
-        cy: r.top + r.height / 2,
-        radius: r.width / 2,
-      };
+      return { cx: r.left + r.width / 2, cy: r.top + r.height / 2 };
     }
 
     private setTime(t: number) {
@@ -153,8 +171,12 @@
       this.position();
       this.handle.setAttribute("aria-valuenow", this.time.toFixed(2));
       this.handle.setAttribute("aria-valuetext", labelForTime(this.time));
-      // Day spans dawn→dusk (above the horizon); otherwise it's the moon.
-      this.dataset.phase = this.time >= 6 && this.time <= 18 ? "day" : "night";
+
+      const name = iconForTime(this.time);
+      if (name !== this.iconName) {
+        this.iconName = name;
+        this.icon.innerHTML = ICONS[name];
+      }
     }
 
     /** Place the handle on the ring. Angle is clockwise from the top
