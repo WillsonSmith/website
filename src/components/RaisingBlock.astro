@@ -1,0 +1,63 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<raising-block class={className}>
+  <slot />
+</raising-block>
+
+<style>
+  raising-block {
+    --scale: 0.98;
+
+    display: block;
+
+    scale: var(--scale);
+    opacity: 1;
+
+    transition:
+      scale 250ms var(--ease-out-1),
+      opacity 200ms var(--ease-1);
+
+    &.ready {
+      opacity: 0.6;
+    }
+
+    &.visible {
+      --scale: 1;
+      box-shadow: var(--shadow-1);
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  if (customElements.get("raising-block") == undefined) {
+    customElements.define(
+      "raising-block",
+      class extends HTMLElement {
+        intersectionObserver: IntersectionObserver;
+
+        constructor() {
+          super();
+          this.classList.add("ready");
+          this.intersectionObserver = new IntersectionObserver(
+            this.handleIntersection,
+            { threshold: [0.5] },
+          );
+          this.intersectionObserver.observe(this);
+        }
+
+        handleIntersection = (entries: IntersectionObserverEntry[]) => {
+          for (const entry of entries) {
+            this.classList.toggle("visible", entry.isIntersecting);
+          }
+        };
+      },
+    );
+  }
+</script>

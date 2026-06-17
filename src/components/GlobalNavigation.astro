@@ -1,0 +1,60 @@
+---
+const links: { url: string; title: string }[] = [
+  { url: "https://github.com/willsonsmith", title: "Github" },
+  { url: "https://www.linkedin.com/in/willsonsmith/", title: "LinkedIn" },
+];
+---
+
+<header class="global-navigation">
+  <h1>Willson Smith</h1>
+  <nav class="links">
+    {
+      links.map(({ url, title }) => (
+        <a href={url} target="_blank">
+          {title}
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<style>
+  .global-navigation {
+    color: var(--gray-1);
+    --font-size-title: var(--font-size-5);
+    --font-weight-title: var(--font-weight-6);
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+
+    padding-block: var(--size-1);
+    padding-inline: var(--size-fluid-2);
+
+    .links {
+      display: flex;
+      gap: var(--size-3);
+    }
+
+    a {
+      text-decoration: none;
+      scale: 1;
+      transform-origin: 50% 100%;
+      transition: scale 100ms var(--ease-out-1);
+
+      &:hover {
+        scale: 1.1;
+      }
+    }
+
+    h1 {
+      flex: 1;
+      font-family: var(--font-rounded-sans);
+      font-size: var(--font-size-title);
+      font-weight: var(--font-weight-title);
+    }
+  }
+</style>

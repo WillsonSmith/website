@@ -1,0 +1,135 @@
+---
+import { getCollection, render } from "astro:content";
+import Primary from "../layouts/Primary.astro";
+import GlobalNavigation from "../components/GlobalNavigation.astro";
+import HomePageHeader from "../components/HomePageHeader.astro";
+import RaisingBlock from "../components/RaisingBlock.astro";
+import StarSheet from "../components/StarSheet.astro";
+import "../styles/index.css";
+
+const entries = (await getCollection("index")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const blocks = await Promise.all(
+  entries.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { title: entry.data.title, Content };
+  }),
+);
+---
+
+<Primary title="Home">
+  <svg width="0" height="0">
+    <defs>
+      <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
+        <path d="M0,0.5 C0.25,0.8 0.75,0.2 1,0.5 V1 H0 Z"></path>
+      </clipPath>
+    </defs>
+  </svg>
+  <div class="page-body">
+    <GlobalNavigation />
+    <main class="page-body">
+      <HomePageHeader />
+      <div class="content-wrapper">
+        <div class="wave"></div>
+        <div class="content-background"></div>
+        <div class="page-content">
+          {
+            blocks.map(({ title, Content }) => (
+              <div class="block-wrapper">
+                <RaisingBlock class="block">
+                  <h2>{title}</h2>
+                  <Content />
+                </RaisingBlock>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </main>
+  </div>
+  <StarSheet count={200} class="home-star-sheet" />
+</Primary>
+
+<script>
+  // Enhance <email-link> elements authored in the markdown content.
+  if (customElements.get("email-link") == undefined) {
+    customElements.define(
+      "email-link",
+      class extends HTMLElement {
+        constructor() {
+          super();
+          const email = this.textContent?.replace("[at]", "@");
+          if (email != undefined) {
+            this.innerHTML = `<a href='mailto:${email}'>${email}</a>`;
+          }
+        }
+      },
+    );
+  }
+</script>
+
+<script>
+  // Animated SVG wave used as the clip-path for the page's water section.
+  const wavePath = document.querySelector<SVGPathElement>("#wave-clip path");
+
+  if (wavePath) {
+    let time = 0;
+    const numPoints = 50;
+    let amplitudeMultiplier = 1;
+
+    const waves = [
+      { amplitude: 0.01, frequency: 2, phase: 0, bobSpeed: 0.005 },
+      { amplitude: 0.006, frequency: 2, phase: Math.PI / 2, bobSpeed: 0.007 },
+      { amplitude: 0.008, frequency: 2, phase: Math.PI, bobSpeed: 0.004 },
+    ];
+
+    function animateWave() {
+      // Start path at the middle of the screen
+      let pathD = `M0,0.5`;
+
+      if (amplitudeMultiplier > 1) {
+        amplitudeMultiplier -= 0.01;
+      }
+
+      for (let i = 0; i <= numPoints; i++) {
+        // Normalized x position (0 to 1)
+        const x = i / numPoints;
+        let y = 0.5;
+
+        // Sum contributions from all waves
+        for (const wave of waves) {
+          y +=
+            wave.amplitude *
+            amplitudeMultiplier *
+            Math.sin((wave.frequency * x + wave.phase + time) * Math.PI * 2);
+        }
+
+        pathD += ` L${x},${y}`;
+      }
+
+      pathD += ` V1 H0 Z`; // Close the path
+      wavePath!.setAttribute("d", pathD);
+
+      // Animate individual wave properties (bobbing)
+      for (const wave of waves) {
+        wave.phase += wave.bobSpeed;
+      }
+
+      // Increment time for global wave movement
+      time += 0.0001;
+
+      requestAnimationFrame(animateWave);
+    }
+
+    globalThis.addEventListener("scroll", () => {
+      if (amplitudeMultiplier < 3) {
+        const scrollStrength = Math.min(0.1, globalThis.scrollY * 0.0002);
+        amplitudeMultiplier += scrollStrength;
+      }
+    });
+
+    animateWave();
+  }
+</script>

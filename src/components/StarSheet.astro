@@ -1,0 +1,46 @@
+---
+interface Props {
+  count: number;
+  maximumStarSize?: number;
+  class?: string;
+}
+
+const { count, maximumStarSize = 4, class: className = "" } = Astro.props;
+
+// Generate a single box-shadow list instead of one DOM node per star.
+// Offsets use vw/vh so the field stays responsive; spread sets the star
+// size and the alpha channel sets opacity (smaller stars are dimmer),
+// matching the original per-star math.
+const shadows = Array.from({ length: count }, () => {
+  const x = Math.random() * 100;
+  const y = Math.random() * 100;
+  const size = Math.floor(Math.random() * maximumStarSize) + 1;
+  const opacity = 1 - size / (maximumStarSize + 1);
+  const spread = (size - 1) / 2;
+  return `${x.toFixed(2)}vw ${y.toFixed(2)}vh 0 ${spread}px rgba(255, 255, 255, ${opacity.toFixed(3)})`;
+}).join(", ");
+---
+
+<div aria-hidden="true" class:list={["component--star-sheet", className]}>
+  <div class="stars" style={`box-shadow: ${shadows};`}></div>
+</div>
+
+<style>
+  .component--star-sheet {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    background: transparent;
+  }
+</style>
