@@ -5,6 +5,7 @@ import GlobalNavigation from "../components/GlobalNavigation.astro";
 import HomePageHeader from "../components/HomePageHeader.astro";
 import RaisingBlock from "../components/RaisingBlock.astro";
 import StarSheet from "../components/StarSheet.astro";
+import SkyDial from "../components/SkyDial.astro";
 import "../styles/index.css";
 
 const entries = (await getCollection("index")).sort(
@@ -29,6 +30,7 @@ const blocks = await Promise.all(
   </svg>
   <div class="page-body">
     <GlobalNavigation />
+    <SkyDial />
     <main class="page-body">
       <HomePageHeader />
       <div class="content-wrapper">
