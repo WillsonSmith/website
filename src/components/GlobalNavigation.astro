@@ -30,8 +30,19 @@ const links: { url: string; title: string }[] = [
     align-items: baseline;
     gap: var(--space-2xs) var(--space-sm);
 
-    padding-block: var(--space-2xs);
+    padding-block: var(--space-2xs) var(--space-md);
     padding-inline: var(--space-fluid-md);
+
+    /* The header text rides directly on the sky, which can go bright at
+       midday. A top scrim held dark through the text keeps the light
+       header legible at any hour (invisible against a dark night sky). */
+    background: linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 0.36) 0%,
+      rgb(0 0 0 / 0.22) 70%,
+      transparent 100%
+    );
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
 
     .links {
       display: flex;
@@ -40,7 +51,8 @@ const links: { url: string; title: string }[] = [
     }
 
     a {
-      color: var(--color-text-muted);
+      /* Secondary, but kept bright enough to survive a midday sky. */
+      color: color-mix(in oklch, var(--color-text), var(--color-text-muted));
       text-decoration: none;
       font-size: var(--text-xs);
       letter-spacing: var(--tracking-wide);

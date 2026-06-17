@@ -1,5 +1,6 @@
-/* Design tokens (self-authored — see tokens.css). */
+/* Design tokens (self-authored — see tokens.css) + time-of-day theme. */
 @import url("./tokens.css");
+@import url("./theme.css");
 
 /* Reset */
 html {
@@ -21,18 +22,26 @@ body {
   line-height: var(--leading-normal);
   letter-spacing: var(--tracking-normal);
   color: var(--color-text);
-  /* Dusk descending into the sea */
   background-color: var(--color-bg);
-  background-image: linear-gradient(
-    180deg,
-    var(--color-night) 0%,
-    var(--color-bg) 100%
-  );
   font-synthesis: none;
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-size-adjust: 100%;
+}
+
+/* The sky: a fixed, viewport-anchored gradient behind everything, from
+   the zenith overhead down to the glow at the horizon (the wave line). */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    var(--sky-zenith) 0%,
+    var(--sky-horizon) 100%
+  );
 }
 
 h1,

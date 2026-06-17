@@ -33,6 +33,9 @@ const shadows = Array.from({ length: count }, () => {
     top: 0;
     width: 100%;
     height: 100%;
+    /* Stars fade with the sky: full at night, gone by midday. */
+    opacity: var(--star-opacity, 1);
+    transition: opacity 700ms var(--ease-in-out);
   }
 
   .stars {

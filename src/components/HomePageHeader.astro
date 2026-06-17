@@ -45,10 +45,10 @@ const imageSize = 200;
       border-radius: var(--radius-blob);
       padding: var(--space-2xs);
 
-      /* A pool of lamplight the avatar sits in */
+      /* A pool of light the avatar sits in, tinted by the hour */
       background: radial-gradient(
         circle at 50% 55%,
-        hsl(40 80% 60% / 0.22),
+        color-mix(in oklch, var(--color-accent), transparent 75%),
         transparent 70%
       );
     }

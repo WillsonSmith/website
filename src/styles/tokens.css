@@ -1,31 +1,16 @@
 /*
- * Design tokens — "Dusk Fable"
- * A personal site told like an illuminated storybook at twilight:
- * a plum-indigo night sky descending into a moonlit sea, lit by a
- * single gilt-gold accent. Self-contained; no external dependency.
+ * Structural design tokens.
+ * Time-invariant: type, space, radius, elevation, motion, and the few
+ * neutral colours that hold steady across the day. The scene palette
+ * (sky, sea, accent, star visibility) lives in theme.css and is driven
+ * by the time-of-day engine.
  */
 
 :root {
-  /* ---- Palette (base) ---------------------------------------------- */
-  --color-night: #181229; /* deep plum-indigo sky */
-  --color-sea: #0e3a44; /* deep moonlit teal water */
-  --color-parchment: #f4ecdc; /* warm paper / moonlight (primary text) */
+  /* ---- Neutral colours (steady across the day) --------------------- */
+  --color-parchment: #f4ecdc; /* warm paper / moonlight (reading text) */
   --color-lavender: #b3a9cb; /* dusk haze (muted text) */
-  --color-gold: #e6b14d; /* gilt lamplight (accent) */
-  --color-gold-bright: #f3c869; /* lit gold (hover / focus) */
-  --color-star: #fdf6e3; /* warm starlight */
-
-  /* ---- Palette (semantic) ------------------------------------------ */
-  --color-bg: color-mix(in oklab, var(--color-night), var(--color-sea) 8%);
-  --color-water: color-mix(in oklab, var(--color-sea), var(--color-night) 45%);
-  --color-text: var(--color-parchment);
-  --color-text-muted: var(--color-lavender);
-  --color-accent: var(--color-gold);
-  --color-accent-bright: var(--color-gold-bright);
-
-  /* Moonlit glass card with a gilt hairline */
-  --color-surface: hsl(258 35% 10% / 0.45);
-  --color-border: hsl(40 70% 60% / 0.22);
+  --color-star-base: #fdf6e3; /* warm starlight */
 
   /* ---- Type --------------------------------------------------------- */
   --font-display: "Iowan Old Style", "Palatino Linotype", Palatino,
