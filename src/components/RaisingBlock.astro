@@ -20,8 +20,8 @@ const { class: className = "" } = Astro.props;
     opacity: 1;
 
     transition:
-      scale 250ms var(--ease-out-1),
-      opacity 200ms var(--ease-1);
+      scale 250ms var(--ease-out),
+      opacity 200ms var(--ease-in-out);
 
     &.ready {
       opacity: 0.6;
@@ -29,7 +29,6 @@ const { class: className = "" } = Astro.props;
 
     &.visible {
       --scale: 1;
-      box-shadow: var(--shadow-1);
       opacity: 1;
     }
   }

@@ -1,12 +1,5 @@
-/* Design tokens (pruned subset of Open Props — only what this site uses). */
-@import url("./open-props/props.fonts.css");
-@import url("./open-props/props.sizes.css");
-@import url("./open-props/props.gray.css");
-@import url("./open-props/props.gray-hsl.css");
-@import url("./open-props/props.blue.css");
-@import url("./open-props/props.easing.css");
-@import url("./open-props/props.borders.css");
-@import url("./open-props/props.shadows.css");
+/* Design tokens (self-authored — see tokens.css). */
+@import url("./tokens.css");
 
 /* Reset */
 html {
@@ -21,13 +14,20 @@ html *::after {
 
 body {
   margin: 0;
-  font-family: var(--font-rounded-sans);
-  font-weight: var(--font-weight-3);
-  font-size: var(--font-size-1);
-  line-height: var(--font-lineheight-1);
-  letter-spacing: var(--font-letterspacing-1);
-  color: hsl(var(--gray-12-hsl));
-  background: hsl(var(--gray-0-hsl));
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-text);
+  /* Dusk descending into the sea */
+  background-color: var(--color-bg);
+  background-image: linear-gradient(
+    180deg,
+    var(--color-night) 0%,
+    var(--color-bg) 100%
+  );
   font-synthesis: none;
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
@@ -42,8 +42,10 @@ h4,
 h5,
 h6 {
   margin: 0;
-  font-weight: var(--font-weight-4);
-  line-height: var(--font-lineheight-3);
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
 }
 
 p {
@@ -62,15 +64,34 @@ img {
 }
 
 figure {
-  margin-block: var(--size-fluid-2);
-  margin-inline: var(--size-fluid-3);
+  margin-block: var(--space-fluid-md);
+  margin-inline: var(--space-fluid-lg);
 }
 
 figure blockquote {
-  margin-block: var(--size-fluid-1);
-  margin-inline: var(--size-fluid-3);
+  margin-block: var(--space-fluid-sm);
+  margin-inline: var(--space-fluid-lg);
 }
 
 a {
   color: inherit;
+}
+
+/* Quality floor: visible keyboard focus, calm gilt ring */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -31,7 +31,7 @@ const imageSize = 200;
   h-image-swap {
     display: grid;
     place-items: center;
-    height: var(--size-12);
+    height: var(--space-3xl);
     position: sticky;
     top: 50px;
 
@@ -42,8 +42,15 @@ const imageSize = 200;
 
       max-inline-size: 200px;
       aspect-ratio: 1 / 1;
-      border-radius: var(--radius-blob-5);
-      padding: var(--size-2);
+      border-radius: var(--radius-blob);
+      padding: var(--space-2xs);
+
+      /* A pool of lamplight the avatar sits in */
+      background: radial-gradient(
+        circle at 50% 55%,
+        hsl(40 80% 60% / 0.22),
+        transparent 70%
+      );
     }
 
     img {
@@ -54,7 +61,7 @@ const imageSize = 200;
     picture {
       grid-area: main;
       opacity: 0;
-      transition: opacity 500ms var(--ease-out-5);
+      transition: opacity 500ms var(--ease-soft);
     }
 
     &[data-visible="1"] picture:nth-child(1) {

@@ -1,44 +1,14 @@
 :root {
-  /* Colours */
-  --color-background-root: var(--gray-10);
-  --color-wave-root: var(--blue-12);
-
-  --color-background: color-mix(
-    in oklab,
-    var(--color-background-root),
-    var(--color-wave-root) 10%
-  );
-  --color-wave: color-mix(
-    in oklab,
-    var(--color-wave-root),
-    var(--color-background-root) 60%
-  );
-
-  --block-color-background: rgba(from var(--gray-10) r g b / 0.4);
-  --block-color-border: rgb(from var(--gray-8) r b g / 0.3);
-
-  /* Animation */
-  --block-easing: var(--ease-1);
-
-  --block-x-translation: var(--size-fluid-4);
-
-  /* Sizes */
-  --page-body-gap: var(--size-4);
-  --wave-offset: var(--size-10);
+  /* Layout rhythm for the home page */
+  --page-body-gap: var(--space-md);
+  --wave-offset: var(--space-xl);
   --wave-height: 200px;
 
-  --page-content-gap: var(--size-6);
-  --page-content-block-start-space: var(--size-2);
-  --page-content-block-end-space: var(--size-10);
-  --block-wrapper-narrow-spacing: var(--size-fluid-1);
-
-  --block-padding-block-start: var(--size-3);
-  --block-padding-block-end: var(--size-4);
-  --block-padding-inline: var(--size-6);
-}
-
-body {
-  background: var(--color-background);
+  --page-content-gap: var(--space-lg);
+  --page-content-block-start-space: var(--space-2xs);
+  --page-content-block-end-space: var(--space-xl);
+  --block-wrapper-narrow-spacing: var(--space-fluid-sm);
+  --block-x-translation: var(--space-fluid-lg);
 }
 
 .page-body {
@@ -67,7 +37,7 @@ body {
 .wave {
   position: sticky;
   top: var(--wave-offset);
-  background: var(--color-wave);
+  background: var(--color-water);
   height: var(--wave-height);
   width: 100%;
   clip-path: url(#wave-clip);
@@ -79,7 +49,7 @@ body {
   top: calc(var(--wave-offset) + var(--wave-height));
 
   margin-top: var(--wave-height);
-  background: var(--color-wave);
+  background: var(--color-water);
   width: 100%;
   height: calc(100vh - 200px);
 }
@@ -98,8 +68,8 @@ body {
 
 .block-wrapper {
   transition:
-    translate 250ms var(--block-easing),
-    rotate 250ms var(--block-easing);
+    translate 250ms var(--ease-in-out),
+    rotate 250ms var(--ease-in-out);
   transform-origin: 100% 100%;
 
   translate: 0px;
@@ -117,42 +87,73 @@ body {
     }
   }
 
+  /* A page of the story: moonlit glass with a gilt hairline */
   .block {
-    color: #fff;
+    color: var(--color-text);
     display: grid;
-    gap: var(--size-3);
+    gap: var(--space-sm);
     max-width: 60ch;
-    background: #fff;
-    border-radius: 4px;
-    padding-block: var(--block-padding-block-start);
-    padding-block-end: var(--block-padding-block-end);
-    padding-inline: var(--block-padding-inline);
 
-    background: var(--block-color-background);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--block-color-border);
+    padding-block: var(--space-md) var(--space-lg);
+    padding-inline: var(--space-lg);
+
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
   }
 
+  /* Chapter title, set in gilt */
   h2 {
-    font-size: var(--font-size-3);
-    font-weight: var(--font-weight-5);
-    line-height: var(--font-lineheight-3);
+    font-size: var(--text-md);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-snug);
+    color: var(--color-accent);
   }
 
   p {
-    font-size: var(--font-size-1);
-    line-height: var(--font-lineheight-1);
-    font-weight: var(--font-weight-3);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    font-weight: var(--weight-regular);
   }
 
+  a {
+    color: var(--color-accent);
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-border);
+    text-underline-offset: 0.2em;
+    transition: color 120ms var(--ease-out);
+
+    &:hover {
+      color: var(--color-accent-bright);
+      text-decoration-color: currentColor;
+    }
+  }
+
+  /* The Coraline pull-quote on "Defeating Dragons" */
   figure {
-    margin-block: var(--size-fluid-1);
-    margin-inline: var(--size-fluid-3);
+    margin-block: var(--space-fluid-sm);
+    margin-inline: var(--space-fluid-md);
 
     blockquote {
-      margin-inline: var(--size-3);
-      margin-inline-end: var(--size-6);
+      margin: 0;
+      padding-inline-start: var(--space-md);
+      border-inline-start: 2px solid var(--color-accent);
+
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: var(--text-md);
+      line-height: var(--leading-snug);
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-parchment);
+    }
+
+    figcaption {
+      margin-block-start: var(--space-2xs);
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
     }
   }
 }

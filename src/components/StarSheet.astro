@@ -17,7 +17,8 @@ const shadows = Array.from({ length: count }, () => {
   const size = Math.floor(Math.random() * maximumStarSize) + 1;
   const opacity = 1 - size / (maximumStarSize + 1);
   const spread = (size - 1) / 2;
-  return `${x.toFixed(2)}vw ${y.toFixed(2)}vh 0 ${spread}px rgba(255, 255, 255, ${opacity.toFixed(3)})`;
+  // Warm starlight (#fdf6e3) to sit in the dusk palette.
+  return `${x.toFixed(2)}vw ${y.toFixed(2)}vh 0 ${spread}px rgba(253, 246, 227, ${opacity.toFixed(3)})`;
 }).join(", ");
 ---
 

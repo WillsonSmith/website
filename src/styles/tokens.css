@@ -1,0 +1,87 @@
+/*
+ * Design tokens — "Dusk Fable"
+ * A personal site told like an illuminated storybook at twilight:
+ * a plum-indigo night sky descending into a moonlit sea, lit by a
+ * single gilt-gold accent. Self-contained; no external dependency.
+ */
+
+:root {
+  /* ---- Palette (base) ---------------------------------------------- */
+  --color-night: #181229; /* deep plum-indigo sky */
+  --color-sea: #0e3a44; /* deep moonlit teal water */
+  --color-parchment: #f4ecdc; /* warm paper / moonlight (primary text) */
+  --color-lavender: #b3a9cb; /* dusk haze (muted text) */
+  --color-gold: #e6b14d; /* gilt lamplight (accent) */
+  --color-gold-bright: #f3c869; /* lit gold (hover / focus) */
+  --color-star: #fdf6e3; /* warm starlight */
+
+  /* ---- Palette (semantic) ------------------------------------------ */
+  --color-bg: color-mix(in oklab, var(--color-night), var(--color-sea) 8%);
+  --color-water: color-mix(in oklab, var(--color-sea), var(--color-night) 45%);
+  --color-text: var(--color-parchment);
+  --color-text-muted: var(--color-lavender);
+  --color-accent: var(--color-gold);
+  --color-accent-bright: var(--color-gold-bright);
+
+  /* Moonlit glass card with a gilt hairline */
+  --color-surface: hsl(258 35% 10% / 0.45);
+  --color-border: hsl(40 70% 60% / 0.22);
+
+  /* ---- Type --------------------------------------------------------- */
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino,
+    "Book Antiqua", Georgia, "Times New Roman", serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* Modular scale (~1.32), base 17px */
+  --text-xs: 0.78rem;
+  --text-sm: 0.9rem;
+  --text-base: 1.0625rem;
+  --text-md: 1.4rem;
+  --text-lg: 2.1rem;
+  --text-xl: 3rem;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.65;
+
+  --tracking-tight: -0.015em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.14em;
+
+  /* ---- Space -------------------------------------------------------- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 7rem;
+  --space-3xl: 11rem;
+
+  --space-fluid-sm: clamp(0.5rem, 1.5vw, 1rem);
+  --space-fluid-md: clamp(1rem, 3vw, 1.75rem);
+  --space-fluid-lg: clamp(1.75rem, 5vw, 3rem);
+
+  /* ---- Radius ------------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --radius-blob: 49% 51% 48% 52% / 57% 44% 56% 43%; /* organic avatar frame */
+
+  /* ---- Elevation ---------------------------------------------------- */
+  --shadow-card: 0 1px 2px -1px hsl(255 40% 4% / 0.5),
+    0 12px 32px -16px hsl(255 40% 4% / 0.65);
+  --shadow-glow: 0 0 24px -6px hsl(40 80% 55% / 0.35);
+
+  /* ---- Motion ------------------------------------------------------- */
+  --ease-out: cubic-bezier(0, 0, 0.4, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
