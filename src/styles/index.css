@@ -1,14 +1,24 @@
 :root {
   /* Layout rhythm for the home page */
   --page-body-gap: var(--space-md);
-  --wave-offset: var(--space-xl);
-  --wave-height: 200px;
 
   --page-content-gap: var(--space-lg);
-  --page-content-block-start-space: var(--space-2xs);
   --page-content-block-end-space: var(--space-xl);
   --block-wrapper-narrow-spacing: var(--space-fluid-sm);
   --block-x-translation: var(--space-fluid-lg);
+
+  /* Submersion depth — how the ocean tints/blurs what's beneath it.
+     Subtle by default; flip the whole scene to the dramatic version with
+     <html data-submersion="deep">. */
+  --ocean-shallow: color-mix(in oklch, var(--color-water), transparent 80%);
+  --ocean-deep: color-mix(in oklch, var(--color-water), transparent 45%);
+  --ocean-blur: 2px;
+}
+
+html[data-submersion="deep"] {
+  --ocean-shallow: color-mix(in oklch, var(--color-water), transparent 58%);
+  --ocean-deep: color-mix(in oklch, var(--color-water), transparent 10%);
+  --ocean-blur: 6px;
 }
 
 .page-body {
@@ -24,34 +34,23 @@
   perspective: 4px;
 }
 
-.content-wrapper {
-  position: relative;
-  display: grid;
-  grid-template-areas: "main";
-
-  > * {
-    grid-area: main;
-  }
-}
-
-.wave {
-  position: sticky;
-  top: var(--wave-offset);
-  background: var(--color-water);
-  height: var(--wave-height);
-  width: 100%;
+/* The ocean: fixed to the viewport, its wavy top edge (the animated
+   clip-path) is the waterline. It sits in front of the content so cards
+   below the line read as submerged and surface as they scroll up past it.
+   pointer-events: none so the dial and links underneath stay usable. */
+.ocean {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
   clip-path: url(#wave-clip);
-  translate: 0 1px;
-}
-
-.content-background {
-  position: sticky;
-  top: calc(var(--wave-offset) + var(--wave-height));
-
-  margin-top: var(--wave-height);
-  background: var(--color-water);
-  width: 100%;
-  height: calc(100vh - 200px);
+  background: linear-gradient(
+    to bottom,
+    var(--ocean-shallow) 45%,
+    var(--ocean-deep) 100%
+  );
+  backdrop-filter: blur(var(--ocean-blur));
+  -webkit-backdrop-filter: blur(var(--ocean-blur));
 }
 
 .page-content {
@@ -60,9 +59,7 @@
   justify-content: center;
   gap: var(--page-content-gap);
 
-  margin-block-start: calc(
-    var(--wave-height) + var(--page-content-block-start-space)
-  );
+  margin-block-start: var(--space-2xl);
   margin-block-end: var(--page-content-block-end-space);
 }
 
