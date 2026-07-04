@@ -14,18 +14,22 @@ const {
   class: className = "",
 } = Astro.props;
 
-// Generate a single box-shadow list instead of one DOM node per star.
-// Offsets use vw/vh so the field stays responsive; spread sets the star
-// size and the alpha channel sets opacity (smaller stars are dimmer),
-// matching the original per-star math.
+// The field is over-sized vertically (150lvh) so it (a) never reveals an
+// edge when the iOS URL bar shows/hides — offsets use the stable `lvh`
+// unit, not `vh`, so the stars don't stretch — and (b) has headroom to
+// parallax within. Stars are spread across the full 150lvh.
+const FIELD_VH = 150;
+
+// One box-shadow list instead of a DOM node per star. Offsets use vw (x)
+// and lvh (y); spread sets the star size and the alpha sets opacity.
 const shadows = Array.from({ length: count }, () => {
   const x = Math.random() * 100;
-  const y = Math.random() * 100;
+  const y = Math.random() * FIELD_VH;
   const size = Math.floor(Math.random() * maximumStarSize) + 1;
   const opacity = 1 - size / (maximumStarSize + 1);
   const spread = (size - 1) / 2;
-  // Warm starlight (#fdf6e3) to sit in the dusk palette.
-  return `${x.toFixed(2)}vw ${y.toFixed(2)}vh 0 ${spread}px rgba(253, 246, 227, ${opacity.toFixed(3)})`;
+  // Warm starlight (#fdf6e3).
+  return `${x.toFixed(2)}vw ${y.toFixed(2)}lvh 0 ${spread}px rgba(253, 246, 227, ${opacity.toFixed(3)})`;
 }).join(", ");
 
 // A handful of brighter stars that twinkle independently, overlaid on the
@@ -40,15 +44,20 @@ const twinkles = Array.from({ length: twinkleCount }, () => ({
 ---
 
 <div aria-hidden="true" class:list={["component--star-sheet", className]}>
-  <div class="stars" style={`box-shadow: ${shadows};`}></div>
-  {
-    twinkles.map((t) => (
-      <span
-        class="twinkle"
-        style={`left:${t.x}%; top:${t.y}%; width:${t.size}px; height:${t.size}px; animation-delay:${t.delay}s; animation-duration:${t.dur}s;`}
-      />
-    ))
-  }
+  <!-- The parallax field: over-sized + drifts slowly with scroll. -->
+  <div class="stars-parallax">
+    <div class="stars" style={`box-shadow: ${shadows};`}></div>
+    {
+      twinkles.map((t) => (
+        <span
+          class="twinkle"
+          style={`left:${t.x}%; top:${t.y}%; width:${t.size}px; height:${t.size}px; animation-delay:${t.delay}s; animation-duration:${t.dur}s;`}
+        />
+      ))
+    }
+  </div>
+  <!-- Shooting stars live outside the parallax transform so they stay
+       anchored to the viewport. -->
   <div class="shooting-layer"></div>
 </div>
 
@@ -56,12 +65,36 @@ const twinkles = Array.from({ length: twinkleCount }, () => ({
   .component--star-sheet {
     pointer-events: none;
     position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
+    overflow: hidden;
     /* Stars fade with the sky: full at night, gone by midday. */
     opacity: var(--star-opacity, 1);
     transition: opacity 700ms var(--ease-in-out);
+  }
+
+  .stars-parallax {
+    position: absolute;
+    left: 0;
+    top: -25lvh;
+    width: 100%;
+    height: 150lvh;
+  }
+
+  /* Slow parallax drift, tied to page scroll. Enhancement only: without
+     scroll-timeline support the field stays put (still fixed above). */
+  @supports (animation-timeline: scroll()) {
+    .stars-parallax {
+      animation: star-parallax linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+  @keyframes star-parallax {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-22lvh);
+    }
   }
 
   .stars {
@@ -130,6 +163,9 @@ const twinkles = Array.from({ length: twinkleCount }, () => ({
     .twinkle {
       animation: none;
       opacity: 0.7;
+    }
+    .stars-parallax {
+      animation: none;
     }
   }
 </style>
