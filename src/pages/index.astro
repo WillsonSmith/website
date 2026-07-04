@@ -21,14 +21,6 @@ const blocks = await Promise.all(
 ---
 
 <Primary title="Home">
-  <svg width="0" height="0">
-    <defs>
-      <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
-        <!-- Calm default surface at the waterline (~45%); the script animates it. -->
-        <path d="M0,0.45 C0.25,0.48 0.75,0.42 1,0.45 V1 H0 Z"></path>
-      </clipPath>
-    </defs>
-  </svg>
   <div class="page-body">
     <GlobalNavigation />
     <main class="page-body">
@@ -48,9 +40,6 @@ const blocks = await Promise.all(
         }
       </div>
     </main>
-    <!-- The ocean: a fixed water layer whose wavy top edge is the waterline.
-         Content below it reads as submerged; cards surface as you scroll. -->
-    <div class="ocean" aria-hidden="true"></div>
   </div>
   <StarSheet count={200} class="home-star-sheet" />
 </Primary>
@@ -70,134 +59,5 @@ const blocks = await Promise.all(
         }
       },
     );
-  }
-</script>
-
-<script>
-  // The ocean surface. Each card sheds ripples as it breaches the
-  // waterline: the disturbance starts at the card's edges and travels
-  // outward, and scroll speed sets how violently. When nothing is
-  // crossing and you're still, the surface settles to a faint swell.
-  const wavePath = document.querySelector<SVGPathElement>("#wave-clip path");
-  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (wavePath && !calm) {
-    const POINTS = 80;
-
-    // Ripple shape/behaviour — tweak to taste.
-    const WAVELENGTH = Math.PI * 2 * 6; // ripple spacing
-    const REACH = 5; // how quickly ripples fade with distance from a card
-    const TRAVEL = 0.13; // how fast wavefronts move outward each frame
-    const CROSS_BAND = 0.3; // how near the waterline (in vh) a card ripples
-    const EASE = 0.08; // how quickly a card's ripple amplitude follows its target
-    const LEAN = 0.6; // how much a card's tilt skews ripples to its lower edge
-    const RIPPLE = 0.014; // ripple size at full scroll speed (0 = always calm)
-    const SWELL = 0.0016; // size of the ambient rolling swell at rest
-
-    // Sea level: starts high, falls as cards surface — as if each card
-    // displaces the water it leaves behind.
-    const BASE_WATERLINE = 0.42; // level (fraction of vh) with nothing surfaced
-    const DROP_TO = 0.97; // lowest the level recedes to (near the bottom)
-    const EMERGE_SPAN = 0.28; // vh over which a card counts as "surfaced"
-
-    const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
-    const smoothstep = (n: number) => {
-      const t = clamp01(n);
-      return t * t * (3 - 2 * t);
-    };
-
-    const cards = Array.from(
-      document.querySelectorAll<HTMLElement>(".block-wrapper"),
-    );
-    const amps = cards.map(() => 0);
-    // Each card's rotation (deg, signed) and a fixed phase offset, so the
-    // ripples lean to the card's lower edge and no two cards march in step.
-    const tilts = cards.map((el) => {
-      const r = getComputedStyle(el).rotate;
-      return r && r !== "none" ? parseFloat(r) || 0 : 0;
-    });
-    const seeds = cards.map((_, i) => i * 1.7);
-
-    let swell = 0; // ambient phase
-    let ripplePhase = 0; // outward-travel phase
-    let energy = 0; // scroll-speed driven, 0..1
-    let lastScrollY = globalThis.scrollY;
-
-    function animateWave() {
-      const sy = globalThis.scrollY;
-      energy = Math.min(1, energy * 0.9 + Math.abs(sy - lastScrollY) * 0.007);
-      lastScrollY = sy;
-
-      const vh = globalThis.innerHeight;
-      const vw = globalThis.innerWidth;
-
-      // Geometry + how far each card has risen above the base sea level.
-      const refY = BASE_WATERLINE * vh;
-      const span = EMERGE_SPAN * vh;
-      const geom = cards.map((el) => {
-        const r = el.getBoundingClientRect();
-        const center = r.top + r.height / 2;
-        return {
-          x: (r.left + r.width / 2) / vw,
-          half: r.width / 2 / vw,
-          center,
-          emerged: smoothstep((refY + span - center) / (2 * span)),
-        };
-      });
-
-      // The more card area has surfaced, the lower the sea. A scroll-progress
-      // floor guarantees the final cards clear the water by the very end.
-      const scrollMax = Math.max(1, document.documentElement.scrollHeight - vh);
-      const displaced =
-        geom.reduce((sum, g) => sum + g.emerged, 0) / Math.max(1, geom.length);
-      const tail = smoothstep((sy / scrollMax - 0.72) / 0.28);
-      const rest =
-        BASE_WATERLINE + (DROP_TO - BASE_WATERLINE) * Math.max(displaced, tail);
-
-      const waterline = rest * vh;
-      const band = CROSS_BAND * vh;
-      const sources = geom.map((g, i) => {
-        const crossing = Math.exp(-(((g.center - waterline) / band) ** 2));
-        amps[i] += (crossing * energy * RIPPLE - amps[i]) * EASE;
-        return {
-          x: g.x,
-          half: g.half,
-          amp: amps[i],
-          tilt: tilts[i],
-          seed: seeds[i],
-        };
-      });
-
-      let pathD = `M0,${rest.toFixed(4)}`;
-      for (let i = 0; i <= POINTS; i++) {
-        const x = i / POINTS;
-        let y = rest;
-        // a slow, smooth rolling swell — the resting state when nothing breaches
-        y += SWELL * Math.sin((x * 1.2 + swell) * Math.PI * 2);
-        // ripples spreading outward from each breaching card's edges
-        for (const s of sources) {
-          if (s.amp < 0.0003) continue;
-          const dx = x - s.x;
-          const edge = Math.max(0, Math.abs(dx) - s.half);
-          // lean toward the card's lower edge (smooth across the centre)
-          const lean = Math.tanh(dx * 3) * s.tilt * LEAN;
-          const amp = s.amp * (1 + lean);
-          const reach = REACH * (1 - lean * 0.5);
-          y +=
-            amp *
-            Math.cos(WAVELENGTH * edge - ripplePhase + s.seed) *
-            Math.exp(-edge * reach);
-        }
-        pathD += ` L${x.toFixed(4)},${Math.min(1, y).toFixed(4)}`;
-      }
-      pathD += ` V1 H0 Z`;
-      wavePath!.setAttribute("d", pathD);
-
-      swell += 0.001;
-      ripplePhase += TRAVEL;
-      requestAnimationFrame(animateWave);
-    }
-
-    animateWave();
   }
 </script>
