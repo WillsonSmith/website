@@ -82,7 +82,6 @@ const blocks = await Promise.all(
   const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (wavePath && !calm) {
-    const REST = 0.45; // waterline at 45% of the viewport
     const POINTS = 80;
 
     // Ripple shape/behaviour — tweak to taste.
@@ -94,6 +93,18 @@ const blocks = await Promise.all(
     const LEAN = 0.6; // how much a card's tilt skews ripples to its lower edge
     const RIPPLE = 0.026; // ripple size at full scroll speed (0 = always calm)
     const SWELL = 0.0024; // size of the ambient rolling swell at rest
+
+    // Sea level: starts high, falls as cards surface — as if each card
+    // displaces the water it leaves behind.
+    const BASE_WATERLINE = 0.42; // level (fraction of vh) with nothing surfaced
+    const DROP_TO = 0.97; // lowest the level recedes to (near the bottom)
+    const EMERGE_SPAN = 0.28; // vh over which a card counts as "surfaced"
+
+    const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
+    const smoothstep = (n: number) => {
+      const t = clamp01(n);
+      return t * t * (3 - 2 * t);
+    };
 
     const cards = Array.from(
       document.querySelectorAll<HTMLElement>(".block-wrapper"),
@@ -119,30 +130,48 @@ const blocks = await Promise.all(
 
       const vh = globalThis.innerHeight;
       const vw = globalThis.innerWidth;
-      const waterline = REST * vh;
-      const band = CROSS_BAND * vh;
 
-      // Each card's ripple source: horizontal span (normalised), an eased
-      // amplitude that peaks while it straddles the waterline, plus its tilt.
-      const sources = cards.map((el, i) => {
+      // Geometry + how far each card has risen above the base sea level.
+      const refY = BASE_WATERLINE * vh;
+      const span = EMERGE_SPAN * vh;
+      const geom = cards.map((el) => {
         const r = el.getBoundingClientRect();
         const center = r.top + r.height / 2;
-        const crossing = Math.exp(-(((center - waterline) / band) ** 2));
-        const target = crossing * energy * RIPPLE;
-        amps[i] += (target - amps[i]) * EASE;
         return {
           x: (r.left + r.width / 2) / vw,
           half: r.width / 2 / vw,
+          center,
+          emerged: smoothstep((refY + span - center) / (2 * span)),
+        };
+      });
+
+      // The more card area has surfaced, the lower the sea. A scroll-progress
+      // floor guarantees the final cards clear the water by the very end.
+      const scrollMax = Math.max(1, document.documentElement.scrollHeight - vh);
+      const displaced =
+        geom.reduce((sum, g) => sum + g.emerged, 0) / Math.max(1, geom.length);
+      const tail = smoothstep((sy / scrollMax - 0.72) / 0.28);
+      const rest =
+        BASE_WATERLINE + (DROP_TO - BASE_WATERLINE) * Math.max(displaced, tail);
+
+      const waterline = rest * vh;
+      const band = CROSS_BAND * vh;
+      const sources = geom.map((g, i) => {
+        const crossing = Math.exp(-(((g.center - waterline) / band) ** 2));
+        amps[i] += (crossing * energy * RIPPLE - amps[i]) * EASE;
+        return {
+          x: g.x,
+          half: g.half,
           amp: amps[i],
           tilt: tilts[i],
           seed: seeds[i],
         };
       });
 
-      let pathD = `M0,${REST.toFixed(4)}`;
+      let pathD = `M0,${rest.toFixed(4)}`;
       for (let i = 0; i <= POINTS; i++) {
         const x = i / POINTS;
-        let y = REST;
+        let y = rest;
         // a slow, smooth rolling swell — the resting state when nothing breaches
         y += SWELL * Math.sin((x * 1.2 + swell) * Math.PI * 2);
         // ripples spreading outward from each breaching card's edges
@@ -159,7 +188,7 @@ const blocks = await Promise.all(
             Math.cos(WAVELENGTH * edge - ripplePhase + s.seed) *
             Math.exp(-edge * reach);
         }
-        pathD += ` L${x.toFixed(4)},${y.toFixed(4)}`;
+        pathD += ` L${x.toFixed(4)},${Math.min(1, y).toFixed(4)}`;
       }
       pathD += ` V1 H0 Z`;
       wavePath!.setAttribute("d", pathD);
