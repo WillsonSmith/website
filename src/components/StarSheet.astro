@@ -2,10 +2,17 @@
 interface Props {
   count: number;
   maximumStarSize?: number;
+  /* how many of the stars twinkle (rendered as individual elements) */
+  twinkleCount?: number;
   class?: string;
 }
 
-const { count, maximumStarSize = 4, class: className = "" } = Astro.props;
+const {
+  count,
+  maximumStarSize = 4,
+  twinkleCount = 16,
+  class: className = "",
+} = Astro.props;
 
 // Generate a single box-shadow list instead of one DOM node per star.
 // Offsets use vw/vh so the field stays responsive; spread sets the star
@@ -20,13 +27,32 @@ const shadows = Array.from({ length: count }, () => {
   // Warm starlight (#fdf6e3) to sit in the dusk palette.
   return `${x.toFixed(2)}vw ${y.toFixed(2)}vh 0 ${spread}px rgba(253, 246, 227, ${opacity.toFixed(3)})`;
 }).join(", ");
+
+// A handful of brighter stars that twinkle independently, overlaid on the
+// static field. Each gets its own position, size, and out-of-sync timing.
+const twinkles = Array.from({ length: twinkleCount }, () => ({
+  x: (Math.random() * 100).toFixed(2),
+  y: (Math.random() * 100).toFixed(2),
+  size: (1.4 + Math.random() * 2.2).toFixed(2),
+  delay: (Math.random() * 6).toFixed(2),
+  dur: (2.6 + Math.random() * 3).toFixed(2),
+}));
 ---
 
 <div aria-hidden="true" class:list={["component--star-sheet", className]}>
   <div class="stars" style={`box-shadow: ${shadows};`}></div>
+  {
+    twinkles.map((t) => (
+      <span
+        class="twinkle"
+        style={`left:${t.x}%; top:${t.y}%; width:${t.size}px; height:${t.size}px; animation-delay:${t.delay}s; animation-duration:${t.dur}s;`}
+      />
+    ))
+  }
+  <div class="shooting-layer"></div>
 </div>
 
-<style>
+<style is:global>
   .component--star-sheet {
     pointer-events: none;
     position: fixed;
@@ -47,4 +73,110 @@ const shadows = Array.from({ length: count }, () => {
     border-radius: 50%;
     background: transparent;
   }
+
+  /* Independently twinkling stars */
+  .twinkle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--color-star-base);
+    opacity: 0.3;
+    box-shadow: 0 0 4px 1px color-mix(in oklch, var(--color-star-base), transparent 45%);
+    animation-name: twinkle;
+    animation-timing-function: var(--ease-in-out);
+    animation-iteration-count: infinite;
+    will-change: opacity, transform;
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.22;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+
+  /* Shooting stars are spawned into this clipped layer by the script. */
+  .shooting-layer {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .shooting-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 8px 2px rgba(253, 246, 227, 0.8);
+  }
+  .shooting-star::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 2px;
+    width: 90px;
+    height: 1.5px;
+    transform: translateY(-50%);
+    border-radius: 1px;
+    background: linear-gradient(to left, rgba(253, 246, 227, 0.85), transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .twinkle {
+      animation: none;
+      opacity: 0.7;
+    }
+  }
 </style>
+
+<script>
+  // Occasional shooting stars: streak across the sky at random intervals,
+  // then remove themselves. Skipped entirely under reduced-motion.
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const layer = document.querySelector<HTMLElement>(".shooting-layer");
+
+  if (layer && !reduce) {
+    const spawn = () => {
+      const star = document.createElement("div");
+      star.className = "shooting-star";
+      const angle = 18 + Math.random() * 26; // downward diagonal
+      const startX = Math.random() * 72; // vw
+      const startY = 2 + Math.random() * 32; // vh
+      const dist = 320 + Math.random() * 320;
+      star.style.left = `${startX}vw`;
+      star.style.top = `${startY}vh`;
+      layer.appendChild(star);
+      const anim = star.animate(
+        [
+          { transform: `rotate(${angle}deg) translateX(0)`, opacity: 0 },
+          { opacity: 1, offset: 0.15 },
+          { opacity: 1, offset: 0.75 },
+          {
+            transform: `rotate(${angle}deg) translateX(${dist}px)`,
+            opacity: 0,
+          },
+        ],
+        {
+          duration: 750 + Math.random() * 500,
+          easing: "cubic-bezier(0.3, 0, 0.5, 1)",
+        },
+      );
+      anim.onfinish = () => star.remove();
+    };
+
+    const schedule = () => {
+      const delay = 7000 + Math.random() * 11000;
+      window.setTimeout(() => {
+        spawn();
+        schedule();
+      }, delay);
+    };
+
+    window.setTimeout(schedule, 2500);
+  }
+</script>
