@@ -87,12 +87,12 @@ const blocks = await Promise.all(
     // Ripple shape/behaviour — tweak to taste.
     const WAVELENGTH = Math.PI * 2 * 6; // ripple spacing
     const REACH = 5; // how quickly ripples fade with distance from a card
-    const TRAVEL = 0.22; // how fast wavefronts move outward each frame
+    const TRAVEL = 0.13; // how fast wavefronts move outward each frame
     const CROSS_BAND = 0.3; // how near the waterline (in vh) a card ripples
-    const EASE = 0.1; // how quickly a card's ripple amplitude follows its target
+    const EASE = 0.08; // how quickly a card's ripple amplitude follows its target
     const LEAN = 0.6; // how much a card's tilt skews ripples to its lower edge
-    const RIPPLE = 0.026; // ripple size at full scroll speed (0 = always calm)
-    const SWELL = 0.0024; // size of the ambient rolling swell at rest
+    const RIPPLE = 0.014; // ripple size at full scroll speed (0 = always calm)
+    const SWELL = 0.0016; // size of the ambient rolling swell at rest
 
     // Sea level: starts high, falls as cards surface — as if each card
     // displaces the water it leaves behind.
@@ -125,7 +125,7 @@ const blocks = await Promise.all(
 
     function animateWave() {
       const sy = globalThis.scrollY;
-      energy = Math.min(1, energy * 0.9 + Math.abs(sy - lastScrollY) * 0.015);
+      energy = Math.min(1, energy * 0.9 + Math.abs(sy - lastScrollY) * 0.007);
       lastScrollY = sy;
 
       const vh = globalThis.innerHeight;
@@ -193,7 +193,7 @@ const blocks = await Promise.all(
       pathD += ` V1 H0 Z`;
       wavePath!.setAttribute("d", pathD);
 
-      swell += 0.0015;
+      swell += 0.001;
       ripplePhase += TRAVEL;
       requestAnimationFrame(animateWave);
     }
