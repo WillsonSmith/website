@@ -13,12 +13,11 @@ dragons exist, but because they tell us dragons can be beaten.
 <figcaption>—Neil Gaiman, <cite>Coraline</cite></figcaption>
 </figure>
 
-Fairy tales show us dragons can be defeated, well crafted user
-experiences show us that difficult tasks are surmountable.
+That's what good software does, too. It doesn't pretend the
+dragon isn't there — it helps you believe you can beat it.
 
-Shopify merchants face dragons every day. They are the dragons of a
-new business, of a new idea, of a new product. The dragons of a new
-market, a new customer, a new competitor. Technology and the world
-around us change every day and adapting to every change while
-building a business is hard. My goal was to provide them with the
-tools to slay their own dragons.
+I learned that at Shopify, building for merchants who face
+dragons every day: a new idea, a new product, a market that
+never sits still. I don't want to slay anyone's dragons for
+them — I want to build software that shows people they can slay
+their own.

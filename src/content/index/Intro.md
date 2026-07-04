@@ -3,20 +3,18 @@ title: An Introduction
 order: 1
 ---
 
-Hey! I'm **Willson**, a software developer with a
-specialization in front-end web experiences.
+Hey! I'm **Willson**, a developer who likes to help people do
+neat things.
 
-I'm a former Shopify employee of 8 years. Prior to my leave, my
-title was **Senior Creative Technologist**. I wore many
-hats during my time at the company, but they shared a common thread:
-building bridges between people and technology.
+If you need a label to hang me on, start with *front-end* —
+that's where I spent my career. But front-end was never the
+whole story; it's just where I could shape how software feels
+to use, most directly. These days I work solo, which means I
+build full-stack — wherever the experience needs me to be.
 
-I was a front-end developer, a UX developer, a creative
-technologist, but through all these roles my goal was simple: build
-delightful, productive, and inclusive experiences for our merchants.
-
-In addition to building the front-end Shopify admin experience, some
-of my responsibilities included: working with designers to find the
-balance between possible and perfect, educating my team on the best
-use of and contributing to Shopify's Polaris design system, and
-building prototypes to help communicate ideas.
+For 8 years I was a **Senior Creative Technologist** at
+Shopify, helping shape the merchant admin, contributing to the
+Polaris design system, and building prototypes that turned
+ideas into something people could actually feel. Different
+hats, one through-line: building bridges between people and
+technology.

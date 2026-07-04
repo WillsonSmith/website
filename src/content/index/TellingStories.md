@@ -3,16 +3,12 @@ title: Telling stories with code.
 order: 2
 ---
 
-Stories are integral to the human experience. They are how we make
-sense of the world, how we communicate ideas, how we teach, how we
-learn, and how we remember.
+Stories are how we make sense of things — how we teach, how we
+remember, how we find our way through something new.
 
-I believe that the best user experiences are the ones that tell a
-story. They are the ones that guide you through a journey, they do
-not leave you behind, they do not leave you confused, they do not
-leave you frustrated. They make you promises and they keep them.
-
-Stories are also delightful, they are fun, they are engaging, they
-are memorable. They are the experiences we remember, the ones we
-tell our friends about, the ones we come back to. I want to tell
-those stories.
+I think the best software works the same way. It tells you a
+story: it guides you, keeps the promises it makes, and never
+leaves you behind, confused, or stuck. There's a difference
+between software that just gets a task done and software that
+leaves you able to do more — and that second kind is the kind I
+want to build.
