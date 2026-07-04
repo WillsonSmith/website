@@ -104,6 +104,38 @@ const chapters: Record<number, Chapter> = {
   <GlobalNavigation />
   <StarSheet count={220} class="home-star-sheet" />
 
+  <!-- Each chapter's constellation echoed large in the background sky; it
+       lights up while its chapter is centred, tying the plate's figure to
+       the real sky behind it. -->
+  <div class="sky-constellations" aria-hidden="true">
+    {
+      blocks.map(({ order }) => {
+        const c = chapters[order];
+        return (
+          <div class="sky-constellation" data-chapter={order}>
+            <svg viewBox="0 0 340 200">
+              <g class="chart__lines">
+                {c.links.map((pts) => (
+                  <polyline points={pts} />
+                ))}
+              </g>
+              <g class="chart__stars">
+                {c.stars.map((st) => (
+                  <circle
+                    cx={st.x}
+                    cy={st.y}
+                    r={st.r}
+                    class={st.bright ? "chart__star--bright" : ""}
+                  />
+                ))}
+              </g>
+            </svg>
+          </div>
+        );
+      })
+    }
+  </div>
+
   <!-- The trail: a line fixed to the viewport. Above centre is travelled
        (inked), below is ahead (dashed); the marker sits at centre and each
        chapter's star meets it as it scrolls through. -->
@@ -132,7 +164,7 @@ const chapters: Record<number, Chapter> = {
       blocks.map(({ order, title, Content }) => {
         const c = chapters[order];
         return (
-          <section class="node">
+          <section class="node" data-chapter={order}>
             <span class="node__marker" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" />
@@ -229,6 +261,13 @@ const chapters: Record<number, Chapter> = {
     (entries) => {
       for (const e of entries) {
         e.target.classList.toggle("is-active", e.isIntersecting);
+        // Light the matching constellation in the background sky.
+        const ch = (e.target as HTMLElement).dataset.chapter;
+        if (ch) {
+          document
+            .querySelector(`.sky-constellation[data-chapter="${ch}"]`)
+            ?.classList.toggle("is-lit", e.isIntersecting);
+        }
       }
     },
     { rootMargin: "-45% 0px -45% 0px", threshold: 0 },

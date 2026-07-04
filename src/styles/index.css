@@ -44,6 +44,39 @@
   z-index: 0;
 }
 
+/* ---- Constellations echoed in the background sky ------------------- */
+.sky-constellations {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.sky-constellation {
+  position: absolute;
+  left: 50%;
+  top: 34%;
+  translate: -50% -50%;
+  width: min(1000px, 92vw);
+  opacity: 0;
+  transition: opacity 900ms var(--ease-in-out);
+}
+.sky-constellation.is-lit {
+  opacity: 0.5;
+}
+.sky-constellation svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media (max-width: 46rem) {
+  /* the plate fills the screen on mobile, so the sky echo would only hide
+     behind it — keep this to wider viewports */
+  .sky-constellations {
+    display: none;
+  }
+}
+
 /* ---- The trail (fixed to viewport) --------------------------------- */
 .trail {
   position: fixed;
