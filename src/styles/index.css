@@ -1,124 +1,397 @@
-:root {
-  /* Layout rhythm for the home page */
-  --page-body-gap: var(--space-md);
+/*
+ * Home page — the "Celestial Journey".
+ * A permanent night sky (see theme.css) with a constellation trail; each
+ * home-page section is a chapter rendered as an illustrated parchment plate
+ * pinned to the trail. Section prose comes from the `index` content
+ * collection and is styled here via the .plate__prose descendants.
+ */
 
-  --page-content-gap: var(--space-lg);
-  --page-content-block-end-space: var(--space-xl);
-  --block-wrapper-narrow-spacing: var(--space-fluid-sm);
-  --block-x-translation: var(--space-fluid-lg);
+:root {
+  /* Parchment plate palette */
+  --paper: #e7ddc4;
+  --paper-edge: #d3c4a1;
+  --ink: #33291d;
+  --ink-soft: #6b5c40;
+  --gilt: #9a7a33;
+  --gilt-bright: #c69a3e;
+  --chart-night: #14132a;
+  /* sheets peeking out beneath the top page */
+  --paper-2: #dccfad;
+  --paper-3: #cfc09b;
+  --stack-shadow:
+    0 2px 3px rgb(0 0 0 / 0.28),
+    0 24px 44px -20px rgb(0 0 0 / 0.7),
+    7px 9px 0 -2px var(--paper-2),
+    7px 10px 2px -1px rgb(0 0 0 / 0.18),
+    14px 18px 0 -4px var(--paper-3),
+    14px 19px 2px -3px rgb(0 0 0 / 0.15);
+
+  /* Journey geometry. --rail-x is where the trail lives; it moves to
+     screen-centre on small screens (line behind the cards). */
+  --col: min(58ch, 92vw);
+  --gutter: 2.2rem;
+  --rail-x: calc(50vw - var(--col) / 2 - var(--gutter));
 }
 
-.page-body {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: var(--page-body-gap);
+@media (max-width: 46rem) {
+  :root {
+    --col: 92vw;
+    --rail-x: 50vw;
+  }
 }
 
 .home-star-sheet {
   z-index: 0;
-  transform: translateZ(-10px);
-  perspective: 4px;
 }
 
-.page-content {
-  display: grid;
-  width: 100%;
+/* ---- The trail (fixed to viewport) --------------------------------- */
+.trail {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: var(--rail-x);
+  width: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.trail__todo {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  border-left: 2px dashed color-mix(in oklch, var(--gilt-bright), transparent 62%);
+}
+.trail__done {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 50vh;
+  border-left: 2px solid color-mix(in oklch, var(--gilt-bright), transparent 20%);
+}
+.trail__here {
+  position: fixed;
+  top: 50vh;
+  left: var(--rail-x);
+  width: 8px;
+  height: 8px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--color-parchment);
+  box-shadow: 0 0 12px 3px color-mix(in oklch, var(--gilt-bright), transparent 20%);
+}
+@media (max-width: 46rem) {
+  .trail {
+    z-index: 0;
+  }
+}
+
+/* ---- Chapters ------------------------------------------------------ */
+.journey {
+  position: relative;
+  z-index: 2;
+}
+.node {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: var(--page-content-gap);
-
-  margin-block-start: var(--space-2xl);
-  margin-block-end: var(--page-content-block-end-space);
+}
+.node__marker {
+  position: absolute;
+  left: var(--rail-x);
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  translate: -50% -50%;
+  z-index: 1;
+  color: color-mix(in oklch, var(--gilt-bright), transparent 15%);
+  transition:
+    scale 400ms var(--ease-soft),
+    color 400ms var(--ease-out);
+}
+.node__marker svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  filter: drop-shadow(0 0 5px color-mix(in oklch, var(--gilt-bright), transparent 45%));
+}
+.node.is-active .node__marker {
+  scale: 1.3;
+  color: var(--gilt-bright);
+}
+.node__tick {
+  position: absolute;
+  left: var(--rail-x);
+  top: 50%;
+  /* runs past the plate's edge so the dotted line continues under the page
+     (the plate sits above it) even when it slides out */
+  width: calc(var(--gutter) + 48px);
+  translate: 0 -50%;
+  border-top: 2px dotted color-mix(in oklch, var(--gilt-bright), transparent 20%);
+  opacity: 0.35;
+  transition: opacity 400ms var(--ease-out);
+}
+.node.is-active .node__tick {
+  opacity: 1;
+}
+@media (max-width: 46rem) {
+  .node__tick {
+    display: none;
+  }
 }
 
-.block-wrapper {
+/* ---- Trailhead (avatar as the first waypoint) ---------------------- */
+.trailhead {
+  display: grid;
+  place-items: center;
+  gap: var(--space-xs);
+  text-align: center;
+  /* sit above the trail marker so the star reads as behind the avatar
+     (on mobile the trail runs down the centre, through this node) */
+  position: relative;
+  z-index: 2;
+}
+.trailhead__label {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gilt-bright);
+}
+.trailhead__label::before,
+.trailhead__label::after {
+  content: "✦";
+  font-size: 0.7em;
+  vertical-align: 0.1em;
+  margin-inline: 0.7em;
+}
+
+/* ---- The plate ----------------------------------------------------- */
+.plate {
+  position: relative;
+  z-index: 2;
+  width: var(--col);
+  margin-inline: auto;
+  rotate: -0.5deg;
+  color: var(--ink);
+  padding: clamp(1.5rem, 3.5vw, 3rem) clamp(var(--space-md), 5vw, var(--space-xl));
+  border-radius: 3px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(
+      120% 100% at 50% 0%,
+      transparent 60%,
+      color-mix(in oklch, var(--paper-edge), transparent 40%) 100%
+    ),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22200%22%3E%3Cfilter%20id%3D%22p%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.85%22%20numOctaves%3D%222%22%20seed%3D%227%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22saturate%22%20values%3D%220%22%2F%3E%3CfeComponentTransfer%3E%3CfeFuncR%20type%3D%22linear%22%20slope%3D%220.28%22%20intercept%3D%220.36%22%2F%3E%3CfeFuncG%20type%3D%22linear%22%20slope%3D%220.28%22%20intercept%3D%220.36%22%2F%3E%3CfeFuncB%20type%3D%22linear%22%20slope%3D%220.28%22%20intercept%3D%220.36%22%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20filter%3D%22url%28%23p%29%22%2F%3E%3C%2Fsvg%3E");
+  background-size:
+    100% 100%,
+    200px 200px;
+  background-blend-mode: normal, soft-light;
+  /* the top page in a small stack of sheets */
+  box-shadow: var(--stack-shadow);
+  /* fade + scale with visibility, both directions; never fully out */
+  opacity: 0.62;
+  scale: 0.965;
   transition:
-    translate 250ms var(--ease-in-out),
-    rotate 250ms var(--ease-in-out);
-  transform-origin: 100% 100%;
+    opacity 700ms var(--ease-soft),
+    scale 700ms var(--ease-soft),
+    translate 700ms var(--ease-soft),
+    box-shadow 500ms var(--ease-out);
+}
+.node:nth-child(odd) .plate {
+  rotate: 0.5deg;
+}
+/* in view: grown to full size and full strength */
+.node.in-view .plate {
+  opacity: 1;
+  scale: 1;
+}
+/* active (centred): slide out from the trail + a soft gilt glow */
+.node.is-active .plate {
+  translate: 14px 0;
+  box-shadow:
+    0 0 52px -6px color-mix(in oklch, var(--gilt-bright), transparent 34%),
+    var(--stack-shadow);
+}
 
-  translate: 0px;
-  rotate: 0deg;
+/* ---- Plate typography ---------------------------------------------- */
+.plate__chapter {
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gilt);
+}
+.plate__chapter::before,
+.plate__chapter::after {
+  content: "✦";
+  font-size: 0.7em;
+  vertical-align: 0.1em;
+  margin-inline: 0.7em;
+  color: var(--gilt-bright);
+}
+.plate__title {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+  margin-block: 0.1em 0.6em;
+}
 
-  margin-inline: var(--block-wrapper-narrow-spacing);
+.plate__figure {
+  margin: 0 0 var(--space-sm);
+}
+.starplate {
+  max-width: 400px;
+  margin-inline: auto;
+  border-radius: 2px;
+  background: radial-gradient(
+    120% 130% at 50% 20%,
+    color-mix(in oklch, var(--chart-night), white 8%),
+    var(--chart-night)
+  );
+  border: 1px solid color-mix(in oklch, var(--gilt), transparent 40%);
+  box-shadow: inset 0 0 24px rgb(0 0 0 / 0.5);
+  padding: var(--space-2xs);
+}
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.chart__lines {
+  fill: none;
+  stroke: color-mix(in oklch, var(--gilt-bright), transparent 50%);
+  stroke-width: 0.9;
+  stroke-dasharray: 1 4;
+  stroke-linecap: round;
+}
+.chart__stars circle {
+  fill: var(--color-star-base);
+  filter: drop-shadow(0 0 3px color-mix(in oklch, var(--gilt-bright), transparent 20%));
+}
+.chart__star--bright {
+  fill: #fff;
+  filter: drop-shadow(0 0 5px var(--gilt-bright));
+}
+.chart__label {
+  fill: color-mix(in oklch, var(--color-star-base), transparent 25%);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 11px;
+}
+.plate__figure figcaption {
+  margin-top: var(--space-2xs);
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
 
-  @media (min-width: 786px) {
-    margin-inline: 0;
-    translate: var(--block-x-translation);
-    rotate: 1deg;
-    &:nth-child(even) {
-      translate: calc(-1 * var(--block-x-translation));
-      rotate: -1deg;
-    }
+/* divider flourish between the figure and the prose */
+.plate__rule {
+  display: flex;
+  justify-content: center;
+  margin: var(--space-sm) auto var(--space-md);
+  width: min(62%, 220px);
+}
+.plate__rule svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.plate__rule line {
+  stroke: color-mix(in oklch, var(--gilt), transparent 25%);
+  stroke-width: 1;
+}
+.plate__rule path {
+  fill: var(--gilt);
+}
+.plate__rule .rule__inner {
+  fill: var(--paper);
+}
+
+/* ---- Plate prose (rendered from the markdown content) -------------- */
+.plate__prose {
+  font-family: var(--font-display);
+  font-size: calc(var(--text-base) * 1.06);
+  line-height: var(--leading-normal);
+  color: var(--ink);
+}
+.plate__prose p {
+  margin: 0;
+}
+/* only the chapter's own paragraphs get flow spacing + indent (not the
+   paragraph markdown nests inside a blockquote) */
+.plate__prose > p + p {
+  margin-top: var(--space-sm);
+  text-indent: 1.4em;
+}
+/* drop cap on the chapter's first paragraph only */
+.plate__prose > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 3.9em;
+  line-height: 0.66;
+  padding-right: 0.09em;
+  margin-top: 0.04em;
+  color: var(--gilt);
+  text-shadow: 0 1px 0 color-mix(in oklch, var(--paper-edge), transparent 30%);
+}
+/* an epigraph (e.g. the Coraline pull-quote) authored as a <figure> */
+.plate__prose figure {
+  margin: 0 0 var(--space-md);
+  text-align: center;
+}
+.plate__prose blockquote {
+  margin: 0;
+  font-style: italic;
+  font-size: calc(var(--text-base) * 1.1);
+  line-height: var(--leading-snug);
+  color: var(--ink);
+}
+.plate__prose figure figcaption {
+  margin-top: var(--space-2xs);
+  font-style: normal;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+.plate__prose span {
+  display: inline-block;
+  margin-top: var(--space-sm);
+}
+.plate__prose a {
+  color: color-mix(in oklch, var(--gilt), black 10%);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--gilt), transparent 50%);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 120ms var(--ease-out);
+}
+.plate__prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---- Small screens ------------------------------------------------- */
+@media (max-width: 46rem) {
+  .plate__title {
+    font-size: var(--text-lg);
+    margin-block: 0.1em 0.4em;
   }
-
-  /* A page of the story: moonlit glass with a gilt hairline */
-  .block {
-    color: var(--color-text);
-    display: grid;
-    gap: var(--space-sm);
-    max-width: 60ch;
-
-    padding-block: var(--space-md) var(--space-lg);
-    padding-inline: var(--space-lg);
-
-    border-radius: var(--radius-lg);
-    background: var(--color-surface);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-card);
+  .starplate {
+    max-width: 240px;
   }
-
-  /* Chapter title, set in gilt */
-  h2 {
-    font-size: var(--text-md);
-    font-weight: var(--weight-medium);
-    line-height: var(--leading-snug);
-    color: var(--color-accent);
-  }
-
-  p {
+  .plate__prose {
     font-size: var(--text-base);
-    line-height: var(--leading-normal);
-    font-weight: var(--weight-regular);
   }
-
-  a {
-    color: var(--color-accent);
-    text-decoration-line: underline;
-    text-decoration-color: var(--color-border);
-    text-underline-offset: 0.2em;
-    transition: color 120ms var(--ease-out);
-
-    &:hover {
-      color: var(--color-accent-bright);
-      text-decoration-color: currentColor;
-    }
-  }
-
-  /* The Coraline pull-quote on "Defeating Dragons" */
-  figure {
-    margin-block: var(--space-fluid-sm);
-    margin-inline: var(--space-fluid-md);
-
-    blockquote {
-      margin: 0;
-      padding-inline-start: var(--space-md);
-      border-inline-start: 2px solid var(--color-accent);
-
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: var(--text-md);
-      line-height: var(--leading-snug);
-      letter-spacing: var(--tracking-tight);
-      color: var(--color-parchment);
-    }
-
-    figcaption {
-      margin-block-start: var(--space-2xs);
-      color: var(--color-text-muted);
-      font-size: var(--text-sm);
-    }
+  /* trail sits behind the centred card here, so no slide-out */
+  .node.is-active .plate {
+    translate: 0 0;
   }
 }

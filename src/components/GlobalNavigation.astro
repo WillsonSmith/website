@@ -22,8 +22,9 @@ const links: { url: string; title: string }[] = [
   .global-navigation {
     color: var(--color-text);
 
-    position: sticky;
-    top: 0;
+    /* Not sticky: the nav scrolls away as you enter the journey, so the
+       light header text never rides over the parchment plates. */
+    position: relative;
     z-index: 10;
 
     display: flex;
@@ -33,15 +34,8 @@ const links: { url: string; title: string }[] = [
     padding-block: var(--space-2xs) var(--space-md);
     padding-inline: var(--space-fluid-md);
 
-    /* The header text rides directly on the sky, which can go bright at
-       midday. A top scrim held dark through the text keeps the light
-       header legible at any hour (invisible against a dark night sky). */
-    background: linear-gradient(
-      to bottom,
-      rgb(0 0 0 / 0.36) 0%,
-      rgb(0 0 0 / 0.22) 70%,
-      transparent 100%
-    );
+    /* No scrim behind the header; a soft text-shadow keeps the light text
+       legible where the sky goes bright. */
     text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
 
     .links {

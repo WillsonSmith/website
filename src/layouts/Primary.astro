@@ -22,11 +22,5 @@ const description =
   <body>
     <!-- All code is intentionally unminified so that others can learn. -->
     <slot />
-
-    <script>
-      // Open the scene at the visitor's local time (or a ?time= override).
-      import { applyTimeOfDay, currentTimeOfDay } from "../scripts/sky";
-      applyTimeOfDay(currentTimeOfDay());
-    </script>
   </body>
 </html>

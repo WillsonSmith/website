@@ -39,16 +39,21 @@
 }
 
 :root {
-  /* ---- Segment endpoints (set by the engine; default = dusk) ------- */
-  --seg-from-zenith: oklch(0.3 0.08 290);
-  --seg-to-zenith: oklch(0.3 0.08 290);
-  --seg-from-horizon: oklch(0.7 0.14 60);
-  --seg-to-horizon: oklch(0.7 0.14 60);
-  --seg-from-sea: oklch(0.32 0.05 210);
-  --seg-to-sea: oklch(0.32 0.05 210);
+  /* ---- Scene endpoints ---------------------------------------------
+     The site now lives at a permanent night (the "Celestial Journey"):
+     stars are always up and the parchment plates read on a dark sky.
+     The time-of-day engine and dial have been removed, so from/to are
+     the same fixed night stop. */
+  --seg-from-zenith: oklch(0.13 0.045 275);
+  --seg-to-zenith: oklch(0.13 0.045 275);
+  --seg-from-horizon: oklch(0.24 0.06 268);
+  --seg-to-horizon: oklch(0.24 0.06 268);
+  --seg-from-sea: oklch(0.2 0.05 250);
+  --seg-to-sea: oklch(0.2 0.05 250);
   --seg-from-accent: oklch(0.78 0.13 75);
   --seg-to-accent: oklch(0.78 0.13 75);
   --seg-t: 0;
+  --star-opacity: 1;
 
   /* ---- Live scene colours (CSS blends the two stops in OKLCH) ------ */
   --sky-zenith: color-mix(

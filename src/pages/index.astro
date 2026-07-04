@@ -3,9 +3,7 @@ import { getCollection, render } from "astro:content";
 import Primary from "../layouts/Primary.astro";
 import GlobalNavigation from "../components/GlobalNavigation.astro";
 import HomePageHeader from "../components/HomePageHeader.astro";
-import RaisingBlock from "../components/RaisingBlock.astro";
 import StarSheet from "../components/StarSheet.astro";
-import SkyDial from "../components/SkyDial.astro";
 import "../styles/index.css";
 
 const entries = (await getCollection("index")).sort(
@@ -15,33 +13,183 @@ const entries = (await getCollection("index")).sort(
 const blocks = await Promise.all(
   entries.map(async (entry) => {
     const { Content } = await render(entry);
-    return { title: entry.data.title, Content };
+    return { order: entry.data.order, title: entry.data.title, Content };
   }),
 );
+
+// Per-chapter presentation metadata (chapter label + named constellation),
+// keyed by the section's order. Kept out of the markdown since it's purely
+// how each page of the story is illustrated, not its prose.
+type Star = { x: number; y: number; r: number; bright?: boolean };
+type Label = { x: number; y: number; t: string };
+type Chapter = {
+  chapter: string;
+  figure: string;
+  stars: Star[];
+  links: string[];
+  labels: Label[];
+};
+
+const chapters: Record<number, Chapter> = {
+  1: {
+    chapter: "Chapter the First",
+    figure: "fig. i — Ursa Minor, the guiding star",
+    stars: [
+      { x: 276, y: 52, r: 3.2, bright: true },
+      { x: 242, y: 68, r: 2 },
+      { x: 208, y: 82, r: 2.2 },
+      { x: 176, y: 94, r: 2.8, bright: true },
+      { x: 150, y: 128, r: 2.2 },
+      { x: 104, y: 134, r: 2 },
+      { x: 96, y: 100, r: 2.2 },
+    ],
+    links: ["276,52 242,68 208,82 176,94 150,128 104,134 96,100 176,94"],
+    labels: [{ x: 250, y: 48, t: "Polaris" }],
+  },
+  2: {
+    chapter: "Chapter the Second",
+    figure: "fig. ii — Lyra, the storyteller’s lyre",
+    stars: [
+      { x: 180, y: 54, r: 3, bright: true },
+      { x: 150, y: 96, r: 2.2 },
+      { x: 188, y: 108, r: 2 },
+      { x: 208, y: 150, r: 2.4 },
+      { x: 168, y: 150, r: 2 },
+    ],
+    links: ["180,54 150,96 168,150 208,150 188,108 150,96"],
+    labels: [{ x: 158, y: 50, t: "Vega" }],
+  },
+  3: {
+    chapter: "Chapter the Third",
+    figure: "fig. iii — Draco, the sleepless dragon",
+    stars: [
+      { x: 44, y: 168, r: 2.4 },
+      { x: 80, y: 150, r: 2 },
+      { x: 96, y: 120, r: 2.6 },
+      { x: 82, y: 92, r: 2 },
+      { x: 116, y: 80, r: 2.4 },
+      { x: 150, y: 92, r: 3, bright: true },
+      { x: 186, y: 76, r: 2.2 },
+      { x: 214, y: 88, r: 2 },
+      { x: 248, y: 72, r: 2.6 },
+      { x: 281, y: 60, r: 3, bright: true },
+      { x: 298, y: 82, r: 2.2 },
+      { x: 268, y: 94, r: 2.4 },
+    ],
+    links: [
+      "44,168 80,150 96,120 82,92 116,80 150,92 186,76 214,88 268,94 248,72 281,60 298,82 268,94",
+    ],
+    labels: [
+      { x: 156, y: 86, t: "α" },
+      { x: 287, y: 54, t: "β" },
+    ],
+  },
+  4: {
+    chapter: "The Next Chapter",
+    figure: "fig. iv — Sagitta, the arrow",
+    stars: [
+      { x: 256, y: 64, r: 2.8, bright: true },
+      { x: 204, y: 90, r: 2.2 },
+      { x: 158, y: 110, r: 2.4 },
+      { x: 126, y: 96, r: 2 },
+      { x: 132, y: 134, r: 2 },
+    ],
+    links: ["256,64 204,90 158,110", "126,96 158,110 132,134"],
+    labels: [{ x: 262, y: 60, t: "γ" }],
+  },
+};
 ---
 
 <Primary title="Home">
-  <div class="page-body">
-    <GlobalNavigation />
-    <main class="page-body">
-      <SkyDial>
-        <HomePageHeader />
-      </SkyDial>
-      <div class="page-content">
-        {
-          blocks.map(({ title, Content }) => (
-            <div class="block-wrapper">
-              <RaisingBlock class="block">
-                <h2>{title}</h2>
-                <Content />
-              </RaisingBlock>
-            </div>
-          ))
-        }
-      </div>
-    </main>
+  <GlobalNavigation />
+  <StarSheet count={220} class="home-star-sheet" />
+
+  <!-- The trail: a line fixed to the viewport. Above centre is travelled
+       (inked), below is ahead (dashed); the marker sits at centre and each
+       chapter's star meets it as it scrolls through. -->
+  <div class="trail" aria-hidden="true">
+    <span class="trail__todo"></span>
+    <span class="trail__done"></span>
+    <span class="trail__here"></span>
   </div>
-  <StarSheet count={200} class="home-star-sheet" />
+
+  <main class="journey">
+    <!-- Trailhead: the avatar is the first waypoint — where the journey (and
+         the "you are here" marker) begins. -->
+    <section class="node node--head">
+      <span class="node__marker" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"></path>
+        </svg>
+      </span>
+      <div class="trailhead">
+        <HomePageHeader />
+        <p class="trailhead__label">the journey begins</p>
+      </div>
+    </section>
+
+    {
+      blocks.map(({ order, title, Content }) => {
+        const c = chapters[order];
+        return (
+          <section class="node">
+            <span class="node__marker" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" />
+              </svg>
+            </span>
+            <span class="node__tick" aria-hidden="true" />
+
+            <article class="plate">
+              <p class="plate__chapter">{c.chapter}</p>
+              <h2 class="plate__title">{title}</h2>
+
+              <figure class="plate__figure">
+                <div class="starplate">
+                  <svg viewBox="0 0 340 200" class="chart">
+                    <g class="chart__lines">
+                      {c.links.map((pts) => (
+                        <polyline points={pts} />
+                      ))}
+                    </g>
+                    <g class="chart__stars">
+                      {c.stars.map((st) => (
+                        <circle
+                          cx={st.x}
+                          cy={st.y}
+                          r={st.r}
+                          class={st.bright ? "chart__star--bright" : ""}
+                        />
+                      ))}
+                    </g>
+                    {c.labels.map((l) => (
+                      <text x={l.x} y={l.y} class="chart__label">
+                        {l.t}
+                      </text>
+                    ))}
+                  </svg>
+                </div>
+                <figcaption>{c.figure}</figcaption>
+              </figure>
+
+              <div class="plate__rule" aria-hidden="true">
+                <svg viewBox="0 0 160 12">
+                  <line x1="0" y1="6" x2="62" y2="6" />
+                  <path d="M80 1 L84 6 L80 11 L76 6 Z" />
+                  <path d="M80 3.4 L82.2 6 L80 8.6 L77.8 6 Z" class="rule__inner" />
+                  <line x1="98" y1="6" x2="160" y2="6" />
+                </svg>
+              </div>
+
+              <div class="plate__prose">
+                <Content />
+              </div>
+            </article>
+          </section>
+        );
+      })
+    }
+  </main>
 </Primary>
 
 <script>
@@ -60,4 +208,30 @@ const blocks = await Promise.all(
       },
     );
   }
+</script>
+
+<script>
+  // Reveal each chapter (two-way fade + scale with visibility) and light up
+  // whichever one is centred in the viewport.
+  const nodes = document.querySelectorAll(".node");
+
+  const revealIO = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        e.target.classList.toggle("in-view", e.isIntersecting);
+      }
+    },
+    { threshold: 0.45 },
+  );
+  nodes.forEach((n) => revealIO.observe(n));
+
+  const activeIO = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        e.target.classList.toggle("is-active", e.isIntersecting);
+      }
+    },
+    { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
+  );
+  nodes.forEach((n) => activeIO.observe(n));
 </script>
