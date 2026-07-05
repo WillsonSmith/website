@@ -112,7 +112,11 @@ const chapters: Record<number, Chapter> = {
       blocks.map(({ order }) => {
         const c = chapters[order];
         return (
-          <div class="sky-constellation" data-chapter={order}>
+          <div
+            class="sky-constellation"
+            data-chapter={order}
+            style={`animation-timeline: --ch${order}`}
+          >
             <svg viewBox="0 0 340 200">
               <g class="chart__lines">
                 {c.links.map((pts) => (
@@ -164,7 +168,11 @@ const chapters: Record<number, Chapter> = {
       blocks.map(({ order, title, Content }) => {
         const c = chapters[order];
         return (
-          <section class="node" data-chapter={order}>
+          <section
+            class="node"
+            data-chapter={order}
+            style={`view-timeline-name: --ch${order}`}
+          >
             <span class="node__marker" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" />
@@ -242,35 +250,3 @@ const chapters: Record<number, Chapter> = {
   }
 </script>
 
-<script>
-  // Reveal each chapter (two-way fade + scale with visibility) and light up
-  // whichever one is centred in the viewport.
-  const nodes = document.querySelectorAll(".node");
-
-  const revealIO = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        e.target.classList.toggle("in-view", e.isIntersecting);
-      }
-    },
-    { threshold: 0.45 },
-  );
-  nodes.forEach((n) => revealIO.observe(n));
-
-  const activeIO = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        e.target.classList.toggle("is-active", e.isIntersecting);
-        // Light the matching constellation in the background sky.
-        const ch = (e.target as HTMLElement).dataset.chapter;
-        if (ch) {
-          document
-            .querySelector(`.sky-constellation[data-chapter="${ch}"]`)
-            ?.classList.toggle("is-lit", e.isIntersecting);
-        }
-      }
-    },
-    { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
-  );
-  nodes.forEach((n) => activeIO.observe(n));
-</script>

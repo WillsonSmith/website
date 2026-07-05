@@ -38,6 +38,12 @@
   z-index: 0;
 }
 
+/* Hoist each chapter's view timeline to a scope both the chapter nodes and
+   the (sibling) background constellations can reference. */
+body {
+  timeline-scope: --ch1, --ch2, --ch3, --ch4;
+}
+
 /* ---- Constellations echoed in the background sky ------------------- */
 .sky-constellations {
   position: fixed;
@@ -53,10 +59,24 @@
   translate: -50% -50%;
   width: min(1000px, 92vw);
   opacity: 0;
-  transition: opacity 900ms var(--ease-in-out);
 }
-.sky-constellation.is-lit {
-  opacity: 0.5;
+/* Lit by its chapter's view timeline (name set inline per node; the
+   timelines are hoisted to body scope so this sibling subtree can read
+   them). Composited opacity, so no per-frame repaint. */
+@supports (animation-timeline: view()) {
+  .sky-constellation {
+    animation: sky-lit linear both;
+    animation-range: cover 35% cover 65%;
+  }
+}
+@keyframes sky-lit {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 .sky-constellation svg {
   display: block;
@@ -132,9 +152,6 @@
   translate: -50% -50%;
   z-index: 1;
   color: color-mix(in oklch, var(--gilt-bright), transparent 15%);
-  transition:
-    scale 400ms var(--ease-soft),
-    color 400ms var(--ease-out);
 }
 .node__marker svg {
   width: 100%;
@@ -142,24 +159,48 @@
   fill: currentColor;
   filter: drop-shadow(0 0 5px color-mix(in oklch, var(--gilt-bright), transparent 45%));
 }
-.node.is-active .node__marker {
-  scale: 1.3;
-  color: var(--gilt-bright);
+/* marker brightens + grows as its node reaches centre (scroll-driven) */
+@supports (animation-timeline: view()) {
+  .node__marker {
+    animation: marker-active linear both;
+    animation-timeline: view();
+    animation-range: cover 42% cover 58%;
+  }
+  .node__tick {
+    animation: tick-active linear both;
+    animation-timeline: view();
+    animation-range: cover 42% cover 58%;
+  }
+}
+@keyframes marker-active {
+  0%,
+  100% {
+    scale: 1;
+    color: color-mix(in oklch, var(--gilt-bright), transparent 15%);
+  }
+  50% {
+    scale: 1.3;
+    color: var(--gilt-bright);
+  }
+}
+@keyframes tick-active {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 .node__tick {
   position: absolute;
   left: var(--rail-x);
   top: 50%;
-  /* runs past the plate's edge so the dotted line continues under the page
-     (the plate sits above it) even when it slides out */
+  /* runs past the plate's edge so the dotted line continues under the page */
   width: calc(var(--gutter) + 48px);
   translate: 0 -50%;
   border-top: 2px dotted color-mix(in oklch, var(--gilt-bright), transparent 20%);
   opacity: 0.35;
-  transition: opacity 400ms var(--ease-out);
-}
-.node.is-active .node__tick {
-  opacity: 1;
 }
 @media (max-width: 46rem) {
   .node__tick {
@@ -218,29 +259,54 @@
   background-blend-mode: normal, soft-light;
   /* a single parchment sheet */
   box-shadow: var(--sheet-shadow);
-  /* fade + scale with visibility, both directions; never fully out */
-  opacity: 0.62;
-  scale: 0.965;
-  transition:
-    opacity 700ms var(--ease-soft),
-    scale 700ms var(--ease-soft),
-    translate 700ms var(--ease-soft),
-    box-shadow 500ms var(--ease-out);
+  /* fallback (no scroll-timeline): fully visible */
 }
 .node:nth-child(odd) .plate {
   rotate: 0.5deg;
 }
-/* in view: grown to full size and full strength */
-.node.in-view .plate {
-  opacity: 1;
-  scale: 1;
+
+/* Reveal + centre-emphasis, scroll-driven (replaces IntersectionObserver).
+   Only composited properties on the timeline — opacity + scale for the
+   plate, opacity for the glow pseudo — so nothing repaints per frame. */
+@supports (animation-timeline: view()) {
+  .plate {
+    animation: plate-reveal linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+  /* soft gilt glow that fades in as the plate reaches centre */
+  .plate::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: 0 0 52px -6px color-mix(in oklch, var(--gilt-bright), transparent 34%);
+    opacity: 0;
+    animation: plate-glow linear both;
+    animation-timeline: view();
+    animation-range: cover 34% cover 66%;
+  }
 }
-/* active (centred): slide out from the trail + a soft gilt glow */
-.node.is-active .plate {
-  translate: 14px 0;
-  box-shadow:
-    0 0 52px -6px color-mix(in oklch, var(--gilt-bright), transparent 34%),
-    var(--sheet-shadow);
+@keyframes plate-reveal {
+  0%,
+  100% {
+    opacity: 0.62;
+    scale: 0.965;
+  }
+  50% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes plate-glow {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 /* ---- Plate typography ---------------------------------------------- */

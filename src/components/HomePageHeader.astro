@@ -2,7 +2,7 @@
 const imageSize = 200;
 ---
 
-<h-image-swap data-visible="1">
+<h-image-swap>
   <div class="image">
     <picture>
       <source srcset="/images/thumbs-up.avif" type="image/avif" />
@@ -59,47 +59,44 @@ const imageSize = 200;
     picture {
       grid-area: main;
       opacity: 0;
-      transition: opacity 500ms var(--ease-soft);
     }
-
-    &[data-visible="1"] picture:nth-child(1) {
-      opacity: 1;
-    }
-    &[data-visible="2"] picture:nth-child(2) {
+    /* waving by default (and as a no-scroll-timeline fallback) */
+    picture:nth-child(1) {
       opacity: 1;
     }
   }
 </style>
 
-<script>
-  if (customElements.get("h-image-swap") == undefined) {
-    customElements.define(
-      "h-image-swap",
-      class extends HTMLElement {
-        intersectionObserver: IntersectionObserver;
-
-        constructor() {
-          super();
-          this.intersectionObserver = new IntersectionObserver(
-            this.handleIntersections,
-            {
-              rootMargin: "-180px 0px 0px 0px",
-              threshold: [0.25],
-            },
-          );
-          this.intersectionObserver.observe(this);
-        }
-
-        handleIntersections = (entries: IntersectionObserverEntry[]) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              this.setAttribute("data-visible", "1");
-            } else {
-              this.setAttribute("data-visible", "2");
-            }
-          }
-        };
-      },
-    );
+<!-- Global so Astro doesn't scope the @keyframes away from their
+     animation-name. Scroll-driven crossfade: wave -> peace as the avatar
+     leaves the top of the viewport. Composited opacity, no repaint. -->
+<style is:global>
+  @supports (animation-timeline: view()) {
+    h-image-swap picture:nth-child(1) {
+      animation: avatar-wave linear both;
+      animation-timeline: view();
+      animation-range: exit 15% exit 85%;
+    }
+    h-image-swap picture:nth-child(2) {
+      animation: avatar-peace linear both;
+      animation-timeline: view();
+      animation-range: exit 15% exit 85%;
+    }
   }
-</script>
+  @keyframes avatar-wave {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes avatar-peace {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
