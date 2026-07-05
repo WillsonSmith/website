@@ -15,16 +15,10 @@
   --gilt: #9a7a33;
   --gilt-bright: #c69a3e;
   --chart-night: #14132a;
-  /* sheets peeking out beneath the top page */
-  --paper-2: #dccfad;
-  --paper-3: #cfc09b;
-  --stack-shadow:
-    0 2px 3px rgb(0 0 0 / 0.28),
-    0 24px 44px -20px rgb(0 0 0 / 0.7),
-    7px 9px 0 -2px var(--paper-2),
-    7px 10px 2px -1px rgb(0 0 0 / 0.18),
-    14px 18px 0 -4px var(--paper-3),
-    14px 19px 2px -3px rgb(0 0 0 / 0.15);
+  /* a single parchment sheet's drop shadow */
+  --sheet-shadow:
+    0 2px 4px rgb(0 0 0 / 0.3),
+    0 22px 44px -18px rgb(0 0 0 / 0.7);
 
   /* Journey geometry. --rail-x is where the trail lives; it moves to
      screen-centre on small screens (line behind the cards). */
@@ -222,8 +216,8 @@
     100% 100%,
     200px 200px;
   background-blend-mode: normal, soft-light;
-  /* the top page in a small stack of sheets */
-  box-shadow: var(--stack-shadow);
+  /* a single parchment sheet */
+  box-shadow: var(--sheet-shadow);
   /* fade + scale with visibility, both directions; never fully out */
   opacity: 0.62;
   scale: 0.965;
@@ -246,7 +240,7 @@
   translate: 14px 0;
   box-shadow:
     0 0 52px -6px color-mix(in oklch, var(--gilt-bright), transparent 34%),
-    var(--stack-shadow);
+    var(--sheet-shadow);
 }
 
 /* ---- Plate typography ---------------------------------------------- */
