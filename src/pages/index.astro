@@ -99,15 +99,6 @@ const chapters: Record<number, Chapter> = {
   },
 };
 
-// Where each constellation sits in the open night sky — clear of the
-// centred plate (in the side margins), so its stars are always part of the
-// starfield and its lines light up as you reach its chapter.
-const skyPos: Record<number, { left: string; top: string; w: string }> = {
-  1: { left: "84%", top: "26%", w: "min(300px, 23vw)" },
-  2: { left: "15%", top: "24%", w: "min(300px, 23vw)" },
-  3: { left: "17%", top: "66%", w: "min(330px, 25vw)" },
-  4: { left: "85%", top: "68%", w: "min(280px, 21vw)" },
-};
 ---
 
 <Primary title="Home">
@@ -125,7 +116,7 @@ const skyPos: Record<number, { left: string; top: string; w: string }> = {
           <div
             class="sky-constellation"
             data-chapter={order}
-            style={`left:${skyPos[order].left}; top:${skyPos[order].top}; width:${skyPos[order].w}; animation-timeline: --ch${order}`}
+            style={`animation-timeline: --ch${order}`}
           >
             <svg viewBox="0 0 340 200">
               <g class="chart__lines">

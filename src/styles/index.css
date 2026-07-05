@@ -52,10 +52,17 @@ body {
   pointer-events: none;
   overflow: hidden;
 }
+/* All chapters' constellations share one fixed spot in the right margin,
+   beside the plate. Only the in-view chapter's is visible: it fades in for
+   the span its card is on screen and out again, so they crossfade in place
+   rather than scattering across the sky. */
 .sky-constellation {
   position: absolute;
+  left: 84%;
+  top: 50%;
   translate: -50% -50%;
-  /* left / top / width set inline per chapter */
+  width: min(320px, 24vw);
+  opacity: 0;
 }
 .sky-constellation svg {
   display: block;
@@ -63,33 +70,20 @@ body {
   height: auto;
   overflow: visible;
 }
-/* Its stars are always part of the night sky (dim); the connecting lines
-   draw in and the stars brighten as its chapter reaches centre. Driven by
-   the chapter's named view timeline (set inline) via a --lit custom prop. */
-.sky-constellation .chart__stars circle {
-  opacity: calc(0.4 + var(--lit) * 0.55);
-}
-.sky-constellation .chart__lines {
-  opacity: calc(var(--lit) * 0.7);
-}
-@property --lit {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
 @supports (animation-timeline: view()) {
   .sky-constellation {
     animation: sky-lit linear both;
-    animation-range: cover 28% cover 72%;
+    animation-range: cover 10% cover 90%;
   }
 }
 @keyframes sky-lit {
   0%,
   100% {
-    --lit: 0;
+    opacity: 0;
   }
-  50% {
-    --lit: 1;
+  24%,
+  76% {
+    opacity: 0.6;
   }
 }
 @media (max-width: 46rem) {
