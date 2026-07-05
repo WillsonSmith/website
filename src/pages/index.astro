@@ -4,6 +4,7 @@ import Primary from "../layouts/Primary.astro";
 import GlobalNavigation from "../components/GlobalNavigation.astro";
 import HomePageHeader from "../components/HomePageHeader.astro";
 import StarSheet from "../components/StarSheet.astro";
+import Constellation from "../components/Constellation.astro";
 import "../styles/index.css";
 
 const entries = (await getCollection("index")).sort(
@@ -105,36 +106,23 @@ const chapters: Record<number, Chapter> = {
   <GlobalNavigation />
   <StarSheet count={220} class="home-star-sheet" />
 
-  <!-- Each chapter's constellation echoed large in the background sky; it
-       lights up while its chapter is centred, tying the plate's figure to
-       the real sky behind it. -->
+  <!-- Desktop: each chapter's constellation pinned in a side margin beside
+       the plate (alternating left / right), lit while its card is in view.
+       Hidden on mobile, where an in-node copy sits above each card. -->
   <div class="sky-constellations" aria-hidden="true">
     {
       blocks.map(({ order }) => {
         const c = chapters[order];
         return (
           <div
-            class="sky-constellation"
+            class:list={[
+              "sky-constellation",
+              order % 2 ? "is-left" : "is-right",
+            ]}
             data-chapter={order}
             style={`animation-timeline: --ch${order}`}
           >
-            <svg viewBox="0 0 340 200">
-              <g class="chart__lines">
-                {c.links.map((pts) => (
-                  <polyline points={pts} />
-                ))}
-              </g>
-              <g class="chart__stars">
-                {c.stars.map((st) => (
-                  <circle
-                    cx={st.x}
-                    cy={st.y}
-                    r={st.r}
-                    class={st.bright ? "chart__star--bright" : ""}
-                  />
-                ))}
-              </g>
-            </svg>
+            <Constellation stars={c.stars} links={c.links} />
           </div>
         );
       })
@@ -180,6 +168,10 @@ const chapters: Record<number, Chapter> = {
               </svg>
             </span>
             <span class="node__tick" aria-hidden="true" />
+
+            <div class="node__sky" aria-hidden="true">
+              <Constellation stars={c.stars} links={c.links} />
+            </div>
 
             <article class="plate">
               <i class="plate__glow" aria-hidden="true"></i>

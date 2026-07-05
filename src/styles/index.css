@@ -52,19 +52,26 @@ body {
   pointer-events: none;
   overflow: hidden;
 }
-/* All chapters' constellations share one fixed spot in the right margin,
-   beside the plate. Only the in-view chapter's is visible: it fades in for
-   the span its card is on screen and out again, so they crossfade in place
-   rather than scattering across the sky. */
+/* Pinned in a side margin beside the plate, vertically centred. Chapters
+   alternate left / right. Only the in-view chapter's is visible: it fades
+   in for the span its card is on screen and out again (crossfading in
+   place). Width tracks the available margin so it never hides behind the
+   plate. */
 .sky-constellation {
   position: absolute;
-  left: 84%;
   top: 50%;
   translate: -50% -50%;
-  width: min(320px, 24vw);
+  width: min(300px, calc((100vw - var(--col)) / 2 - 2rem));
   opacity: 0;
 }
-.sky-constellation svg {
+.sky-constellation.is-left {
+  left: calc(25vw - var(--col) / 4);
+}
+.sky-constellation.is-right {
+  left: calc(75vw + var(--col) / 4);
+}
+.sky-constellation svg,
+.node__sky svg {
   display: block;
   width: 100%;
   height: auto;
@@ -86,10 +93,36 @@ body {
     opacity: 0.6;
   }
 }
+
+/* Mobile: an in-node copy stacks above each card (see the column layout in
+   the mobile block below), fading in as it enters the scroll window (its
+   own view timeline). */
+.node__sky {
+  width: min(240px, 62vw);
+  margin: 0 auto var(--space-xl);
+  opacity: 0;
+  pointer-events: none;
+}
+@supports (animation-timeline: view()) {
+  .node__sky {
+    animation: sky-lit linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+}
+
+/* One layout or the other, never both. */
 @media (max-width: 46rem) {
-  /* the plate fills the screen on mobile, so the sky echo would only hide
-     behind it — keep this to wider viewports */
   .sky-constellations {
+    display: none;
+  }
+  /* stack the sky above the plate within each node */
+  .node {
+    flex-direction: column;
+  }
+}
+@media (min-width: 46.01rem) {
+  .node__sky {
     display: none;
   }
 }
