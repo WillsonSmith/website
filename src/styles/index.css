@@ -45,6 +45,9 @@ body {
 }
 
 /* ---- Constellations echoed in the background sky ------------------- */
+/* A layer pinned behind the cards (z-index 0). Each chapter's constellation
+   crossfades in via its named view timeline; the opaque cards occlude it,
+   and the gaps between cards expose it. */
 .sky-constellations {
   position: fixed;
   inset: 0;
@@ -52,36 +55,17 @@ body {
   pointer-events: none;
   overflow: hidden;
 }
-/* Pinned in a side margin beside the plate, vertically centred. Chapters
-   alternate left / right. Only the in-view chapter's is visible: it fades
-   in for the span its card is on screen and out again (crossfading in
-   place). Width tracks the available margin so it never hides behind the
-   plate. */
 .sky-constellation {
   position: absolute;
   top: 50%;
   translate: -50% -50%;
-  width: min(300px, calc((100vw - var(--col)) / 2 - 2rem));
   opacity: 0;
 }
-.sky-constellation.is-left {
-  left: calc(25vw - var(--col) / 4);
-}
-.sky-constellation.is-right {
-  left: calc(75vw + var(--col) / 4);
-}
-.sky-constellation svg,
-.node__sky svg {
+.sky-constellation svg {
   display: block;
   width: 100%;
   height: auto;
   overflow: visible;
-}
-@supports (animation-timeline: view()) {
-  .sky-constellation {
-    animation: sky-lit linear both;
-    animation-range: cover 10% cover 90%;
-  }
 }
 @keyframes sky-lit {
   0%,
@@ -94,36 +78,50 @@ body {
   }
 }
 
-/* Mobile: an in-node copy stacks above each card (see the column layout in
-   the mobile block below), fading in as it enters the scroll window (its
-   own view timeline). */
-.node__sky {
-  width: min(240px, 62vw);
-  margin: 0 auto var(--space-xl);
-  opacity: 0;
-  pointer-events: none;
-}
-@supports (animation-timeline: view()) {
-  .node__sky {
-    animation: sky-lit linear both;
-    animation-timeline: view();
-    animation-range: cover 0% cover 100%;
+/* Desktop: pinned in a side margin beside the plate, alternating left /
+   right, lit for the whole span the card is in view. Width tracks the
+   available margin so it never hides behind the plate. */
+@media (min-width: 46.01rem) {
+  .sky-constellation {
+    width: min(300px, calc((100vw - var(--col)) / 2 - 2rem));
+  }
+  .sky-constellation.is-left {
+    left: calc(25vw - var(--col) / 4);
+  }
+  .sky-constellation.is-right {
+    left: calc(75vw + var(--col) / 4);
+  }
+  @supports (animation-timeline: view()) {
+    .sky-constellation {
+      animation: sky-lit linear both;
+      animation-range: cover 10% cover 90%;
+    }
   }
 }
 
-/* One layout or the other, never both. */
+/* Mobile: no room beside a full-width card, so the constellation is pinned
+   dead centre behind the cards and exposed as the gap between two cards
+   scrolls past. Breathing room between cards (node padding) opens that gap;
+   each lights while its card is entering (its gap at centre) and is then
+   occluded by the card. */
 @media (max-width: 46rem) {
-  .sky-constellations {
-    display: none;
-  }
-  /* stack the sky above the plate within each node */
   .node {
-    flex-direction: column;
+    display: block;
+    min-height: 0;
+    padding-block: 24vh;
   }
-}
-@media (min-width: 46.01rem) {
-  .node__sky {
-    display: none;
+  .node--head {
+    padding-top: var(--space-md);
+  }
+  .sky-constellation {
+    left: 50%;
+    width: min(260px, 64vw);
+  }
+  @supports (animation-timeline: view()) {
+    .sky-constellation {
+      animation: sky-lit linear both;
+      animation-range: cover 6% cover 50%;
+    }
   }
 }
 
