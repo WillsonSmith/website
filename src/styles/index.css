@@ -179,6 +179,22 @@ body {
   fill: currentColor;
   filter: drop-shadow(0 0 6px color-mix(in oklch, var(--gilt-bright), transparent 35%));
 }
+/* comet tail trailing below the marker; long as it streaks past, retracted
+   as it docks at centre (scroll-driven) */
+.node__marker::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 66px;
+  translate: -50% 0;
+  transform-origin: top center;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, var(--gilt-bright), transparent);
+  filter: blur(0.6px);
+  opacity: 0;
+}
 /* marker brightens + grows as its node reaches centre (scroll-driven) */
 @supports (animation-timeline: view()) {
   .node__marker {
@@ -186,10 +202,31 @@ body {
     animation-timeline: view();
     animation-range: cover 42% cover 58%;
   }
+  .node__marker::before {
+    animation: marker-streak linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
   .node__tick {
     animation: tick-active linear both;
     animation-timeline: view();
     animation-range: cover 42% cover 58%;
+  }
+}
+@keyframes marker-streak {
+  0%,
+  38% {
+    opacity: 0.75;
+    scale: 1 1;
+  }
+  50% {
+    opacity: 0;
+    scale: 1 0.2;
+  }
+  62%,
+  100% {
+    opacity: 0.75;
+    scale: 1 1;
   }
 }
 @keyframes marker-active {
