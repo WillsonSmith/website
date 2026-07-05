@@ -54,34 +54,43 @@ body {
 }
 .sky-constellation {
   position: absolute;
-  left: 50%;
-  top: 34%;
   translate: -50% -50%;
-  width: min(1000px, 92vw);
-  opacity: 0;
-}
-/* Lit by its chapter's view timeline (name set inline per node; the
-   timelines are hoisted to body scope so this sibling subtree can read
-   them). Composited opacity, so no per-frame repaint. */
-@supports (animation-timeline: view()) {
-  .sky-constellation {
-    animation: sky-lit linear both;
-    animation-range: cover 35% cover 65%;
-  }
-}
-@keyframes sky-lit {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  /* left / top / width set inline per chapter */
 }
 .sky-constellation svg {
   display: block;
   width: 100%;
   height: auto;
+  overflow: visible;
+}
+/* Its stars are always part of the night sky (dim); the connecting lines
+   draw in and the stars brighten as its chapter reaches centre. Driven by
+   the chapter's named view timeline (set inline) via a --lit custom prop. */
+.sky-constellation .chart__stars circle {
+  opacity: calc(0.4 + var(--lit) * 0.55);
+}
+.sky-constellation .chart__lines {
+  opacity: calc(var(--lit) * 0.7);
+}
+@property --lit {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@supports (animation-timeline: view()) {
+  .sky-constellation {
+    animation: sky-lit linear both;
+    animation-range: cover 28% cover 72%;
+  }
+}
+@keyframes sky-lit {
+  0%,
+  100% {
+    --lit: 0;
+  }
+  50% {
+    --lit: 1;
+  }
 }
 @media (max-width: 46rem) {
   /* the plate fills the screen on mobile, so the sky echo would only hide
