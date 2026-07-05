@@ -180,19 +180,25 @@ body {
   filter: drop-shadow(0 0 6px color-mix(in oklch, var(--gilt-bright), transparent 35%));
 }
 /* comet tail trailing below the marker; long as it streaks past, retracted
-   as it docks at centre (scroll-driven) */
-.node__marker::before {
-  content: "";
+   as it docks at centre. A real element (not a pseudo) so Safari's
+   scroll-driven support applies. */
+.node__streak {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 4px;
-  height: 66px;
+  width: 3px;
+  height: 84px;
   translate: -50% 0;
   transform-origin: top center;
+  z-index: -1; /* behind the sparkle head */
   border-radius: 3px;
-  background: linear-gradient(to bottom, var(--gilt-bright), transparent);
-  filter: blur(0.6px);
+  background: linear-gradient(
+    to bottom,
+    var(--gilt-bright),
+    color-mix(in oklch, var(--gilt-bright), transparent 45%) 45%,
+    transparent
+  );
+  box-shadow: 0 0 7px color-mix(in oklch, var(--gilt-bright), transparent 45%);
   opacity: 0;
 }
 /* marker brightens + grows as its node reaches centre (scroll-driven) */
@@ -202,7 +208,7 @@ body {
     animation-timeline: view();
     animation-range: cover 42% cover 58%;
   }
-  .node__marker::before {
+  .node__streak {
     animation: marker-streak linear both;
     animation-timeline: view();
     animation-range: cover 0% cover 100%;
@@ -321,25 +327,28 @@ body {
 .node:nth-child(odd) .plate {
   rotate: 0.5deg;
 }
+/* soft gilt glow that fades in as the plate reaches centre. A real element
+   (not a pseudo) so Safari's scroll-driven support applies. */
+.plate__glow {
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 52px -6px color-mix(in oklch, var(--gilt-bright), transparent 34%);
+  opacity: 0;
+}
 
 /* Reveal + centre-emphasis, scroll-driven (replaces IntersectionObserver).
-   Only composited properties on the timeline — opacity + scale for the
-   plate, opacity for the glow pseudo — so nothing repaints per frame. */
+   Only composited properties on the timeline — opacity + scale — so nothing
+   repaints per frame. */
 @supports (animation-timeline: view()) {
   .plate {
     animation: plate-reveal linear both;
     animation-timeline: view();
     animation-range: cover 0% cover 100%;
   }
-  /* soft gilt glow that fades in as the plate reaches centre */
-  .plate::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    pointer-events: none;
-    box-shadow: 0 0 52px -6px color-mix(in oklch, var(--gilt-bright), transparent 34%);
-    opacity: 0;
+  .plate__glow {
     animation: plate-glow linear both;
     animation-timeline: view();
     animation-range: cover 34% cover 66%;
