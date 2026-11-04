@@ -1,11 +1,10 @@
 ---
+// The home page, drawn in the modfox brand at Sheet level.
+// The same four chapters (from the `index` content collection) become
+// four sheets of one drawing set; each chapter's constellation becomes a
+// plotted figure.
 import { getCollection, render } from "astro:content";
-import Primary from "../layouts/Primary.astro";
-import GlobalNavigation from "../components/GlobalNavigation.astro";
-import HomePageHeader from "../components/HomePageHeader.astro";
-import StarSheet from "../components/StarSheet.astro";
-import Constellation from "../components/Constellation.astro";
-import "../styles/index.css";
+import Sheet from "../layouts/Sheet.astro";
 
 const entries = (await getCollection("index")).sort(
   (a, b) => a.data.order - b.data.order,
@@ -18,23 +17,25 @@ const blocks = await Promise.all(
   }),
 );
 
-// Per-chapter presentation metadata (chapter label + named constellation),
-// keyed by the section's order. Kept out of the markdown since it's purely
-// how each page of the story is illustrated, not its prose.
 type Star = { x: number; y: number; r: number; bright?: boolean };
 type Label = { x: number; y: number; t: string };
+type Note = { text: string; arrow: string };
 type Chapter = {
-  chapter: string;
-  figure: string;
+  kicker: string;
+  fig: string;
+  figName: string;
   stars: Star[];
   links: string[];
   labels: Label[];
+  note: Note;
 };
 
+// Same star data as the live page; presentation only.
 const chapters: Record<number, Chapter> = {
   1: {
-    chapter: "Chapter the First",
-    figure: "fig. i — Ursa Minor, the guiding star",
+    kicker: "Introduction",
+    fig: "Fig. i",
+    figName: "Ursa Minor, the guiding star",
     stars: [
       { x: 276, y: 52, r: 3.2, bright: true },
       { x: 242, y: 68, r: 2 },
@@ -45,11 +46,13 @@ const chapters: Record<number, Chapter> = {
       { x: 96, y: 100, r: 2.2 },
     ],
     links: ["276,52 242,68 208,82 176,94 150,128 104,134 96,100 176,94"],
-    labels: [{ x: 250, y: 48, t: "Polaris" }],
+    labels: [{ x: 250, y: 40, t: "POLARIS" }],
+    note: { text: "start here", arrow: "M6 30 C 20 12, 44 6, 70 10 M70 10 L 61 5 M70 10 L 62 16" },
   },
   2: {
-    chapter: "Chapter the Second",
-    figure: "fig. ii — Lyra, the storyteller’s lyre",
+    kicker: "Approach",
+    fig: "Fig. ii",
+    figName: "Lyra, the storyteller’s lyre",
     stars: [
       { x: 180, y: 54, r: 3, bright: true },
       { x: 150, y: 96, r: 2.2 },
@@ -58,11 +61,13 @@ const chapters: Record<number, Chapter> = {
       { x: 168, y: 150, r: 2 },
     ],
     links: ["180,54 150,96 168,150 208,150 188,108 150,96"],
-    labels: [{ x: 158, y: 50, t: "Vega" }],
+    labels: [{ x: 196, y: 50, t: "VEGA" }],
+    note: { text: "a lyre, if you squint", arrow: "M6 30 C 22 14, 46 8, 70 12 M70 12 L 61 7 M70 12 L 62 18" },
   },
   3: {
-    chapter: "Chapter the Third",
-    figure: "fig. iii — Draco, the sleepless dragon",
+    kicker: "Practice",
+    fig: "Fig. iii",
+    figName: "Draco, the sleepless dragon",
     stars: [
       { x: 44, y: 168, r: 2.4 },
       { x: 80, y: 150, r: 2 },
@@ -81,13 +86,15 @@ const chapters: Record<number, Chapter> = {
       "44,168 80,150 96,120 82,92 116,80 150,92 186,76 214,88 268,94 248,72 281,60 298,82 268,94",
     ],
     labels: [
-      { x: 156, y: 86, t: "α" },
-      { x: 287, y: 54, t: "β" },
+      { x: 150, y: 112, t: "α" },
+      { x: 281, y: 44, t: "β" },
     ],
+    note: { text: "still awake", arrow: "M6 30 C 20 16, 42 8, 70 12 M70 12 L 61 7 M70 12 L 62 18" },
   },
   4: {
-    chapter: "The Next Chapter",
-    figure: "fig. iv — Sagitta, the arrow",
+    kicker: "Contact",
+    fig: "Fig. iv",
+    figName: "Sagitta, the arrow",
     stars: [
       { x: 256, y: 64, r: 2.8, bright: true },
       { x: 204, y: 90, r: 2.2 },
@@ -96,147 +103,301 @@ const chapters: Record<number, Chapter> = {
       { x: 132, y: 134, r: 2 },
     ],
     links: ["256,64 204,90 158,110", "126,96 158,110 132,134"],
-    labels: [{ x: 262, y: 60, t: "γ" }],
+    labels: [{ x: 256, y: 46, t: "γ" }],
+    note: { text: "this way", arrow: "M70 8 C 50 10, 24 18, 8 34 M8 34 L 10 24 M8 34 L 18 32" },
   },
 };
 
+const total = blocks.length;
+const roman = ["i", "ii", "iii", "iv", "v", "vi"];
+const zonesX = [1, 2, 3, 4, 5, 6, 7, 8];
+const zonesY = ["A", "B", "C", "D", "E", "F"];
+const today = new Date();
+const year = today.getFullYear();
+
+const links = [
+  { url: "https://github.com/willsonsmith", title: "GitHub" },
+  { url: "https://www.linkedin.com/in/willsonsmith/", title: "LinkedIn" },
+];
+
+// Rough width of a mono label in chart units, for its paper patch.
+const patchW = (t: string) => t.length * 6.4 + 8;
 ---
 
-<Primary title="Home">
-  <GlobalNavigation />
-  <StarSheet count={220} class="home-star-sheet" />
+<Sheet title="Willson Smith">
+  <div class="sheet">
+    <!-- Zone references round the sheet border: numbers across, letters down. -->
+    <ol class="zones zones--top" aria-hidden="true">
+      {zonesX.map((n) => <li>{n}</li>)}
+    </ol>
+    <ol class="zones zones--bottom" aria-hidden="true">
+      {zonesX.map((n) => <li>{n}</li>)}
+    </ol>
+    <ol class="zones zones--left" aria-hidden="true">
+      {zonesY.map((n) => <li>{n}</li>)}
+    </ol>
+    <ol class="zones zones--right" aria-hidden="true">
+      {zonesY.map((n) => <li>{n}</li>)}
+    </ol>
 
-  <!-- Desktop: each chapter's constellation pinned in a side margin beside
-       the plate (alternating left / right), lit while its card is in view.
-       Hidden on mobile, where an in-node copy sits above each card. -->
-  <div class="sky-constellations" aria-hidden="true">
-    {
-      blocks.map(({ order }) => {
-        const c = chapters[order];
-        return (
-          <div
-            class:list={[
-              "sky-constellation",
-              order % 2 ? "is-left" : "is-right",
-            ]}
-            data-chapter={order}
-            style={`animation-timeline: --ch${order}`}
-          >
-            <Constellation stars={c.stars} links={c.links} />
-          </div>
-        );
-      })
-    }
-  </div>
-
-  <!-- The trail: a line fixed to the viewport. Above centre is travelled
-       (inked), below is ahead (dashed); the marker sits at centre and each
-       chapter's star meets it as it scrolls through. -->
-  <div class="trail" aria-hidden="true">
-    <span class="trail__todo"></span>
-    <span class="trail__done"></span>
-    <span class="trail__here"></span>
-  </div>
-
-  <main class="journey">
-    <!-- Trailhead: the avatar is the first waypoint — where the journey (and
-         the "you are here" marker) begins. -->
-    <section class="node node--head">
-      <span class="node__marker" aria-hidden="true">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 0.5 L13.3 10.7 L23.5 12 L13.3 13.3 L12 23.5 L10.7 13.3 L0.5 12 L10.7 10.7 Z"></path>
-        </svg>
-      </span>
-      <div class="trailhead">
-        <HomePageHeader />
-        <p class="trailhead__label">the journey begins</p>
+    <!-- ===== Title ===== -->
+    <header class="title">
+      <div class="title__bar">
+        <p class="label">Dwg. WS-001 · Rev. C</p>
+        <nav class="title__nav" aria-label="Elsewhere">
+          {
+            links.map(({ url, title }) => (
+              <a class="btn" href={url} target="_blank" rel="noopener">
+                {title}
+              </a>
+            ))
+          }
+          <button type="button" class="btn theme-toggle" aria-pressed="false">
+            <span class="theme-toggle__label">Print</span>
+            <span class="theme-toggle__value">Vellum</span>
+          </button>
+        </nav>
       </div>
-    </section>
 
-    {
-      blocks.map(({ order, title, Content }) => {
-        const c = chapters[order];
-        return (
-          <section
-            class="node"
-            data-chapter={order}
-            style={`view-timeline-name: --ch${order}`}
-          >
-            <span class="node__marker" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 0.5 L13.3 10.7 L23.5 12 L13.3 13.3 L12 23.5 L10.7 13.3 L0.5 12 L10.7 10.7 Z" />
-              </svg>
-            </span>
-            <span class="node__tick" aria-hidden="true" />
+      <div class="title__main">
+        <div class="title__words">
+          <h1 class="wordmark">Willson Smith</h1>
+          <p class="title__lede">
+            A developer who likes to help people do neat things.
+          </p>
+          <ol class="index" aria-label="Sheets in this set">
+            {
+              blocks.map(({ order, title }) => (
+                <li>
+                  <a href={`#sheet-${order}`}>
+                    <span class="label">Sht. {order}</span>
+                    <span class="index__title">{title}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
 
-            <article class="plate">
-              <i class="plate__glow" aria-hidden="true"></i>
-              <p class="plate__chapter">{c.chapter}</p>
-              <h2 class="plate__title">{title}</h2>
+        <figure class="avatar">
+          <div class="avatar__ring">
+            <div class="avatar__face">
+              <picture class="avatar__img avatar__img--a">
+                <source srcset="/images/thumbs-up.avif" type="image/avif" />
+                <img
+                  alt="Willson’s avatar, giving a thumbs up."
+                  src="/images/thumbs-up.png"
+                  width="200"
+                  height="200"
+                />
+              </picture>
+              <picture class="avatar__img avatar__img--b" aria-hidden="true">
+                <source srcset="/images/peace.avif" type="image/avif" />
+                <img alt="" src="/images/peace.png" width="200" height="200" />
+              </picture>
+              <span class="avatar__hatch" aria-hidden="true"></span>
+            </div>
+          </div>
+          <span class="avatar__dim label" aria-hidden="true">Ø 4 mod</span>
+          <p class="note note--avatar" aria-hidden="true">
+            <svg class="note__arrow" viewBox="0 0 76 40" data-rough="arrow" data-seed="avatar">
+              <path class="css-line" d="M70 6 C 52 4, 22 12, 8 32" />
+              <path class="css-line" d="M8 32 L 9 22 M8 32 L 17 28" />
+            </svg>
+            <span>that’s me</span>
+          </p>
+        </figure>
 
-              <figure class="plate__figure">
-                <div class="starplate">
-                  <svg viewBox="0 0 340 200" class="chart">
-                    <g class="chart__lines">
-                      {c.links.map((pts) => (
-                        <polyline points={pts} />
+        <dl class="plate spec">
+          <div class="plate__head">
+            <span class="label">Spec</span>
+            <span class="label">Cover</span>
+          </div>
+          <div class="spec__row"><dt class="label">Discipline</dt><dd>Front-end → full-stack</dd></div>
+          <div class="spec__row"><dt class="label">Formerly</dt><dd>Sr. Creative Technologist, Shopify</dd></div>
+          <div class="spec__row"><dt class="label">Tenure</dt><dd>8 yrs</dd></div>
+          <div class="spec__row"><dt class="label">Datum</dt><dd>Toronto, Canada</dd></div>
+          <div class="spec__row">
+            <dt class="label">Status</dt>
+            <dd><span class="status">Working solo · open to projects</span></dd>
+          </div>
+        </dl>
+      </div>
+
+    </header>
+
+    <!-- ===== Sheets ===== -->
+    <main>
+      {
+        blocks.map(({ order, title, Content }) => {
+          const c = chapters[order];
+          const side = order % 2 ? "right" : "left";
+          return (
+            <section
+              class:list={["sec", `sec--fig-${side}`]}
+              id={`sheet-${order}`}
+              aria-labelledby={`sheet-${order}-title`}
+            >
+              <div class="sec__rule" data-rough="rule" data-seed={`rule-${order}`}>
+                <span class="css-line" />
+              </div>
+              <p class="label sec__kicker">
+                Sheet {order} of {total} · {c.kicker}
+              </p>
+              <h2 class="hand-title" id={`sheet-${order}-title`}>
+                {title}
+              </h2>
+
+              <div class="sec__body">
+                <div class="prose">
+                  <Content />
+                  {order === total && (
+                    <div class="plate contact" data-rough="rect" data-seed="contact">
+                      <div class="plate__head">
+                        <span class="label">Correspondence</span>
+                        <span class="label">Resp. TBD</span>
+                      </div>
+                      <div class="spec__row">
+                        <span class="label">Email</span>
+                        <a class="mono" href="mailto:me@willsonsmith.com">
+                          me@willsonsmith.com
+                        </a>
+                      </div>
+                      {links.map(({ url, title }) => (
+                        <div class="spec__row">
+                          <span class="label">{title}</span>
+                          <a class="mono" href={url} target="_blank" rel="noopener">
+                            {url.replace("https://", "").replace("www.", "")}
+                          </a>
+                        </div>
                       ))}
-                    </g>
-                    <g class="chart__stars">
-                      {c.stars.map((st) => (
-                        <circle
-                          cx={st.x}
-                          cy={st.y}
-                          r={st.r}
-                          class={st.bright ? "chart__star--bright" : ""}
-                        />
-                      ))}
-                    </g>
-                    {c.labels.map((l) => (
-                      <text x={l.x} y={l.y} class="chart__label">
-                        {l.t}
-                      </text>
-                    ))}
-                  </svg>
+                    </div>
+                  )}
                 </div>
-                <figcaption>{c.figure}</figcaption>
-              </figure>
 
-              <div class="plate__rule" aria-hidden="true">
-                <svg viewBox="0 0 160 12">
-                  <line x1="0" y1="6" x2="62" y2="6" />
-                  <path d="M80 1 L84 6 L80 11 L76 6 Z" />
-                  <path d="M80 3.4 L82.2 6 L80 8.6 L77.8 6 Z" class="rule__inner" />
-                  <line x1="98" y1="6" x2="160" y2="6" />
-                </svg>
-              </div>
+                <figure class="fig">
+                  <div class="fig__frame">
+                    <span class="fig__corner label" aria-hidden="true">
+                      {c.fig}
+                    </span>
+                    <svg
+                      viewBox="0 0 340 200"
+                      class="chart"
+                      role="img"
+                      aria-label={`${c.figName}: ${c.stars.length} stars`}
+                      data-rough="links"
+                      data-seed={`fig-${order}`}
+                    >
+                      <g class="chart__construction">
+                        {[68, 136, 204, 272].map((x) => (
+                          <line x1={x} y1="0" x2={x} y2="200" />
+                        ))}
+                        {[50, 100, 150].map((y) => (
+                          <line x1="0" y1={y} x2="340" y2={y} />
+                        ))}
+                      </g>
+                      <g class="chart__links css-line">
+                        {c.links.map((pts) => (
+                          <polyline points={pts} />
+                        ))}
+                      </g>
+                      <g class="chart__hand" />
+                      <g class="chart__stars">
+                        {c.stars.map((st) => (
+                          <>
+                            {st.bright && (
+                              <circle cx={st.x} cy={st.y} r={st.r + 4} class="chart__ring" />
+                            )}
+                            <circle cx={st.x} cy={st.y} r={st.r} />
+                          </>
+                        ))}
+                      </g>
+                      {c.labels.map((l) => (
+                        <g class="chart__note">
+                          <rect
+                            x={l.x - patchW(l.t) / 2}
+                            y={l.y - 7}
+                            width={patchW(l.t)}
+                            height="12"
+                          />
+                          <text x={l.x} y={l.y + 2.5}>
+                            {l.t}
+                          </text>
+                        </g>
+                      ))}
+                    </svg>
+                  </div>
 
-              <div class="plate__prose">
-                <Content />
+                  <div class="dim" aria-hidden="true">
+                    <span class="dim__tick" />
+                    <span class="dim__line" />
+                    <span class="dim__value">{c.stars.length} stars · not to scale</span>
+                    <span class="dim__line" />
+                    <span class="dim__tick" />
+                  </div>
+
+                  <figcaption>
+                    <span class="label">{c.fig}</span> {c.figName}
+                  </figcaption>
+
+                  <p class:list={["note", `note--fig-${order}`]} aria-hidden="true">
+                    <span>{c.note.text}</span>
+                    <svg
+                      class="note__arrow"
+                      viewBox="0 0 76 40"
+                      data-rough="arrow"
+                      data-seed={`note-${order}`}
+                    >
+                      <path class="css-line" d={c.note.arrow} />
+                    </svg>
+                  </p>
+                </figure>
               </div>
-            </article>
-          </section>
-        );
-      })
-    }
-  </main>
-</Primary>
+            </section>
+          );
+        })
+      }
+    </main>
+
+    <!-- ===== Title block ===== -->
+    <footer class="titleblock" aria-label="Title block">
+      <div class="tb tb--name">
+        <span class="label">Project</span>
+        <span class="tb__value">willsonsmith.com</span>
+      </div>
+      <div class="tb">
+        <span class="label">Drawn</span>
+        <span class="tb__value">W. Smith</span>
+      </div>
+      <div class="tb">
+        <span class="label">Scale</span>
+        <span class="tb__value">Not to scale</span>
+      </div>
+      <div class="tb">
+        <span class="label">Rev.</span>
+        <span class="tb__value">C · {year}</span>
+      </div>
+      <div class="tb">
+        <span class="label">Sheet</span>
+        <span class="tb__value">{total} of {total}</span>
+      </div>
+    </footer>
+  </div>
+</Sheet>
 
 <script>
+  import "../scripts/pencil";
+
   // Enhance <email-link> elements authored in the markdown content.
-  if (customElements.get("email-link") == undefined) {
+  if (!customElements.get("email-link")) {
     customElements.define(
       "email-link",
       class extends HTMLElement {
-        constructor() {
-          super();
+        connectedCallback() {
           const email = this.textContent?.replace("[at]", "@");
-          if (email != undefined) {
-            this.innerHTML = `<a href='mailto:${email}'>${email}</a>`;
-          }
+          if (email) this.innerHTML = `<a href="mailto:${email}">${email}</a>`;
         }
       },
     );
   }
 </script>
-

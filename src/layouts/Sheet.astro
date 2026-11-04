@@ -1,0 +1,66 @@
+---
+// The modfox "Sheet" layout: the page is one sheet from a set of technical
+// drawings. Vellum by day, blueprint by night (follows the system, with a
+// manual override). Deliberately does NOT import global.css, so none of the
+// celestial theme leaks in.
+import "@fontsource/b612/400.css";
+import "@fontsource/b612/400-italic.css";
+import "@fontsource/b612/700.css";
+import "@fontsource/b612-mono/400.css";
+import "@fontsource/caveat/500.css";
+import "../styles/modfox-tokens.css";
+import "../styles/draft.css";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const description =
+  "Willson Smith is a software developer with a specialization in user experience and front-end development from Toronto, Canada.";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <!-- Kept in step with --paper in each theme. -->
+    <meta name="theme-color" content="#e9eeeb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#173f66" media="(prefers-color-scheme: dark)" />
+    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <script is:inline>
+      // Before first paint: restore a manual theme choice, and claim the
+      // hand-drawn layer (CSS lines hide only while it's expected). If the
+      // layer hasn't reported in within 3s, the CSS lines come back.
+      (function () {
+        var root = document.documentElement;
+        try {
+          var t = localStorage.getItem("sheet-theme");
+          if (t === "light" || t === "dark") root.dataset.theme = t;
+        } catch (e) {}
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          root.classList.add("hand");
+          setTimeout(function () {
+            if (!root.classList.contains("hand-ready")) root.classList.remove("hand");
+          }, 3000);
+        }
+      })();
+    </script>
+  </head>
+  <body class="grid-paper">
+    <!-- All code is intentionally unminified so that others can learn. -->
+    <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+      <filter id="pencil" x="-2%" y="-10%" width="104%" height="120%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="4" result="warp" />
+        <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.4" xChannelSelector="R" yChannelSelector="G" result="rough" />
+        <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="9" result="grain" />
+        <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.1 0 0 0 1.45" result="tooth" />
+        <feComposite in="rough" in2="tooth" operator="in" />
+      </filter>
+    </svg>
+    <slot />
+  </body>
+</html>
