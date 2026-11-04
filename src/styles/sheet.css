@@ -330,7 +330,8 @@ body.grid-paper {
 .avatar__img--b {
   opacity: 0;
 }
-.avatar__hatch {
+/* Pencil hatching that rides the edge of a shade-in (see pencil.ts). */
+.hatch {
   display: none;
   background: repeating-linear-gradient(
     -45deg,
@@ -763,7 +764,15 @@ body.grid-paper {
 .hand [data-rough="rect"] {
   border-color: transparent;
 }
-/* A figure's note is written in after its box is drawn. */
+/* A figure's inside is shaded in after its box is drawn. */
+.hand .fig__frame .chart {
+  clip-path: polygon(0% 0%, 0% 0%, 0% 0%);
+}
+.fig__hatch {
+  position: absolute;
+  inset: 0;
+}
+/* A figure's note is written in after its inside is shaded. */
 .hand .chart__pencil text {
   clip-path: inset(-20% 100% -20% -5%);
 }

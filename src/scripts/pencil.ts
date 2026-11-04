@@ -8,7 +8,8 @@
 // Lines are drawn on the first time they're well into view, one item at a
 // time ("one pencil"), in held drawings on the 12fps beat. Never tweened.
 // An item can name another it follows (`data-after`): a figure's note is
-// written in only once the pencil has finished the figure's box.
+// written in only once the pencil has finished the figure's box. A figure's
+// box is drawn first, then its inside is shaded in, like the avatar.
 
 type Rough = typeof import("roughjs").default;
 type RoughSVG = ReturnType<Rough["svg"]>;
@@ -40,6 +41,8 @@ type Item = {
   content: boolean;
   /** handwriting written in before the strokes (a note's words) */
   text: SVGTextElement | null;
+  /** what's shaded in once the strokes are down (a figure's inside) */
+  inside: { target: Element; hatch: HTMLElement } | null;
   /** items that wait for this one to finish */
   followers: Item[];
   /** waits for another item rather than for the viewport */
@@ -76,6 +79,7 @@ function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
 
   let build: () => SVGPathElement[];
   let text: SVGTextElement | null = null;
+  let inside: Item["inside"] = null;
 
   if (kind === "rule" && el instanceof HTMLElement) {
     build = () => {
@@ -89,6 +93,9 @@ function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
   } else if (kind === "rect" && el instanceof HTMLElement) {
     // A box edge, drawn over the element's (now transparent) 1px border.
     const level = el.dataset.level ?? "twice";
+    const target = el.querySelector(".chart");
+    const hatch = el.querySelector<HTMLElement>(".hatch");
+    if (target && hatch) inside = { target, hatch };
     build = () => {
       const svg = overlay(el);
       const rc: RoughSVG = rough.svg(svg);
@@ -123,6 +130,7 @@ function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
     el,
     content: el.closest(".fig") !== null && kind === "rect",
     text,
+    inside,
     followers: [],
     follows: false,
     drawn: false,
@@ -147,9 +155,53 @@ function held(drawings: number, at: (t: number) => Keyframe): Keyframe[] {
 }
 
 /**
+ * Shade something in: a diagonal edge crosses it in held drawings on twos,
+ * with a band of pencil hatching riding the edge. The hatching only
+ * reveals; it's gone once the picture is in. Returns the duration in ms.
+ *
+ * `hidden` targets start clipped away by CSS (a figure under `.hand`), so
+ * they're unclipped explicitly at the end; the avatar is simply visible
+ * once its animation ends.
+ */
+function shade(
+  target: Element,
+  hatch: HTMLElement,
+  { delay = 0, drawings = 8, hidden = false, band: BAND = 0.22 } = {},
+): number {
+  const span = 1 + BAND / 2;
+  const tri = (s: number) => `polygon(0% 0%, ${s * 200}% 0%, 0% ${s * 200}%)`;
+  const band = (s: number) => {
+    const a = Math.max(0, s - BAND) * 200;
+    return `polygon(${a}% 0%, ${s * 200}% 0%, 0% ${s * 200}%, 0% ${a}%)`;
+  };
+  const duration = drawings * 2 * FRAME_MS;
+  const timing = { duration, delay, fill: hidden ? ("both" as const) : ("backwards" as const) };
+
+  hatch.style.display = "block";
+  const reveal = target.animate(
+    held(drawings, (t) => ({ clipPath: tri(Math.max(0, t * span - BAND / 2)) })),
+    timing,
+  );
+  hatch
+    .animate(held(drawings, (t) => ({ clipPath: band(t * span) })), { ...timing, fill: "both" })
+    .finished.then((a) => {
+      hatch.style.display = "";
+      a.cancel();
+    });
+  if (hidden) {
+    reveal.finished.then(() => {
+      (target as HTMLElement).style.clipPath = "none";
+      reveal.cancel();
+    });
+  }
+  return delay + duration;
+}
+
+/**
  * Draw one item on: write its words in (left to right, a few letters a
- * drawing), then its strokes. Strokes overlap: each starts halfway through
- * the one before, so the item reads as one gesture.
+ * drawing), then its strokes, then shade in whatever they enclose. Strokes
+ * overlap: each starts halfway through the one before, so the item reads as
+ * one gesture.
  *
  * `handoff` resolves when the pencil may start the next item (about
  * two-thirds through); `done` when every mark is down.
@@ -193,6 +245,12 @@ function drawOn(item: Item, hurry: number): { handoff: Promise<void>; done: Prom
       });
     end = Math.max(end, start + duration);
     start += duration / 2;
+  }
+
+  if (item.inside) {
+    const drawings = Math.max(4, Math.round(8 / hurry));
+    // a narrower band than the avatar's: a figure is wide, and the band scales with it
+    end = shade(item.inside.target, item.inside.hatch, { delay: end, drawings, hidden: true, band: 0.12 });
   }
 
   const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
@@ -275,6 +333,7 @@ async function start() {
       p.style.strokeDashoffset = "";
     });
     if (item.text) item.text.style.clipPath = "none";
+    if (item.inside) (item.inside.target as HTMLElement).style.clipPath = "none";
     item.followers.forEach(settle);
   };
 
@@ -324,31 +383,12 @@ async function start() {
     .forEach((i) => ro.observe(i.el));
 }
 
-/**
- * Shade the avatar in: a diagonal edge crosses it in 8 held drawings on
- * twos, with a band of pencil hatching riding the edge. The hatching only
- * reveals; it's gone once the picture is in.
- */
-function shadeIn() {
+/** Shade the avatar in on load (it isn't hidden first: it's real content). */
+function shadeAvatar() {
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const img = document.querySelector<HTMLElement>(".avatar__img--a");
+  const img = document.querySelector(".avatar__img--a");
   const hatch = document.querySelector<HTMLElement>(".avatar__hatch");
-  if (!img || !hatch) return;
-
-  const DRAWINGS = 8;
-  const BAND = 0.22;
-  const tri = (s: number) => `polygon(0% 0%, ${s * 200}% 0%, 0% ${s * 200}%)`;
-  const band = (s: number) => {
-    const a = Math.max(0, s - BAND) * 200;
-    return `polygon(${a}% 0%, ${s * 200}% 0%, 0% ${s * 200}%, 0% ${a}%)`;
-  };
-  const span = 1 + BAND / 2;
-  const imgFrames = held(DRAWINGS, (t) => ({ clipPath: tri(Math.max(0, t * span - BAND / 2)) }));
-  const hatchFrames = held(DRAWINGS, (t) => ({ clipPath: band(t * span) }));
-  const timing = { duration: DRAWINGS * 2 * FRAME_MS, delay: 2 * FRAME_MS, fill: "backwards" as const };
-  hatch.style.display = "block";
-  img.animate(imgFrames, timing);
-  hatch.animate(hatchFrames, timing).finished.then(() => (hatch.style.display = ""));
+  if (img && hatch) shade(img, hatch, { delay: 2 * FRAME_MS });
 }
 
 /** Theme toggle: light ⇄ dark. Defaults to the system. */
@@ -380,6 +420,6 @@ function themeToggle() {
 }
 
 themeToggle();
-shadeIn();
+shadeAvatar();
 // After first paint, so the drawing layer never blocks content.
 setTimeout(start, 0);

@@ -195,7 +195,7 @@ const patchW = (t: string) => t.length * 6.4 + 8;
                 <source srcset="/images/peace.avif" type="image/avif" />
                 <img alt="" src="/images/peace.png" width="200" height="200" />
               </picture>
-              <span class="avatar__hatch" aria-hidden="true"></span>
+              <span class="hatch avatar__hatch" aria-hidden="true"></span>
             </div>
           </div>
           <p class="note note--avatar" aria-hidden="true">
@@ -277,6 +277,7 @@ const patchW = (t: string) => t.length * 6.4 + 8;
                     data-level="straightedge"
                     data-seed={`frame-${order}`}
                   >
+                    <span class="hatch fig__hatch" aria-hidden="true" />
                     <span class="fig__corner label" aria-hidden="true">
                       {c.fig}
                     </span>
