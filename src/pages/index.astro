@@ -270,7 +270,13 @@ const patchW = (t: string) => t.length * 6.4 + 8;
                 </div>
 
                 <figure class="fig">
-                  <div class="fig__frame">
+                  <div
+                    class="fig__frame"
+                    id={`fig-${order}-frame`}
+                    data-rough="rect"
+                    data-level="straightedge"
+                    data-seed={`frame-${order}`}
+                  >
                     <span class="fig__corner label" aria-hidden="true">
                       {c.fig}
                     </span>
@@ -279,8 +285,6 @@ const patchW = (t: string) => t.length * 6.4 + 8;
                       class="chart"
                       role="img"
                       aria-label={`${c.figName}: ${c.stars.length} stars`}
-                      data-rough="links"
-                      data-seed={`fig-${order}`}
                     >
                       <g class="chart__construction">
                         {[68, 136, 204, 272].map((x) => (
@@ -290,12 +294,11 @@ const patchW = (t: string) => t.length * 6.4 + 8;
                           <line x1="0" y1={y} x2="340" y2={y} />
                         ))}
                       </g>
-                      <g class="chart__links css-line">
+                      <g class="chart__links">
                         {c.links.map((pts) => (
                           <polyline points={pts} />
                         ))}
                       </g>
-                      <g class="chart__hand" />
                       <g class="chart__stars">
                         {c.stars.map((st) => (
                           <>
@@ -327,7 +330,7 @@ const patchW = (t: string) => t.length * 6.4 + 8;
                         >
                           {c.note.text}
                         </text>
-                        <g data-rough="arrow" data-seed={`note-${order}`}>
+                        <g data-rough="arrow" data-seed={`note-${order}`} data-after={`fig-${order}-frame`}>
                           <path class="css-line" d={c.note.arrow} />
                         </g>
                       </g>

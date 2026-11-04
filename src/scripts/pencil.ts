@@ -1,21 +1,25 @@
-// The hand-drawn layer for the Sheet draft.
+// The hand-drawn layer for the Sheet.
 //
 // Every [data-rough] element already has a plain CSS version of its line
-// (`.css-line`). The layout sets `html.hand` before first paint when this
-// layer is expected; we confirm with `html.hand-ready` once Rough.js has
-// loaded. If we never confirm, the CSS lines come back on their own.
+// (`.css-line`, or a CSS border). The layout sets `html.hand` before first
+// paint when this layer is expected; we confirm with `html.hand-ready` once
+// Rough.js has loaded. If we never confirm, the CSS lines come back.
 //
 // Lines are drawn on the first time they're well into view, one item at a
 // time ("one pencil"), in held drawings on the 12fps beat. Never tweened.
+// An item can name another it follows (`data-after`): a figure's note is
+// written in only once the pencil has finished the figure's box.
 
-type RoughSVG = ReturnType<typeof import("roughjs").default.svg>;
+type Rough = typeof import("roughjs").default;
+type RoughSVG = ReturnType<Rough["svg"]>;
 type Options = Record<string, unknown>;
 
 const FRAME_MS = 1000 / 12;
 const root = document.documentElement;
+const SVG_NS = "http://www.w3.org/2000/svg";
 
 const LEVELS: Record<string, Options> = {
-  straightedge: { roughness: 0.55, bowing: 0.6, disableMultiStroke: true },
+  straightedge: { roughness: 0.55, bowing: 0.6, disableMultiStroke: true, preserveVertices: true },
   twice: { roughness: 1.2, bowing: 1.2, disableMultiStroke: false, preserveVertices: true },
   sketch: { roughness: 0.9, bowing: 0.8, preserveVertices: true },
 };
@@ -30,12 +34,16 @@ function seedOf(key: string): number {
   return (Math.abs(h) % 2147483646) + 1;
 }
 
-const SVG_NS = "http://www.w3.org/2000/svg";
-
 type Item = {
   el: HTMLElement | SVGElement;
   /** real content (figures) draws before decoration (rules, notes) */
   content: boolean;
+  /** handwriting written in before the strokes (a note's words) */
+  text: SVGTextElement | null;
+  /** items that wait for this one to finish */
+  followers: Item[];
+  /** waits for another item rather than for the viewport */
+  follows: boolean;
   drawn: boolean;
   queued: boolean;
   /** (re)builds the rough paths; returns them */
@@ -56,7 +64,7 @@ function overlay(el: HTMLElement): SVGSVGElement {
   return svg;
 }
 
-function makeItem(el: HTMLElement | SVGElement, rough: typeof import("roughjs").default): Item | null {
+function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
   const kind = el.dataset.rough;
   const seed = seedOf(el.dataset.seed ?? kind ?? "x");
   const opts = (level: string, extra: Options = {}) => ({
@@ -67,6 +75,7 @@ function makeItem(el: HTMLElement | SVGElement, rough: typeof import("roughjs").
   });
 
   let build: () => SVGPathElement[];
+  let text: SVGTextElement | null = null;
 
   if (kind === "rule" && el instanceof HTMLElement) {
     build = () => {
@@ -78,36 +87,23 @@ function makeItem(el: HTMLElement | SVGElement, rough: typeof import("roughjs").
       return [...svg.querySelectorAll("path")];
     };
   } else if (kind === "rect" && el instanceof HTMLElement) {
+    // A box edge, drawn over the element's (now transparent) 1px border.
+    const level = el.dataset.level ?? "twice";
     build = () => {
       const svg = overlay(el);
       const rc: RoughSVG = rough.svg(svg);
       const w = el.offsetWidth;
       const h = el.offsetHeight;
-      // offset by the (transparent) 1px border the CSS version uses
       svg.style.inset = "-1px";
       svg.style.width = `${w}px`;
       svg.style.height = `${h}px`;
-      svg.appendChild(rc.rectangle(1, 1, w - 2, h - 2, opts("twice", { strokeWidth: 1 })));
+      svg.appendChild(rc.rectangle(0.5, 0.5, w - 1, h - 1, opts(level, { strokeWidth: 1.1 })));
       return [...svg.querySelectorAll("path")];
-    };
-  } else if (kind === "links" && el instanceof SVGSVGElement) {
-    // Constellation linework, drawn in the chart's own coordinate space.
-    build = () => {
-      const g = el.querySelector<SVGGElement>(".chart__hand")!;
-      g.replaceChildren();
-      const rc: RoughSVG = rough.svg(el);
-      el.querySelectorAll<SVGPolylineElement>(".chart__links polyline").forEach((pl, i) => {
-        const pts = (pl.getAttribute("points") ?? "")
-          .trim()
-          .split(/\s+/)
-          .map((p) => p.split(",").map(Number) as [number, number]);
-        g.appendChild(rc.linearPath(pts, opts("straightedge", { seed: seed + i, strokeWidth: 1 })));
-      });
-      return [...g.querySelectorAll("path")];
     };
   } else if (kind === "arrow" && el instanceof SVGGraphicsElement) {
     // An <svg> of its own, or a <g> inside a chart (drawn in its units).
     const host = el instanceof SVGSVGElement ? el : el.ownerSVGElement!;
+    text = el.closest(".chart__pencil")?.querySelector("text") ?? null;
     build = () => {
       el.querySelectorAll(":scope > g.rough-arrow").forEach((g) => g.remove());
       const g = document.createElementNS(SVG_NS, "g");
@@ -125,7 +121,10 @@ function makeItem(el: HTMLElement | SVGElement, rough: typeof import("roughjs").
 
   return {
     el,
-    content: kind === "links",
+    content: el.closest(".fig") !== null && kind === "rect",
+    text,
+    followers: [],
+    follows: false,
     drawn: false,
     queued: false,
     build,
@@ -140,42 +139,70 @@ function blank(path: SVGPathElement) {
   path.style.strokeDashoffset = `${len}`;
 }
 
+/** Held keyframes for `drawings` drawings. */
+function held(drawings: number, at: (t: number) => Keyframe): Keyframe[] {
+  const frames: Keyframe[] = [];
+  for (let i = 0; i <= drawings; i++) frames.push({ ...at(i / drawings), easing: "steps(1, end)" });
+  return frames;
+}
+
 /**
- * Draw one item on. Strokes overlap: each starts halfway through the one
- * before, so the item reads as one gesture. Resolves when the pencil may
- * move to the next item (about two-thirds through this one).
+ * Draw one item on: write its words in (left to right, a few letters a
+ * drawing), then its strokes. Strokes overlap: each starts halfway through
+ * the one before, so the item reads as one gesture.
+ *
+ * `handoff` resolves when the pencil may start the next item (about
+ * two-thirds through); `done` when every mark is down.
  */
-function drawOn(item: Item, hurry: number): Promise<void> {
+function drawOn(item: Item, hurry: number): { handoff: Promise<void>; done: Promise<void> } {
   item.drawn = true;
   let start = 0;
   let end = 0;
+
+  if (item.text) {
+    const words = item.text;
+    const chars = words.textContent?.length ?? 8;
+    const drawings = Math.max(2, Math.min(8, Math.round(chars / 3 / hurry)));
+    const duration = drawings * FRAME_MS;
+    words
+      .animate(
+        held(drawings, (t) => ({ clipPath: `inset(-20% ${(1 - t) * 100}% -20% -5%)` })),
+        { duration, fill: "forwards" },
+      )
+      .finished.then((a) => {
+        words.style.clipPath = "none";
+        a.cancel();
+      });
+    start = duration;
+    end = duration;
+  }
+
   for (const path of item.paths) {
     const len = path.getTotalLength();
-    const want = Math.round(len / 120);
-    const drawings = Math.max(2, Math.min(12, Math.round(want / hurry)));
-    const frames: Keyframe[] = [];
-    for (let i = 0; i <= drawings; i++) {
-      frames.push({
-        strokeDashoffset: `${len * (1 - i / drawings)}`,
-        easing: "steps(1, end)",
-      });
-    }
+    const drawings = Math.max(2, Math.min(12, Math.round(len / 120 / hurry)));
     const duration = drawings * FRAME_MS;
-    path.animate(frames, { duration, delay: start, fill: "forwards" }).finished.then(() => {
-      // settle: drop the dash so a later resize/redraw isn't clipped
-      path.style.strokeDasharray = "";
-      path.style.strokeDashoffset = "";
-    });
+    path
+      .animate(
+        held(drawings, (t) => ({ strokeDashoffset: `${len * (1 - t)}` })),
+        { duration, delay: start, fill: "forwards" },
+      )
+      .finished.then(() => {
+        // settle: drop the dash so a later resize/redraw isn't clipped
+        path.style.strokeDasharray = "";
+        path.style.strokeDashoffset = "";
+      });
     end = Math.max(end, start + duration);
     start += duration / 2;
   }
-  return new Promise((resolve) => setTimeout(resolve, (end * 2) / 3));
+
+  const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+  return { handoff: wait((end * 2) / 3), done: wait(end) };
 }
 
 async function start() {
   if (!root.classList.contains("hand")) return;
 
-  let rough: typeof import("roughjs").default;
+  let rough: Rough;
   try {
     rough = (await import("roughjs")).default;
   } catch {
@@ -183,9 +210,23 @@ async function start() {
     return;
   }
 
-  const items = [...document.querySelectorAll<HTMLElement | SVGElement>("[data-rough]")]
-    .map((el) => makeItem(el, rough))
-    .filter((i): i is Item => i !== null);
+  const els = [...document.querySelectorAll<HTMLElement | SVGElement>("[data-rough]")];
+  const byEl = new Map<Element, Item>();
+  for (const el of els) {
+    const item = makeItem(el, rough);
+    if (item) byEl.set(el, item);
+  }
+  const items = [...byEl.values()];
+
+  // Wire up "draw this after that".
+  for (const item of items) {
+    const after = item.el.dataset.after;
+    const lead = after ? byEl.get(document.getElementById(after)!) : undefined;
+    if (lead) {
+      lead.followers.push(item);
+      item.follows = true;
+    }
+  }
 
   for (const item of items) {
     item.paths = item.build();
@@ -197,44 +238,82 @@ async function start() {
   const queue: Item[] = [];
   let busy = false;
 
+  const enqueue = (item: Item, first = false) => {
+    if (item.queued) return;
+    item.queued = true;
+    if (first) queue.unshift(item);
+    else queue.push(item);
+  };
+
   const pump = async () => {
     if (busy) return;
     busy = true;
     while (queue.length) {
-      // content first, then document order (the queue is filled top-down)
-      queue.sort((a, b) => Number(b.content) - Number(a.content));
-      const item = queue.shift()!;
+      // content first, then document order (the queue is filled top-down);
+      // followers were put at the front on purpose and stay there.
+      const next = queue[0].follows
+        ? queue.shift()!
+        : (queue.sort((a, b) => Number(b.content) - Number(a.content)), queue.shift()!);
       const hurry = 1 + queue.length * 0.6;
-      await drawOn(item, hurry);
+      const { handoff, done } = drawOn(next, hurry);
+      if (next.followers.length) {
+        // The follower picks up where this one leaves off, not at handoff.
+        await done;
+        next.followers.forEach((f) => enqueue(f, true));
+      } else {
+        await handoff;
+      }
     }
     busy = false;
   };
 
-  const io = new IntersectionObserver(
-    (entries) => {
-      const arriving = entries
-        .filter((e) => e.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-      for (const e of arriving) {
-        const item = items.find((i) => i.el === e.target);
-        if (item && !item.queued) {
-          item.queued = true;
-          queue.push(item);
-          io.unobserve(e.target);
-        }
-      }
-      pump();
-    },
+  /** Put an item (and whatever follows it) down at once, finished. */
+  const settle = (item: Item) => {
+    item.drawn = item.queued = true;
+    item.paths.forEach((p) => {
+      p.style.strokeDasharray = "";
+      p.style.strokeDashoffset = "";
+    });
+    if (item.text) item.text.style.clipPath = "none";
+    item.followers.forEach(settle);
+  };
+
+  // Checked on scroll rather than with an IntersectionObserver: a jump
+  // (an anchor link, a restored scroll position) can carry an item from
+  // below the viewport to above it without it ever intersecting, and it
+  // must never be left undrawn.
+  const leads = items.filter((i) => !i.follows);
+  let ticking = false;
+  const check = () => {
+    ticking = false;
     // "well into view": the bottom fifth of the viewport doesn't count
-    { rootMargin: "0px 0px -20% 0px" },
-  );
-  items.forEach((i) => io.observe(i.el));
+    const line = innerHeight * 0.8;
+    const arriving: [number, Item][] = [];
+    for (const item of leads) {
+      if (item.queued) continue;
+      const r = item.el.getBoundingClientRect();
+      if (r.bottom < 0) settle(item); // already passed: just be there
+      else if (r.top < line) arriving.push([r.top, item]);
+    }
+    arriving.sort((a, b) => a[0] - b[0]).forEach(([, item]) => enqueue(item));
+    if (leads.every((i) => i.queued)) removeEventListener("scroll", onScroll);
+    pump();
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(check);
+    }
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll, { passive: true });
+  check();
 
   // Pixel-sized overlays redraw on resize with the same seed. Items already
   // drawn redraw finished (never traced over again); others stay blank.
   const ro = new ResizeObserver((entries) => {
     for (const e of entries) {
-      const item = items.find((i) => i.el === e.target);
+      const item = byEl.get(e.target);
       if (!item) continue;
       item.paths = item.build();
       if (!item.drawn) item.paths.forEach(blank);
@@ -263,13 +342,9 @@ function shadeIn() {
     const a = Math.max(0, s - BAND) * 200;
     return `polygon(${a}% 0%, ${s * 200}% 0%, 0% ${s * 200}%, 0% ${a}%)`;
   };
-  const imgFrames: Keyframe[] = [];
-  const hatchFrames: Keyframe[] = [];
-  for (let i = 0; i <= DRAWINGS; i++) {
-    const s = (i / DRAWINGS) * (1 + BAND / 2);
-    imgFrames.push({ clipPath: tri(Math.max(0, s - BAND / 2)), easing: "steps(1, end)" });
-    hatchFrames.push({ clipPath: band(s), easing: "steps(1, end)" });
-  }
+  const span = 1 + BAND / 2;
+  const imgFrames = held(DRAWINGS, (t) => ({ clipPath: tri(Math.max(0, t * span - BAND / 2)) }));
+  const hatchFrames = held(DRAWINGS, (t) => ({ clipPath: band(t * span) }));
   const timing = { duration: DRAWINGS * 2 * FRAME_MS, delay: 2 * FRAME_MS, fill: "backwards" as const };
   hatch.style.display = "block";
   img.animate(imgFrames, timing);
