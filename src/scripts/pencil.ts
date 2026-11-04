@@ -320,7 +320,7 @@ async function start() {
   const groups = new Map<Element, Group>();
   for (const item of items) {
     const el = item.el.closest(".sec, .title") ?? item.el;
-    const group = groups.get(el) ?? { el, items: [], queued: false, since: 0 };
+    const group: Group = groups.get(el) ?? { el, items: [], queued: false, since: 0 };
     group.items.push(item);
     groups.set(el, group);
   }
