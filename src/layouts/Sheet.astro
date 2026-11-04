@@ -6,9 +6,15 @@ import "@fontsource/b612/400.css";
 import "@fontsource/b612/400-italic.css";
 import "@fontsource/b612/700.css";
 import "@fontsource/b612-mono/400.css";
-import "@fontsource/caveat/500.css";
+import "../styles/fonts.css";
 import "../styles/modfox-tokens.css";
 import "../styles/sheet.css";
+// Preloaded: the faces on screen at first paint. (B612 italic is one word
+// in the prose, so it loads when it's needed.)
+import b612Regular from "@fontsource/b612/files/b612-latin-400-normal.woff2?url";
+import b612Bold from "@fontsource/b612/files/b612-latin-700-normal.woff2?url";
+import b612Mono from "@fontsource/b612-mono/files/b612-mono-latin-400-normal.woff2?url";
+const preload = [b612Regular, b612Bold, b612Mono, "/fonts/caveat-500-hand.woff2"];
 
 interface Props {
   title: string;
@@ -30,6 +36,7 @@ const description =
     <meta name="theme-color" content="#173f66" media="(prefers-color-scheme: dark)" />
     <title>{title}</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
+    {preload.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
     <script is:inline>
       // Before first paint: restore a manual theme choice, and claim the
       // hand-drawn layer (CSS lines hide only while it's expected). If the

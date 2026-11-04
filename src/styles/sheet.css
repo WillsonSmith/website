@@ -498,7 +498,7 @@ body.grid-paper {
 
 /* ---------- Sections (sheets) ---------- */
 .sec {
-  padding-block: calc(var(--m) * 0.6) calc(var(--m) * 1.6);
+  padding-block: calc(var(--m) * 0.6) var(--m);
   scroll-margin-top: var(--m);
 }
 .sec__rule {

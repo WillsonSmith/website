@@ -1,0 +1,10 @@
+/* Caveat, cut down to the characters written by hand (scripts/subset-hand.ts
+   regenerates it before every dev and build). B612 and B612 Mono come from
+   @fontsource, imported in layouts/Sheet.astro. */
+@font-face {
+  font-family: "Caveat";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/caveat-500-hand.woff2") format("woff2");
+}
