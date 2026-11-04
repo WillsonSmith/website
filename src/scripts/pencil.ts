@@ -105,12 +105,14 @@ function makeItem(el: HTMLElement | SVGElement, rough: typeof import("roughjs").
       });
       return [...g.querySelectorAll("path")];
     };
-  } else if (kind === "arrow" && el instanceof SVGSVGElement) {
+  } else if (kind === "arrow" && el instanceof SVGGraphicsElement) {
+    // An <svg> of its own, or a <g> inside a chart (drawn in its units).
+    const host = el instanceof SVGSVGElement ? el : el.ownerSVGElement!;
     build = () => {
       el.querySelectorAll(":scope > g.rough-arrow").forEach((g) => g.remove());
       const g = document.createElementNS(SVG_NS, "g");
       g.classList.add("rough-arrow");
-      const rc: RoughSVG = rough.svg(el);
+      const rc: RoughSVG = rough.svg(host);
       el.querySelectorAll<SVGPathElement>(".css-line").forEach((p, i) => {
         g.appendChild(rc.path(p.getAttribute("d")!, opts("sketch", { seed: seed + i, strokeWidth: 1.4 })));
       });
@@ -274,7 +276,7 @@ function shadeIn() {
   hatch.animate(hatchFrames, timing).finished.then(() => (hatch.style.display = ""));
 }
 
-/** Print toggle: vellum ⇄ blueprint. Defaults to the system. */
+/** Theme toggle: light ⇄ dark. Defaults to the system. */
 function themeToggle() {
   const btn = document.querySelector<HTMLButtonElement>(".theme-toggle");
   const value = btn?.querySelector(".theme-toggle__value");
@@ -283,9 +285,9 @@ function themeToggle() {
   const current = () => root.dataset.theme ?? (sys.matches ? "dark" : "light");
   const paint = () => {
     const dark = current() === "dark";
-    value.textContent = dark ? "Blueprint" : "Vellum";
+    value.textContent = dark ? "Dark" : "Light";
     btn.setAttribute("aria-pressed", String(dark));
-    btn.setAttribute("aria-label", `Print: ${dark ? "blueprint" : "vellum"}. Switch to ${dark ? "vellum" : "blueprint"}`);
+    btn.setAttribute("aria-label", `Theme: ${dark ? "dark" : "light"}. Switch to ${dark ? "light" : "dark"}`);
     document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => {
       m.content = getComputedStyle(root).getPropertyValue("--paper").trim();
     });

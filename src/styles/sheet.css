@@ -48,6 +48,11 @@
 *::after {
   box-sizing: border-box;
 }
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
 body {
   margin: 0;
   min-height: 100vh;
@@ -94,6 +99,7 @@ body.grid-paper {
   border: 2px solid var(--ink);
   outline: 1px solid var(--ink);
   outline-offset: 6px;
+  background: var(--paper-on-sheet);
 }
 @media (max-width: 1250px) {
   .sheet {
@@ -333,13 +339,6 @@ body.grid-paper {
   );
   pointer-events: none;
 }
-/* A centre line through the circle, with its diameter. */
-.avatar__dim {
-  display: block;
-  margin-top: calc(var(--fifth) * 2);
-  text-align: center;
-}
-
 /* The two poses flip on a single held drawing as the cover scrolls away:
    a pencil-test swap, not a crossfade. */
 @supports (animation-timeline: view()) {
@@ -412,22 +411,6 @@ body.grid-paper {
   font-size: 12px;
   line-height: 1.4;
   overflow-wrap: anywhere;
-}
-
-/* Red pencil: the one live thing on the cover. */
-.status {
-  color: var(--red);
-}
-.status::before {
-  content: "";
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  margin-right: 7px;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  background: currentColor;
-  vertical-align: 0;
 }
 
 @media (max-width: 1250px) {
@@ -702,36 +685,25 @@ body.grid-paper {
   margin-right: calc(var(--fifth) * 0.5);
 }
 
-/* Figure notes sit just outside the frame, pointing in. */
-.fig .note {
-  top: calc(var(--m) * -0.8);
-  right: calc(var(--m) * 0.4);
+/* Blue-pencil note inside the chart, in chart units so its arrow always
+   lands on the star it points at. */
+.chart__pencil {
+  color: var(--blue);
 }
-.sec--fig-left .fig .note {
-  right: auto;
-  left: calc(var(--m) * 1.6);
+.chart__pencil text {
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 19px;
+  fill: currentColor;
 }
-.note--fig-4 {
-  flex-direction: row-reverse;
-}
-.note--fig-4 .note__arrow {
-  transform: scaleX(-1);
-}
-@media (max-width: 1050px) {
-  .fig .note,
-  .sec--fig-left .fig .note {
-    left: auto;
-    right: 0;
-  }
-  .note--fig-4 {
-    flex-direction: row;
-  }
-  .note--fig-4 .note__arrow {
-    transform: none;
-  }
+.chart__pencil path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
 }
 
-/* ---------- Correspondence plate (hand edge, gone over twice) ---------- */
+/* ---------- Contact plate (hand edge, gone over twice) ---------- */
 .contact {
   margin-top: calc(var(--m) * 0.8);
   max-width: calc(var(--m) * 9);
@@ -746,7 +718,7 @@ body.grid-paper {
 /* ---------- Title block ---------- */
 .titleblock {
   display: grid;
-  grid-template-columns: 2fr repeat(4, 1fr);
+  grid-template-columns: 2fr repeat(3, 1fr);
   margin: 0 calc(var(--pad) * -1);
   border-top: 2px solid var(--ink);
 }
@@ -767,22 +739,17 @@ body.grid-paper {
 }
 @media (max-width: 860px) {
   .titleblock {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
   .tb--name {
     grid-column: 1 / -1;
   }
-  .tb {
+  .tb--name + .tb {
+    border-left: 0;
     border-top: 1px solid var(--ink);
   }
-  .tb--name {
-    border-top: 0;
-  }
-  .tb + .tb {
-    border-left: 0;
-  }
-  .tb:nth-child(odd):not(.tb--name) {
-    border-left: 1px solid var(--ink);
+  .tb--name ~ .tb {
+    border-top: 1px solid var(--ink);
   }
 }
 
