@@ -1,6 +1,36 @@
-/* Caveat, cut down to the characters written by hand (scripts/subset-hand.ts
-   regenerates it before every dev and build). B612 and B612 Mono come from
-   @fontsource, imported in layouts/Sheet.astro. */
+/* The site's faces, cut down by scripts/subset-fonts.ts (re-run before
+   every dev and build) from @fontsource's Latin files:
+   - Caveat: exactly the characters written by hand.
+   - B612, B612 Mono: printable ASCII, smart punctuation, and any other
+     character the content and templates use. */
+@font-face {
+  font-family: "B612";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/b612-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "B612";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/b612-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "B612";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/b612-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "B612 Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/b612-mono-400.woff2") format("woff2");
+}
 @font-face {
   font-family: "Caveat";
   font-style: normal;

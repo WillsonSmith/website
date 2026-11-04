@@ -2,19 +2,14 @@
 // The modfox "Sheet" layout: the page is one sheet from a set of technical
 // drawings. Vellum by day, blueprint by night (follows the system, with a
 // manual override).
-import "@fontsource/b612/400.css";
-import "@fontsource/b612/400-italic.css";
-import "@fontsource/b612/700.css";
-import "@fontsource/b612-mono/400.css";
 import "../styles/fonts.css";
 import "../styles/modfox-tokens.css";
 import "../styles/sheet.css";
 // Preloaded: the faces on screen at first paint. (B612 italic is one word
 // in the prose, so it loads when it's needed.)
-import b612Regular from "@fontsource/b612/files/b612-latin-400-normal.woff2?url";
-import b612Bold from "@fontsource/b612/files/b612-latin-700-normal.woff2?url";
-import b612Mono from "@fontsource/b612-mono/files/b612-mono-latin-400-normal.woff2?url";
-const preload = [b612Regular, b612Bold, b612Mono, "/fonts/caveat-500-hand.woff2"];
+const preload = ["b612-400", "b612-700", "b612-mono-400", "caveat-500-hand"].map(
+  (face) => `/fonts/${face}.woff2`,
+);
 
 interface Props {
   title: string;

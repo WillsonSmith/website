@@ -1,7 +1,7 @@
 // What the home page draws, apart from its prose (which lives in
 // src/content/index/*.md): each sheet's figure and every handwritten note.
 //
-// scripts/subset-hand.ts reads this module (and the sheet titles from the
+// scripts/subset-fonts.ts reads this module (and the sheet titles from the
 // content frontmatter) to cut Caveat down to just the characters drawn in
 // handwriting, so any new handwritten string must come from here.
 
