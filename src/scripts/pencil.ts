@@ -5,11 +5,19 @@
 // paint when this layer is expected; we confirm with `html.hand-ready` once
 // Rough.js has loaded. If we never confirm, the CSS lines come back.
 //
-// Lines are drawn on the first time they're well into view, one item at a
-// time ("one pencil"), in held drawings on the 12fps beat. Never tweened.
-// An item can name another it follows (`data-after`): a figure's note is
-// written in only once the pencil has finished the figure's box. A figure's
-// box is drawn first, then its inside is shaded in, like the avatar.
+// Timing follows modfox.ca (site/src/sheet/pen.ts, rough.ts, shade.ts):
+//
+// - One pencil, a whole group at a time. A group is the cover or one sheet:
+//   everything in it (rule, figure box, plate edge, notes) starts at once,
+//   as one gesture. The next group starts when this one is two-thirds done,
+//   and nothing waits more than 5s.
+// - A group starts the first time it's well into view (above 88% of the
+//   viewport). One already scrolled past is put down finished.
+// - Strokes reveal in held drawings at 12 a second, one drawing per ~120px,
+//   2–12 drawings; with a backlog they hurry (1 + 0.5 per group waiting).
+// - A figure's inside is shaded in (8 drawings) starting halfway round its
+//   box; its note is written and its arrow drawn alongside the shading
+//   (`data-after` names the figure a note belongs to).
 
 type Rough = typeof import("roughjs").default;
 type RoughSVG = ReturnType<Rough["svg"]>;
@@ -18,6 +26,22 @@ type Options = Record<string, unknown>;
 const FRAME_MS = 1000 / 12;
 const root = document.documentElement;
 const SVG_NS = "http://www.w3.org/2000/svg";
+
+/** Pencil travel per drawing, in px. */
+const PX_PER_DRAWING = 120;
+const MIN_DRAWINGS = 2;
+const MAX_DRAWINGS = 12;
+/** How much quicker each group waiting behind this one makes it draw. */
+const HURRY_PER_WAITING = 0.5;
+/** How far through a group the pencil moves on to the next one. */
+const HANDOFF = 2 / 3;
+/** Longest a group waits for the pencil before starting anyway, in ms. */
+const MAX_WAIT_MS = 5000;
+/** A group starts once its top is above this fraction of the viewport. */
+const IN_VIEW = 0.88;
+/** Held drawings to shade in a figure, and the avatar. */
+const FIGURE_DRAWINGS = 8;
+const AVATAR_DRAWINGS = 5;
 
 const LEVELS: Record<string, Options> = {
   straightedge: { roughness: 0.55, bowing: 0.6, disableMultiStroke: true, preserveVertices: true },
@@ -35,24 +59,23 @@ function seedOf(key: string): number {
   return (Math.abs(h) % 2147483646) + 1;
 }
 
+/** One hand-drawn thing: a rule, a box, an arrow and its note. */
 type Item = {
   el: HTMLElement | SVGElement;
-  /** real content (figures) draws before decoration (rules, notes) */
-  content: boolean;
   /** handwriting written in before the strokes (a note's words) */
   text: SVGTextElement | null;
-  /** what's shaded in once the strokes are down (a figure's inside) */
+  /** what's shaded in once the strokes are underway (a figure's inside) */
   inside: { target: Element; hatch: HTMLElement } | null;
-  /** items that wait for this one to finish */
-  followers: Item[];
-  /** waits for another item rather than for the viewport */
-  follows: boolean;
+  /** id of the item whose shading this one draws alongside */
+  after: string | null;
   drawn: boolean;
-  queued: boolean;
   /** (re)builds the rough paths; returns them */
   build: () => SVGPathElement[];
   paths: SVGPathElement[];
 };
+
+/** Everything that draws together: the cover, or one sheet. */
+type Group = { el: Element; items: Item[]; queued: boolean; since: number };
 
 /** An absolutely positioned SVG over an HTML element, in pixel units. */
 function overlay(el: HTMLElement): SVGSVGElement {
@@ -126,18 +149,7 @@ function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
     return null;
   }
 
-  return {
-    el,
-    content: el.closest(".fig") !== null && kind === "rect",
-    text,
-    inside,
-    followers: [],
-    follows: false,
-    drawn: false,
-    queued: false,
-    build,
-    paths: [],
-  };
+  return { el, text, inside, after: el.dataset.after ?? null, drawn: false, build, paths: [] };
 }
 
 /** Hide a stroke fully, ready to be drawn on. */
@@ -155,9 +167,9 @@ function held(drawings: number, at: (t: number) => Keyframe): Keyframe[] {
 }
 
 /**
- * Shade something in: a diagonal edge crosses it in held drawings on twos,
- * with a band of pencil hatching riding the edge. The hatching only
- * reveals; it's gone once the picture is in. Returns the duration in ms.
+ * Shade something in: a diagonal edge crosses it in held drawings, with a
+ * band of pencil hatching riding the edge. The hatching only reveals; it's
+ * gone once the picture is in. Returns when it ends, delay included, in ms.
  *
  * `hidden` targets start clipped away by CSS (a figure under `.hand`), so
  * they're unclipped explicitly at the end; the avatar is simply visible
@@ -166,7 +178,7 @@ function held(drawings: number, at: (t: number) => Keyframe): Keyframe[] {
 function shade(
   target: Element,
   hatch: HTMLElement,
-  { delay = 0, drawings = 8, hidden = false, band: BAND = 0.22 } = {},
+  { delay = 0, drawings = FIGURE_DRAWINGS, hidden = false, band: BAND = 0.22 } = {},
 ): number {
   const span = 1 + BAND / 2;
   const tri = (s: number) => `polygon(0% 0%, ${s * 200}% 0%, 0% ${s * 200}%)`;
@@ -174,7 +186,7 @@ function shade(
     const a = Math.max(0, s - BAND) * 200;
     return `polygon(${a}% 0%, ${s * 200}% 0%, 0% ${s * 200}%, 0% ${a}%)`;
   };
-  const duration = drawings * 2 * FRAME_MS;
+  const duration = drawings * FRAME_MS;
   const timing = { duration, delay, fill: hidden ? ("both" as const) : ("backwards" as const) };
 
   hatch.style.display = "block";
@@ -198,40 +210,42 @@ function shade(
 }
 
 /**
- * Draw one item on: write its words in (left to right, a few letters a
- * drawing), then its strokes, then shade in whatever they enclose. Strokes
- * overlap: each starts halfway through the one before, so the item reads as
- * one gesture.
+ * Draw one item on, starting after `delay`: its words written in (left to
+ * right), then its strokes, each starting halfway through the one before
+ * so the item reads as one gesture. A figure's inside starts shading
+ * halfway round its box.
  *
- * `handoff` resolves when the pencil may start the next item (about
- * two-thirds through); `done` when every mark is down.
+ * Returns when it ends and, for a figure, when its shading starts (for the
+ * note that draws alongside), both in ms from now.
  */
-function drawOn(item: Item, hurry: number): { handoff: Promise<void>; done: Promise<void> } {
+function drawOn(item: Item, delay: number, hurry: number): { end: number; shadeAt: number } {
   item.drawn = true;
-  let start = 0;
-  let end = 0;
+  let start = delay;
+  let end = delay;
 
   if (item.text) {
     const words = item.text;
     const chars = words.textContent?.length ?? 8;
-    const drawings = Math.max(2, Math.min(8, Math.round(chars / 3 / hurry)));
+    const drawings = Math.max(MIN_DRAWINGS, Math.min(8, Math.round(chars / 3 / hurry)));
     const duration = drawings * FRAME_MS;
     words
       .animate(
         held(drawings, (t) => ({ clipPath: `inset(-20% ${(1 - t) * 100}% -20% -5%)` })),
-        { duration, fill: "forwards" },
+        { duration, delay: start, fill: "forwards" },
       )
       .finished.then((a) => {
         words.style.clipPath = "none";
         a.cancel();
       });
-    start = duration;
-    end = duration;
+    // the arrow follows the words halfway through
+    start += duration / 2;
+    end = start + duration / 2;
   }
 
-  for (const path of item.paths) {
+  let firstHalf = start;
+  item.paths.forEach((path, i) => {
     const len = path.getTotalLength();
-    const drawings = Math.max(2, Math.min(12, Math.round(len / 120 / hurry)));
+    const drawings = Math.min(MAX_DRAWINGS, Math.max(MIN_DRAWINGS, Math.round(len / PX_PER_DRAWING / hurry)));
     const duration = drawings * FRAME_MS;
     path
       .animate(
@@ -243,18 +257,48 @@ function drawOn(item: Item, hurry: number): { handoff: Promise<void>; done: Prom
         path.style.strokeDasharray = "";
         path.style.strokeDashoffset = "";
       });
+    if (i === 0) firstHalf = start + duration / 2;
     end = Math.max(end, start + duration);
-    start += duration / 2;
-  }
+    start += Math.max(FRAME_MS, duration / 2);
+  });
 
+  let shadeAt = end;
   if (item.inside) {
-    const drawings = Math.max(4, Math.round(8 / hurry));
+    shadeAt = firstHalf;
+    const drawings = Math.max(4, Math.round(FIGURE_DRAWINGS / hurry));
     // a narrower band than the avatar's: a figure is wide, and the band scales with it
-    end = shade(item.inside.target, item.inside.hatch, { delay: end, drawings, hidden: true, band: 0.12 });
+    end = Math.max(end, shade(item.inside.target, item.inside.hatch, { delay: shadeAt, drawings, hidden: true, band: 0.12 }));
   }
+  return { end, shadeAt };
+}
 
-  const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
-  return { handoff: wait((end * 2) / 3), done: wait(end) };
+/** Put an item down at once, finished. */
+function settleItem(item: Item) {
+  item.drawn = true;
+  item.paths.forEach((p) => {
+    p.style.strokeDasharray = "";
+    p.style.strokeDashoffset = "";
+  });
+  if (item.text) item.text.style.clipPath = "none";
+  if (item.inside) (item.inside.target as HTMLElement).style.clipPath = "none";
+}
+
+/**
+ * Draw a whole group now: every item starts at once, except notes, which
+ * start with their figure's shading. Returns how long it takes, in ms.
+ */
+function drawGroup(group: Group, hurry: number): number {
+  const shadeAt = new Map<string, number>();
+  let end = 0;
+  for (const item of group.items.filter((i) => !i.after)) {
+    const r = drawOn(item, 0, hurry);
+    if (item.el.id) shadeAt.set(item.el.id, r.shadeAt);
+    end = Math.max(end, r.end);
+  }
+  for (const item of group.items.filter((i) => i.after)) {
+    end = Math.max(end, drawOn(item, shadeAt.get(item.after!) ?? 0, hurry).end);
+  }
+  return end;
 }
 
 async function start() {
@@ -268,22 +312,17 @@ async function start() {
     return;
   }
 
-  const els = [...document.querySelectorAll<HTMLElement | SVGElement>("[data-rough]")];
-  const byEl = new Map<Element, Item>();
-  for (const el of els) {
-    const item = makeItem(el, rough);
-    if (item) byEl.set(el, item);
-  }
-  const items = [...byEl.values()];
+  const items = [...document.querySelectorAll<HTMLElement | SVGElement>("[data-rough]")]
+    .map((el) => makeItem(el, rough))
+    .filter((i): i is Item => i !== null);
 
-  // Wire up "draw this after that".
+  // Group by sheet (or the cover); anything outside one stands alone.
+  const groups = new Map<Element, Group>();
   for (const item of items) {
-    const after = item.el.dataset.after;
-    const lead = after ? byEl.get(document.getElementById(after)!) : undefined;
-    if (lead) {
-      lead.followers.push(item);
-      item.follows = true;
-    }
+    const el = item.el.closest(".sec, .title") ?? item.el;
+    const group = groups.get(el) ?? { el, items: [], queued: false, since: 0 };
+    group.items.push(item);
+    groups.set(el, group);
   }
 
   for (const item of items) {
@@ -293,70 +332,58 @@ async function start() {
   root.classList.add("hand-ready");
 
   // ---- one pencil ----
-  const queue: Item[] = [];
-  let busy = false;
+  const queue: Group[] = [];
+  let freeAt = 0;
+  let timer = 0;
 
-  const enqueue = (item: Item, first = false) => {
-    if (item.queued) return;
-    item.queued = true;
-    if (first) queue.unshift(item);
-    else queue.push(item);
-  };
-
-  const pump = async () => {
-    if (busy) return;
-    busy = true;
-    while (queue.length) {
-      // content first, then document order (the queue is filled top-down);
-      // followers were put at the front on purpose and stay there.
-      const next = queue[0].follows
-        ? queue.shift()!
-        : (queue.sort((a, b) => Number(b.content) - Number(a.content)), queue.shift()!);
-      const hurry = 1 + queue.length * 0.6;
-      const { handoff, done } = drawOn(next, hurry);
-      if (next.followers.length) {
-        // The follower picks up where this one leaves off, not at handoff.
-        await done;
-        next.followers.forEach((f) => enqueue(f, true));
-      } else {
-        await handoff;
-      }
-    }
-    busy = false;
-  };
-
-  /** Put an item (and whatever follows it) down at once, finished. */
-  const settle = (item: Item) => {
-    item.drawn = item.queued = true;
-    item.paths.forEach((p) => {
-      p.style.strokeDasharray = "";
-      p.style.strokeDashoffset = "";
-    });
-    if (item.text) item.text.style.clipPath = "none";
-    if (item.inside) (item.inside.target as HTMLElement).style.clipPath = "none";
-    item.followers.forEach(settle);
+  const next = () => {
+    clearTimeout(timer);
+    const now = performance.now();
+    const go = (g: Group) => {
+      queue.splice(queue.indexOf(g), 1);
+      const hurry = 1 + queue.length * HURRY_PER_WAITING;
+      freeAt = Math.max(freeAt, now + drawGroup(g, hurry) * HANDOFF);
+    };
+    queue.filter((g) => now - g.since >= MAX_WAIT_MS).forEach(go);
+    if (queue.length && now >= freeAt) go(queue[0]);
+    if (!queue.length) return;
+    const due = Math.min(freeAt, ...queue.map((g) => g.since + MAX_WAIT_MS));
+    timer = window.setTimeout(next, Math.max(0, due - now));
   };
 
   // Checked on scroll rather than with an IntersectionObserver: a jump
-  // (an anchor link, a restored scroll position) can carry an item from
+  // (an anchor link, a restored scroll position) can carry a sheet from
   // below the viewport to above it without it ever intersecting, and it
   // must never be left undrawn.
-  const leads = items.filter((i) => !i.follows);
+  const all = [...groups.values()];
   let ticking = false;
   const check = () => {
     ticking = false;
-    // "well into view": the bottom fifth of the viewport doesn't count
-    const line = innerHeight * 0.8;
-    const arriving: [number, Item][] = [];
-    for (const item of leads) {
-      if (item.queued) continue;
-      const r = item.el.getBoundingClientRect();
-      if (r.bottom < 0) settle(item); // already passed: just be there
-      else if (r.top < line) arriving.push([r.top, item]);
+    const line = innerHeight * IN_VIEW;
+    const arriving: [number, Group][] = [];
+    for (const group of all) {
+      if (group.queued) continue;
+      const r = group.el.getBoundingClientRect();
+      if (r.bottom < 0) {
+        group.queued = true; // already passed: just be there
+        group.items.forEach(settleItem);
+      } else if (r.top < line) {
+        arriving.push([r.top, group]);
+      }
     }
-    arriving.sort((a, b) => a[0] - b[0]).forEach(([, item]) => enqueue(item));
-    if (leads.every((i) => i.queued)) removeEventListener("scroll", onScroll);
-    pump();
+    const now = performance.now();
+    arriving
+      .sort((a, b) => a[0] - b[0])
+      .forEach(([, g]) => {
+        g.queued = true;
+        g.since = now;
+        queue.push(g);
+      });
+    if (all.every((g) => g.queued)) {
+      removeEventListener("scroll", onScroll);
+      removeEventListener("resize", onScroll);
+    }
+    next();
   };
   const onScroll = () => {
     if (!ticking) {
@@ -370,6 +397,7 @@ async function start() {
 
   // Pixel-sized overlays redraw on resize with the same seed. Items already
   // drawn redraw finished (never traced over again); others stay blank.
+  const byEl = new Map<Element, Item>(items.map((i) => [i.el, i]));
   const ro = new ResizeObserver((entries) => {
     for (const e of entries) {
       const item = byEl.get(e.target);
@@ -388,7 +416,7 @@ function shadeAvatar() {
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const img = document.querySelector(".avatar__img--a");
   const hatch = document.querySelector<HTMLElement>(".avatar__hatch");
-  if (img && hatch) shade(img, hatch, { delay: 2 * FRAME_MS });
+  if (img && hatch) shade(img, hatch, { delay: 2 * FRAME_MS, drawings: AVATAR_DRAWINGS });
 }
 
 /** Theme toggle: light ⇄ dark. Defaults to the system. */
