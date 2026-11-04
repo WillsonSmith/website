@@ -1,0 +1,121 @@
+/* ============================================================
+   modfox brand tokens
+   Pale vellum by day, blueprint by night. B612 + B612 Mono + Caveat.
+   Copy into the app as-is. Add app tokens below, with a value for both themes.
+   Keep <meta name="theme-color"> in step with --paper in each theme.
+   ============================================================ */
+
+:root {
+  --paper: #e9eeeb; /* the sheet, and the face of anything covering it */
+  --ink: #2e353b; /* lines and body text */
+  --ink-2: #4f585e; /* labels and secondary text */
+  --rule: #9aa3a8; /* light dividers, dashed outlines, placeholders */
+  --faint: rgb(47 93 138 / 0.22); /* construction lines */
+  --grid: rgb(46 70 80 / 0.07); /* minor grid (fifths of a module) */
+  --grid-2: rgb(46 70 80 / 0.14); /* major grid (one module) */
+  --red: #b83a2e; /* red pencil: what's happening, what you're pointing at */
+  --blue: #2f5d8a; /* blue pencil: modfox's own notes, the focus ring */
+  --tape: rgb(214 196 140 / 0.62); /* masking tape, if anything is taped down */
+
+  /* A surface that sits on the sheet: the grid shows faintly through. */
+  --paper-on-sheet: color-mix(in srgb, var(--paper) 80%, transparent);
+  /* What a dialog's backdrop washes the page out with. Never darken. */
+  --wash: color-mix(in srgb, var(--paper) 78%, transparent);
+
+  --font-sans: "B612", system-ui, sans-serif;
+  --font-mono: "B612 Mono", ui-monospace, monospace;
+  --font-hand: "Caveat", "Bradley Hand", cursive;
+
+  --m: 50px; /* one module: sizes and places everything */
+  --fifth: calc(var(--m) / 5); /* one minor line */
+
+  --frame: calc(1000ms / 12); /* one held drawing: the hand-drawn beat */
+  --instrument: 200ms; /* the longest an instrument transition runs */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #173f66;
+    --ink: #e8f1f7;
+    --ink-2: #a9c4d8;
+    --rule: #5f86a8;
+    --faint: rgb(159 208 255 / 0.2);
+    --grid: rgb(232 241 247 / 0.06);
+    --grid-2: rgb(232 241 247 / 0.13);
+    --red: #ff8a75;
+    --blue: #9fd0ff;
+    --tape: rgb(232 241 247 / 0.2);
+    color-scheme: dark;
+  }
+}
+
+/* Narrow screens get a smaller module. Use a container query instead if the
+   app has a natural container. */
+@media (max-width: 700px) {
+  :root {
+    --m: 40px;
+  }
+}
+
+/* ---------- Base ---------- */
+html {
+  background: var(--paper);
+}
+body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: inherit;
+}
+a:hover {
+  color: var(--red);
+}
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* The brand's most recognisable type: field names, column heads, kickers. */
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+/* The drawn grid, for Sheet-level apps: a minor line every fifth, a major
+   line every module. */
+.grid-paper {
+  background-image:
+    linear-gradient(var(--grid-2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-2) 1px, transparent 1px),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:
+    var(--m) var(--m),
+    var(--m) var(--m),
+    var(--fifth) var(--fifth),
+    var(--fifth) var(--fifth);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+  }
+}

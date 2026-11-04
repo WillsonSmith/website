@@ -1,0 +1,26 @@
+{
+  "name": "willsonsmith-website",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/subset-fonts.ts && astro dev",
+    "build": "node scripts/subset-fonts.ts && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "fonts": "node scripts/subset-fonts.ts"
+  },
+  "dependencies": {
+    "astro": "^6.4.8",
+    "roughjs": "^4.6.6"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@fontsource/b612": "^5.3.0",
+    "@fontsource/b612-mono": "^5.3.0",
+    "@fontsource/caveat": "^5.3.0",
+    "@types/node": "^26.6.6",
+    "subset-font": "^2.9.0",
+    "typescript": "^5.7.0"
+  }
+}

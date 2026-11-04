@@ -1,0 +1,794 @@
+/*
+ * willsonsmith.com as a modfox Sheet.
+ * Brand level: SHEET (personal site). Visible grid, ruled sheet border with
+ * zone references, "Sheet n of N" sections, pencil rules drawn on, Caveat
+ * titles under the pencil-grain filter.
+ *
+ * Instrument (plain CSS): sheet border, grid, buttons, spec plates,
+ *   plotted stars and constellation lines, dimension lines, title block.
+ * Hand (Rough.js, see scripts/pencil.ts): section rules, figure boxes,
+ *   blue-pencil notes and arrows, the contact plate's edge. Each has a
+ *   `.css-line` version underneath that shows without script / under
+ *   reduced motion / if the drawing layer fails.
+ */
+
+/* ---------- Manual print override (app addition, both themes) ---------- */
+:root[data-theme="dark"] {
+  --paper: #173f66;
+  --ink: #e8f1f7;
+  --ink-2: #a9c4d8;
+  --rule: #5f86a8;
+  --faint: rgb(159 208 255 / 0.2);
+  --grid: rgb(232 241 247 / 0.06);
+  --grid-2: rgb(232 241 247 / 0.13);
+  --red: #ff8a75;
+  --blue: #9fd0ff;
+  --tape: rgb(232 241 247 / 0.2);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="light"] {
+    --paper: #e9eeeb;
+    --ink: #2e353b;
+    --ink-2: #4f585e;
+    --rule: #9aa3a8;
+    --faint: rgb(47 93 138 / 0.22);
+    --grid: rgb(46 70 80 / 0.07);
+    --grid-2: rgb(46 70 80 / 0.14);
+    --red: #b83a2e;
+    --blue: #2f5d8a;
+    --tape: rgb(214 196 140 / 0.62);
+    color-scheme: light;
+  }
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flow-root; /* the sheet's margin mustn't collapse through */
+}
+h1,
+h2,
+h3,
+p,
+dl,
+dd,
+figure,
+blockquote {
+  margin: 0;
+}
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+a {
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--instrument) ease;
+}
+.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* ---------- The sheet ----------
+   Widths are odd whole modules so a centred sheet lands on grid lines
+   (the grid is centred too). */
+body.grid-paper {
+  background-position: 50% 0;
+}
+.sheet {
+  --cols: 23;
+  --pad: var(--m);
+  position: relative;
+  width: calc(var(--m) * var(--cols));
+  margin: calc(var(--m) * 2) auto;
+  padding: 0 var(--pad);
+  border: 2px solid var(--ink);
+  outline: 1px solid var(--ink);
+  outline-offset: 6px;
+  background: var(--paper-on-sheet);
+}
+@media (max-width: 1250px) {
+  .sheet {
+    --cols: 19;
+  }
+}
+@media (max-width: 1050px) {
+  .sheet {
+    --cols: 15;
+  }
+}
+@media (max-width: 860px) {
+  .sheet {
+    width: auto;
+    margin: calc(var(--m) * 1.4) calc(var(--fifth) * 3);
+    --pad: calc(var(--fifth) * 2);
+  }
+}
+
+/* Zone references in the margin outside the double rule. */
+.zones {
+  position: absolute;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  pointer-events: none;
+}
+.zones li {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.zones li + li::before {
+  content: "";
+  position: absolute;
+  background: var(--ink);
+}
+.zones--top,
+.zones--bottom {
+  left: 0;
+  right: 0;
+  height: calc(var(--fifth) * 3);
+}
+.zones--top {
+  bottom: calc(100% + 7px);
+}
+.zones--bottom {
+  top: calc(100% + 7px);
+}
+.zones--top li + li::before,
+.zones--bottom li + li::before {
+  left: 0;
+  width: 1px;
+  height: var(--fifth);
+}
+.zones--top li + li::before {
+  bottom: 0;
+}
+.zones--bottom li + li::before {
+  top: 0;
+}
+.zones--left,
+.zones--right {
+  top: 0;
+  bottom: 0;
+  width: calc(var(--fifth) * 3);
+  flex-direction: column;
+}
+.zones--left {
+  right: calc(100% + 7px);
+}
+.zones--right {
+  left: calc(100% + 7px);
+}
+.zones--left li + li::before,
+.zones--right li + li::before {
+  top: 0;
+  height: 1px;
+  width: var(--fifth);
+}
+.zones--left li + li::before {
+  right: 0;
+}
+.zones--right li + li::before {
+  left: 0;
+}
+@media (max-width: 860px) {
+  .zones--left,
+  .zones--right,
+  .zones--bottom {
+    display: none;
+  }
+}
+
+/* ---------- Buttons (instruments) ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fifth);
+  height: calc(var(--fifth) * 3);
+  padding: 0 calc(var(--fifth) * 1.5);
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color var(--instrument) ease,
+    border-color var(--instrument) ease;
+}
+.btn:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+.theme-toggle__label {
+  color: var(--ink-2);
+}
+.theme-toggle:hover .theme-toggle__label {
+  color: inherit;
+}
+
+/* ---------- Title (cover) ---------- */
+.title__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fifth) var(--m);
+  min-height: var(--m);
+  border-bottom: 1px solid var(--rule);
+}
+.title__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fifth);
+  padding-block: var(--fifth);
+}
+
+.title__main {
+  display: grid;
+  grid-template-columns: 1fr calc(var(--m) * 5) calc(var(--m) * 7);
+  column-gap: var(--m);
+  padding-block: var(--m);
+}
+
+.wordmark {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: calc(var(--m) * 1.4);
+  line-height: calc(var(--m) * 1.4);
+  letter-spacing: -0.02em;
+}
+.title__lede {
+  margin-top: calc(var(--fifth) * 2);
+  max-width: calc(var(--m) * 8);
+  color: var(--ink-2);
+}
+
+/* Sheet index: reads like a drawing schedule. */
+.index {
+  margin: var(--m) 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: calc(var(--m) * 8);
+  border-top: 1px solid var(--ink);
+}
+.index a {
+  display: grid;
+  grid-template-columns: calc(var(--m) * 1.6) 1fr;
+  align-items: center;
+  min-height: calc(var(--m) * 0.6);
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+}
+.index a:hover,
+.index a:hover .label {
+  color: var(--red);
+}
+
+/* Avatar: ringed in ink, dashed compass ring a fifth out. */
+.avatar {
+  position: relative;
+  justify-self: center;
+  align-self: start;
+  margin-top: calc(var(--m) * 0.4);
+}
+.avatar__ring {
+  position: relative;
+  width: calc(var(--m) * 4);
+  height: calc(var(--m) * 4);
+}
+.avatar__ring::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--fifth) * -1);
+  border: 1px dashed var(--rule);
+  border-radius: 50%;
+}
+.avatar__face {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  overflow: hidden;
+}
+.avatar__img,
+.avatar__hatch {
+  grid-area: 1 / 1;
+}
+.avatar__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: calc(var(--fifth) * 2);
+}
+.avatar__img--b {
+  opacity: 0;
+}
+/* Pencil hatching that rides the edge of a shade-in (see pencil.ts). */
+.hatch {
+  display: none;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--ink-2) 0 1px,
+    transparent 1px var(--fifth)
+  );
+  pointer-events: none;
+}
+/* The two poses flip on a single held drawing as the cover scrolls away:
+   a pencil-test swap, not a crossfade. */
+@supports (animation-timeline: view()) {
+  .avatar__img--a {
+    animation: pose-a linear both;
+  }
+  .avatar__img--b {
+    animation: pose-b linear both;
+  }
+  .avatar__img--a,
+  .avatar__img--b {
+    animation-timeline: view();
+    animation-range: exit 10% exit 60%;
+  }
+}
+@keyframes pose-a {
+  0% {
+    opacity: 1;
+    animation-timing-function: steps(1, end);
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes pose-b {
+  0% {
+    opacity: 0;
+    animation-timing-function: steps(1, end);
+  }
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ---------- Spec plate ---------- */
+.plate {
+  position: relative;
+  border: 1px solid var(--ink);
+  background: var(--paper-on-sheet);
+  align-self: start;
+}
+.plate__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fifth);
+  min-height: var(--m);
+  padding: 0 calc(var(--fifth) * 2);
+  border-bottom: 1px solid var(--ink);
+}
+.plate__head .label:first-child {
+  color: var(--ink);
+}
+.spec__row {
+  display: grid;
+  grid-template-columns: calc(var(--m) * 2.4) 1fr;
+  align-items: center;
+  gap: var(--fifth);
+  min-height: calc(var(--m) * 0.6);
+  padding: calc(var(--fifth) * 0.5) calc(var(--fifth) * 2);
+}
+.spec__row + .spec__row {
+  border-top: 1px solid var(--rule);
+}
+.spec__row dd,
+.spec__row a {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1250px) {
+  .title__main {
+    grid-template-columns: 1fr calc(var(--m) * 7);
+    row-gap: var(--m);
+  }
+  .title__words {
+    grid-column: 1 / -1;
+  }
+  .index {
+    max-width: none;
+  }
+}
+@media (max-width: 860px) {
+  .title__main {
+    grid-template-columns: 1fr;
+    padding-block: calc(var(--m) * 0.6);
+  }
+  .avatar {
+    justify-self: start;
+    margin-left: var(--fifth);
+  }
+  .avatar__ring {
+    width: calc(var(--m) * 3);
+    height: calc(var(--m) * 3);
+  }
+}
+
+/* ---------- Blue-pencil notes (hand) ---------- */
+.note {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  gap: calc(var(--fifth) * 0.5);
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--blue);
+  white-space: nowrap;
+  transform: rotate(-1.5deg);
+  pointer-events: none;
+}
+.note__arrow {
+  width: calc(var(--m) * 1.4);
+  height: calc(var(--m) * 0.8);
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.note--avatar {
+  top: calc(var(--m) * -0.4);
+  left: calc(100% - var(--m) * 0.6);
+  flex-direction: row-reverse;
+  align-items: flex-start;
+}
+.note--avatar .note__arrow {
+  margin-top: calc(var(--fifth) * 2);
+}
+@media (max-width: 1250px) {
+  .note--avatar {
+    left: auto;
+    right: calc(100% - var(--m) * 0.4);
+    flex-direction: row;
+  }
+  .note--avatar .note__arrow {
+    transform: scaleX(-1);
+  }
+}
+@media (max-width: 860px) {
+  .note--avatar {
+    top: calc(var(--m) * 0.4);
+    left: calc(100% + var(--fifth));
+    right: auto;
+    flex-direction: row;
+  }
+  .note--avatar .note__arrow {
+    transform: none;
+  }
+}
+
+/* ---------- Sections (sheets) ---------- */
+.sec {
+  padding-block: calc(var(--m) * 0.6) var(--m);
+  scroll-margin-top: var(--m);
+}
+.sec__rule {
+  position: relative;
+  height: calc(var(--fifth) * 2);
+}
+.css-line {
+  /* the plain version of a hand line */
+}
+.sec__rule > .css-line {
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: var(--ink);
+}
+.sec__kicker {
+  margin-top: calc(var(--fifth) * 2);
+}
+.hand-title {
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: calc(var(--m) * 1);
+  line-height: calc(var(--m) * 1.2);
+  color: var(--ink);
+  transform: rotate(-0.6deg);
+  transform-origin: 0 50%;
+  filter: url(#pencil);
+  margin-bottom: calc(var(--m) * 0.6);
+}
+
+.sec__body {
+  display: grid;
+  grid-template-columns: calc(var(--m) * 12) calc(var(--m) * 8);
+  column-gap: var(--m);
+  align-items: start;
+}
+.sec--fig-left .sec__body {
+  grid-template-columns: calc(var(--m) * 8) calc(var(--m) * 12);
+}
+.sec--fig-left .fig {
+  order: -1;
+}
+@media (max-width: 1250px) {
+  .sec__body {
+    grid-template-columns: calc(var(--m) * 10) calc(var(--m) * 6);
+  }
+  .sec--fig-left .sec__body {
+    grid-template-columns: calc(var(--m) * 6) calc(var(--m) * 10);
+  }
+}
+@media (max-width: 1050px) {
+  .sec__body,
+  .sec--fig-left .sec__body {
+    grid-template-columns: 1fr;
+    row-gap: calc(var(--m) * 0.8);
+  }
+  .fig {
+    order: -1;
+    max-width: calc(var(--m) * 9);
+  }
+}
+
+/* Prose from the markdown content */
+.prose {
+  max-width: 62ch;
+}
+.prose p {
+  margin-bottom: calc(var(--fifth) * 2);
+}
+.prose strong {
+  font-weight: 700;
+}
+.prose .block-wrapper__figure {
+  margin: 0 0 calc(var(--fifth) * 3);
+  padding: calc(var(--fifth) * 1.5) calc(var(--fifth) * 2);
+  border-left: 2px solid var(--ink);
+}
+.prose .block-wrapper__figure blockquote p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.55;
+}
+.prose .block-wrapper__figure figcaption {
+  margin-top: var(--fifth);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.prose cite {
+  font-style: normal;
+}
+.prose a:hover {
+  color: var(--red);
+}
+
+/* ---------- Figure (plotted constellation) ---------- */
+.fig {
+  position: relative;
+}
+.fig__frame {
+  position: relative;
+  border: 1px solid var(--ink);
+  background: var(--paper-on-sheet);
+}
+.fig__corner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  padding: 0 var(--fifth);
+  line-height: calc(var(--fifth) * 2);
+  border-right: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  background: var(--paper);
+}
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--ink);
+  overflow: visible;
+}
+.chart__construction line {
+  stroke: var(--faint);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+}
+.chart__links polyline {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+.chart__stars circle {
+  fill: var(--ink);
+}
+.chart__stars .chart__ring {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 0.8;
+  stroke-dasharray: 2 2;
+}
+.chart__note rect {
+  fill: var(--paper);
+}
+.chart__note text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-anchor: middle;
+  fill: var(--ink-2);
+}
+
+/* Dimension line: ticks at both ends, value in a gap. */
+.dim {
+  display: flex;
+  align-items: center;
+  height: calc(var(--fifth) * 3);
+  color: var(--ink);
+}
+.dim__tick {
+  width: 1px;
+  height: calc(var(--fifth) * 1.5);
+  background: currentColor;
+}
+.dim__line {
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+}
+.dim__value {
+  padding: 0 var(--fifth);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.fig figcaption {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.fig figcaption .label {
+  color: var(--ink);
+  margin-right: calc(var(--fifth) * 0.5);
+}
+
+/* Blue-pencil note inside the chart, in chart units so its arrow always
+   lands on the star it points at. */
+.chart__pencil {
+  color: var(--blue);
+}
+.chart__pencil text {
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 19px;
+  fill: currentColor;
+}
+.chart__pencil path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+/* ---------- Contact plate (hand edge, gone over twice) ---------- */
+.contact {
+  margin-top: calc(var(--m) * 0.8);
+  max-width: calc(var(--m) * 9);
+}
+.contact a {
+  color: var(--ink);
+}
+.contact a:hover {
+  color: var(--red);
+}
+
+/* ---------- Title block ---------- */
+.titleblock {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  margin: 0 calc(var(--pad) * -1);
+  border-top: 2px solid var(--ink);
+}
+.tb {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(var(--fifth) * 0.5);
+  min-height: calc(var(--m) * 1.2);
+  padding: 0 calc(var(--fifth) * 2);
+}
+.tb + .tb {
+  border-left: 1px solid var(--ink);
+}
+.tb__value {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+@media (max-width: 860px) {
+  .titleblock {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .tb--name {
+    grid-column: 1 / -1;
+  }
+  .tb--name + .tb {
+    border-left: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .tb--name ~ .tb {
+    border-top: 1px solid var(--ink);
+  }
+}
+
+/* ---------- Hand layer ----------
+   `.hand` is set before first paint when the drawing layer is expected:
+   the CSS lines step aside so the pencil can draw them on. If the layer
+   never reports in, the class is removed and they come back. */
+.hand .css-line {
+  visibility: hidden;
+}
+.hand [data-rough="rect"] {
+  border-color: transparent;
+}
+/* A figure's inside is shaded in after its box is drawn. */
+.hand .fig__frame .chart {
+  clip-path: polygon(0% 0%, 0% 0%, 0% 0%);
+}
+.fig__hatch {
+  position: absolute;
+  inset: 0;
+}
+/* A figure's note is written in after its inside is shaded. */
+.hand .chart__pencil text {
+  clip-path: inset(-20% 100% -20% -5%);
+}
+.rough-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  color: var(--ink);
+}
+.note .rough-layer,
+.note__arrow .rough-layer {
+  color: inherit;
+}
+.rough-layer path {
+  stroke: currentColor;
+}
