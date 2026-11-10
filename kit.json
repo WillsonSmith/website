@@ -1,0 +1,5 @@
+{
+  "kit": "modfox/modfox-kit",
+  "version": "0.2.0",
+  "owns": ["brand/", ".claude/skills/modfox-brand/"]
+}
