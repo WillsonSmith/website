@@ -15,6 +15,14 @@
 //   viewport). One already scrolled past is put down finished.
 // - Strokes reveal in held drawings at 12 a second, one drawing per ~120px,
 //   2–12 drawings; with a backlog they hurry (1 + 0.5 per group waiting).
+//   A stroke whose drawings would each jump more than ~120px goes on ones
+//   (twice the steps, same duration), so long sides don't leap.
+// - A box goes round one side at a time (modfox-kit's rough.ts). Rough.js
+//   draws a box as one path of separate strokes, one per side (two with
+//   "gone over twice"), and a dash animation restarts at each stroke, so
+//   drawn on as one path every side grew at once. splitStrokes splits it;
+//   each side starts on the last drawing of the one before, and a second
+//   pass follows its side two drawings behind.
 // - A figure's inside is shaded in (8 drawings) starting halfway round its
 //   box; its note is written and its arrow drawn alongside the shading
 //   (`data-after` names the figure a note belongs to).
@@ -31,6 +39,8 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 const PX_PER_DRAWING = 120;
 const MIN_DRAWINGS = 2;
 const MAX_DRAWINGS = 12;
+/** How many drawings a box's second pass over a side starts after its first. */
+const FOLLOW_DRAWINGS = 2;
 /** How much quicker each group waiting behind this one makes it draw. */
 const HURRY_PER_WAITING = 0.5;
 /** How far through a group the pencil moves on to the next one. */
@@ -90,6 +100,28 @@ function overlay(el: HTMLElement): SVGSVGElement {
   return svg;
 }
 
+/**
+ * Split each path in `g` into one path per stroke (each starts with its own
+ * `M`), tagged with its side (`data-side`) and pass (`data-pass`), so a box
+ * can be drawn round one side at a time instead of every side at once.
+ *
+ * @param passes - Strokes per side: 2 for Rough.js multi-stroke, else 1.
+ */
+function splitStrokes(g: Element, passes: 1 | 2): void {
+  for (const path of [...g.querySelectorAll("path")]) {
+    const strokes = (path.getAttribute("d") ?? "").split(/(?=M)/).filter((d) => d.trim());
+    if (strokes.length < 2) continue;
+    strokes.forEach((d, i) => {
+      const stroke = path.cloneNode() as SVGPathElement; // keeps its stroke settings
+      stroke.setAttribute("d", d);
+      stroke.dataset.side = String(Math.floor(i / passes));
+      stroke.dataset.pass = String((i % passes) + 1);
+      path.before(stroke);
+    });
+    path.remove();
+  }
+}
+
 function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
   const kind = el.dataset.rough;
   const seed = seedOf(el.dataset.seed ?? kind ?? "x");
@@ -127,7 +159,10 @@ function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
       svg.style.inset = "-1px";
       svg.style.width = `${w}px`;
       svg.style.height = `${h}px`;
-      svg.appendChild(rc.rectangle(0.5, 0.5, w - 1, h - 1, opts(level, { strokeWidth: 1.1 })));
+      const box = rc.rectangle(0.5, 0.5, w - 1, h - 1, opts(level, { strokeWidth: 1.1 }));
+      // Round one side at a time; "straightedge" boxes have one pass, the others two.
+      splitStrokes(box, LEVELS[level]?.disableMultiStroke ? 1 : 2);
+      svg.appendChild(box);
       return [...svg.querySelectorAll("path")];
     };
   } else if (kind === "arrow" && el instanceof SVGGraphicsElement) {
@@ -243,23 +278,37 @@ function drawOn(item: Item, delay: number, hurry: number): { end: number; shadeA
   }
 
   let firstHalf = start;
+  /** When the side being drawn started: its second pass follows from there. */
+  let sideStart = start;
   item.paths.forEach((path, i) => {
     const len = path.getTotalLength();
     const drawings = Math.min(MAX_DRAWINGS, Math.max(MIN_DRAWINGS, Math.round(len / PX_PER_DRAWING / hurry)));
     const duration = drawings * FRAME_MS;
+    // Big moves go on ones: twice the held steps over the same duration.
+    const steps = len / drawings > PX_PER_DRAWING ? drawings * 2 : drawings;
+    const side = path.dataset.side;
+    const second = path.dataset.pass === "2";
+    const at = second ? sideStart + FOLLOW_DRAWINGS * FRAME_MS : start;
     path
       .animate(
-        held(drawings, (t) => ({ strokeDashoffset: `${len * (1 - t)}` })),
-        { duration, delay: start, fill: "forwards" },
+        held(steps, (t) => ({ strokeDashoffset: `${len * (1 - t)}` })),
+        { duration, delay: at, fill: "forwards" },
       )
       .finished.then(() => {
         // settle: drop the dash so a later resize/redraw isn't clipped
         path.style.strokeDasharray = "";
         path.style.strokeDashoffset = "";
       });
-    if (i === 0) firstHalf = start + duration / 2;
-    end = Math.max(end, start + duration);
-    start += Math.max(FRAME_MS, duration / 2);
+    end = Math.max(end, at + duration);
+    if (second) return; // follows its side; doesn't move the pencil on
+    sideStart = at;
+    if (side === undefined) {
+      if (i === 0) firstHalf = at + duration / 2;
+      start += Math.max(FRAME_MS, duration / 2); // the next stroke halfway through this one
+    } else {
+      if (side === "2") firstHalf = at; // halfway round the box: its third side starts
+      start += Math.max(1, drawings - 1) * FRAME_MS; // round the box: on the last drawing
+    }
   });
 
   let shadeAt = end;
