@@ -8,7 +8,7 @@
 // Timing follows modfox.ca (site/src/sheet/pen.ts, rough.ts, shade.ts):
 //
 // - One pencil, a whole group at a time. A group is the cover or one sheet:
-//   everything in it (rule, figure box, plate edge, notes) starts at once,
+//   everything in it (rule, figure box, plate edge) starts at once,
 //   as one gesture. The next group starts when this one is two-thirds done,
 //   and nothing waits more than 5s.
 // - A group starts the first time it's well into view (above 88% of the
@@ -24,8 +24,11 @@
 //   each side starts on the last drawing of the one before, and a second
 //   pass follows its side two drawings behind.
 // - A figure's inside is shaded in (8 drawings) starting halfway round its
-//   box; its note is written and its arrow drawn alongside the shading
-//   (`data-after` names the figure a note belongs to).
+//   box.
+// - The sheet's edge is sketched like a plate's ("gone over twice"), but
+//   it isn't drawn on: it's the paper the drawing is made on, so it's there
+//   as soon as Rough.js loads. Its bowing is scaled down by its length, since
+//   Rough.js bows a side in proportion to how long it is (modfox-kit 0.3.0).
 
 type Rough = typeof import("roughjs").default;
 type RoughSVG = ReturnType<Rough["svg"]>;
@@ -52,11 +55,12 @@ const IN_VIEW = 0.88;
 /** Held drawings to shade in a figure, and the avatar. */
 const FIGURE_DRAWINGS = 8;
 const AVATAR_DRAWINGS = 5;
+/** The side length, in px, whose bowing the sheet's longest side keeps (about a plate's). */
+const SHEET_BOW_REF_PX = 600;
 
 const LEVELS: Record<string, Options> = {
   straightedge: { roughness: 0.55, bowing: 0.6, disableMultiStroke: true, preserveVertices: true },
   twice: { roughness: 1.2, bowing: 1.2, disableMultiStroke: false, preserveVertices: true },
-  sketch: { roughness: 0.9, bowing: 0.8, preserveVertices: true },
 };
 
 /** A stable seed per element, so a redraw keeps the same wobble. */
@@ -69,15 +73,11 @@ function seedOf(key: string): number {
   return (Math.abs(h) % 2147483646) + 1;
 }
 
-/** One hand-drawn thing: a rule, a box, an arrow and its note. */
+/** One hand-drawn thing: a rule, a box, the sheet's edge. */
 type Item = {
-  el: HTMLElement | SVGElement;
-  /** handwriting written in before the strokes (a note's words) */
-  text: SVGTextElement | null;
+  el: HTMLElement;
   /** what's shaded in once the strokes are underway (a figure's inside) */
   inside: { target: Element; hatch: HTMLElement } | null;
-  /** id of the item whose shading this one draws alongside */
-  after: string | null;
   drawn: boolean;
   /** (re)builds the rough paths; returns them */
   build: () => SVGPathElement[];
@@ -122,7 +122,7 @@ function splitStrokes(g: Element, passes: 1 | 2): void {
   }
 }
 
-function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
+function makeItem(el: HTMLElement, rough: Rough): Item | null {
   const kind = el.dataset.rough;
   const seed = seedOf(el.dataset.seed ?? kind ?? "x");
   const opts = (level: string, extra: Options = {}) => ({
@@ -133,10 +133,9 @@ function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
   });
 
   let build: () => SVGPathElement[];
-  let text: SVGTextElement | null = null;
   let inside: Item["inside"] = null;
 
-  if (kind === "rule" && el instanceof HTMLElement) {
+  if (kind === "rule") {
     build = () => {
       const svg = overlay(el);
       const rc: RoughSVG = rough.svg(svg);
@@ -145,7 +144,7 @@ function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
       svg.appendChild(rc.line(0, y, w, y, opts("straightedge", { strokeWidth: 1.2 })));
       return [...svg.querySelectorAll("path")];
     };
-  } else if (kind === "rect" && el instanceof HTMLElement) {
+  } else if (kind === "rect") {
     // A box edge, drawn over the element's (now transparent) 1px border.
     const level = el.dataset.level ?? "twice";
     const target = el.querySelector(".chart");
@@ -165,26 +164,26 @@ function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
       svg.appendChild(box);
       return [...svg.querySelectorAll("path")];
     };
-  } else if (kind === "arrow" && el instanceof SVGGraphicsElement) {
-    // An <svg> of its own, or a <g> inside a chart (drawn in its units).
-    const host = el instanceof SVGSVGElement ? el : el.ownerSVGElement!;
-    text = el.closest(".chart__pencil")?.querySelector("text") ?? null;
+  } else if (kind === "sheet") {
+    // The sheet's edge, over its (soon transparent) border box.
     build = () => {
-      el.querySelectorAll(":scope > g.rough-arrow").forEach((g) => g.remove());
-      const g = document.createElementNS(SVG_NS, "g");
-      g.classList.add("rough-arrow");
-      const rc: RoughSVG = rough.svg(host);
-      el.querySelectorAll<SVGPathElement>(".css-line").forEach((p, i) => {
-        g.appendChild(rc.path(p.getAttribute("d")!, opts("sketch", { seed: seed + i, strokeWidth: 1.4 })));
-      });
-      el.appendChild(g);
-      return [...g.querySelectorAll("path")];
+      const svg = overlay(el);
+      const rc: RoughSVG = rough.svg(svg);
+      const w = el.offsetWidth;
+      const h = el.offsetHeight;
+      const border = el.clientLeft;
+      svg.style.inset = `${-border}px`;
+      svg.style.width = `${w}px`;
+      svg.style.height = `${h}px`;
+      const bowing = (LEVELS.twice.bowing as number) * Math.min(1, SHEET_BOW_REF_PX / Math.max(w, h));
+      svg.appendChild(rc.rectangle(0.5, 0.5, w - 1, h - 1, opts("twice", { bowing, strokeWidth: 1.1 })));
+      return [...svg.querySelectorAll("path")];
     };
   } else {
     return null;
   }
 
-  return { el, text, inside, after: el.dataset.after ?? null, drawn: false, build, paths: [] };
+  return { el, inside, drawn: false, build, paths: [] };
 }
 
 /** Hide a stroke fully, ready to be drawn on. */
@@ -245,37 +244,14 @@ function shade(
 }
 
 /**
- * Draw one item on, starting after `delay`: its words written in (left to
- * right), then its strokes, each starting halfway through the one before
- * so the item reads as one gesture. A figure's inside starts shading
- * halfway round its box.
- *
- * Returns when it ends and, for a figure, when its shading starts (for the
- * note that draws alongside), both in ms from now.
+ * Draw one item on now: its strokes, each starting halfway through the one
+ * before so the item reads as one gesture. A figure's inside starts
+ * shading halfway round its box. Returns when it ends, in ms from now.
  */
-function drawOn(item: Item, delay: number, hurry: number): { end: number; shadeAt: number } {
+function drawOn(item: Item, hurry: number): number {
   item.drawn = true;
-  let start = delay;
-  let end = delay;
-
-  if (item.text) {
-    const words = item.text;
-    const chars = words.textContent?.length ?? 8;
-    const drawings = Math.max(MIN_DRAWINGS, Math.min(8, Math.round(chars / 3 / hurry)));
-    const duration = drawings * FRAME_MS;
-    words
-      .animate(
-        held(drawings, (t) => ({ clipPath: `inset(-20% ${(1 - t) * 100}% -20% -5%)` })),
-        { duration, delay: start, fill: "forwards" },
-      )
-      .finished.then((a) => {
-        words.style.clipPath = "none";
-        a.cancel();
-      });
-    // the arrow follows the words halfway through
-    start += duration / 2;
-    end = start + duration / 2;
-  }
+  let start = 0;
+  let end = 0;
 
   let firstHalf = start;
   /** When the side being drawn started: its second pass follows from there. */
@@ -311,14 +287,12 @@ function drawOn(item: Item, delay: number, hurry: number): { end: number; shadeA
     }
   });
 
-  let shadeAt = end;
   if (item.inside) {
-    shadeAt = firstHalf;
     const drawings = Math.max(4, Math.round(FIGURE_DRAWINGS / hurry));
     // a narrower band than the avatar's: a figure is wide, and the band scales with it
-    end = Math.max(end, shade(item.inside.target, item.inside.hatch, { delay: shadeAt, drawings, hidden: true, band: 0.12 }));
+    end = Math.max(end, shade(item.inside.target, item.inside.hatch, { delay: firstHalf, drawings, hidden: true, band: 0.12 }));
   }
-  return { end, shadeAt };
+  return end;
 }
 
 /** Put an item down at once, finished. */
@@ -328,26 +302,12 @@ function settleItem(item: Item) {
     p.style.strokeDasharray = "";
     p.style.strokeDashoffset = "";
   });
-  if (item.text) item.text.style.clipPath = "none";
   if (item.inside) (item.inside.target as HTMLElement).style.clipPath = "none";
 }
 
-/**
- * Draw a whole group now: every item starts at once, except notes, which
- * start with their figure's shading. Returns how long it takes, in ms.
- */
+/** Draw a whole group now, every item at once. Returns how long it takes, in ms. */
 function drawGroup(group: Group, hurry: number): number {
-  const shadeAt = new Map<string, number>();
-  let end = 0;
-  for (const item of group.items.filter((i) => !i.after)) {
-    const r = drawOn(item, 0, hurry);
-    if (item.el.id) shadeAt.set(item.el.id, r.shadeAt);
-    end = Math.max(end, r.end);
-  }
-  for (const item of group.items.filter((i) => i.after)) {
-    end = Math.max(end, drawOn(item, shadeAt.get(item.after!) ?? 0, hurry).end);
-  }
-  return end;
+  return Math.max(0, ...group.items.map((item) => drawOn(item, hurry)));
 }
 
 async function start() {
@@ -361,13 +321,15 @@ async function start() {
     return;
   }
 
-  const items = [...document.querySelectorAll<HTMLElement | SVGElement>("[data-rough]")]
+  const items = [...document.querySelectorAll<HTMLElement>("[data-rough]")]
     .map((el) => makeItem(el, rough))
     .filter((i): i is Item => i !== null);
 
-  // Group by sheet (or the cover); anything outside one stands alone.
+  // Group by sheet (or the cover); anything outside one stands alone. The
+  // sheet's edge is no group's: it's put down at once, finished.
   const groups = new Map<Element, Group>();
   for (const item of items) {
+    if (item.el.dataset.rough === "sheet") continue;
     const el = item.el.closest(".sec, .title") ?? item.el;
     const group: Group = groups.get(el) ?? { el, items: [], queued: false, since: 0 };
     group.items.push(item);
@@ -376,7 +338,8 @@ async function start() {
 
   for (const item of items) {
     item.paths = item.build();
-    item.paths.forEach(blank);
+    if (item.el.dataset.rough === "sheet") settleItem(item);
+    else item.paths.forEach(blank);
   }
   root.classList.add("hand-ready");
 
@@ -456,7 +419,7 @@ async function start() {
     }
   });
   items
-    .filter((i) => i.el.dataset.rough === "rule" || i.el.dataset.rough === "rect")
+    .filter((i) => ["rule", "rect", "sheet"].includes(i.el.dataset.rough ?? ""))
     .forEach((i) => ro.observe(i.el));
 }
 

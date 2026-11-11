@@ -2,8 +2,7 @@
 // write them to public/fonts/ (loaded by src/styles/fonts.css).
 //
 // - Caveat (handwriting) is only ever short, fixed strings: the sheet
-//   titles (content frontmatter) and the notes (src/data/figures.ts). It's
-//   cut to exactly those characters.
+//   titles (content frontmatter). It's cut to exactly those characters.
 // - B612 and B612 Mono set prose that comes from the markdown, so they keep
 //   all of printable ASCII, the punctuation Astro's smartypants turns quotes
 //   and dashes into, and any other character in the content, templates and
@@ -21,7 +20,6 @@
 import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
 import { join, extname } from "node:path";
 import subsetFont from "subset-font";
-import { avatarNote, chapters } from "../src/data/figures.ts";
 
 const ROOT = new URL("..", import.meta.url).pathname;
 const FONTSOURCE = join(ROOT, "node_modules/@fontsource");
@@ -54,7 +52,7 @@ const unique = (text: string) => [...new Set(text)].sort().join("");
 
 // ---- Caveat: exactly what's handwritten ----
 const hand = unique(
-  [...(await titles()), avatarNote, ...Object.values(chapters).map((c) => c.note.text)].join(""),
+  (await titles()).join(""),
 );
 
 // ---- B612 / B612 Mono: ASCII, smart punctuation, and whatever src/ uses ----

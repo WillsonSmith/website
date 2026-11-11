@@ -13,7 +13,7 @@ roles, never raw colours, so a page re-skins by swapping one file.
 | Role          | Token                | What it is                                                                                |
 | ------------- | -------------------- | ----------------------------------------------------------------------------------------- |
 | Page          | `--paper`            | The background: the drafting table under the grid (Sheet), or the flat page (Product)     |
-| Sheet         | `--sheet`            | The translucent paper content sits on, over the grid. About 85% of `--paper`              |
+| Sheet         | `--sheet`            | The solid paper content sits on, covering the grid. Usually `--paper`                     |
 | Surface       | `--surface`          | A solid face: panels, dialogs, cards, anything covering what's beneath                    |
 | Ink           | `--ink`              | Lines and body text                                                                       |
 | Secondary ink | `--ink-2`            | Labels and secondary text                                                                 |
@@ -44,7 +44,7 @@ lines on deep blue. Never grey-on-black.
 | `--grid` / `--grid-2` | ink at 7% / 14%         | ink at 6% / 13%         |
 | `--accent`            | `#b83a2e` (red pencil)  | `#ff8a75`               |
 | `--note`              | `#2f5d8a` (blue pencil) | `#9fd0ff`               |
-| `--sheet`             | paper at 85%            | paper at 85%            |
+| `--sheet`             | `--paper`               | `--paper`               |
 | `--surface`           | `--paper`               | `--paper`               |
 
 `--red` and `--blue` remain as names for the two pencils in this skin.

@@ -5,6 +5,11 @@ ruled lines, labels in small mono capitals, measurements, and notes in pencil,
 with a bit of humour in the margins. It should feel exact, unhurried and
 handmade together, like an engineer's drawing someone has annotated with care.
 
+The drafting table is the **inspiration, not a template**: a motif, a nod to
+one, never a literal copy. Borrow what makes a page calmer and clearer (the
+module, the labels, the pencil); leave out what only imitates a drawing (zone
+numbers, datums, made-up measurements), which reads as noise.
+
 The brand is in two parts:
 
 - **The core** is the voice, and every modfox app has it: the type, the mono
@@ -56,8 +61,8 @@ type, labels and handwriting alone.
 ## Layout: the grid is the table, you read on the paper
 
 The grid is the drafting table. It sits behind the page; content sits on a
-sheet of translucent paper laid on top, so the grid shows around it and only
-faintly through it. **Body text never sits on the full-strength grid.** See
+sheet of solid paper laid on top, so the grid shows only around it, and the
+sheet's edge is sketched in pencil. **Body text never sits on the grid.** See
 [layout.md](layout.md) for the field, the sheet, the optional frame, and the
 Product level's flat background with grain.
 
@@ -146,8 +151,10 @@ beside a "Turn on sound" button invites one. See [sound.md](sound.md).
 - Make the focus ring 2px in the note colour, offset 3px.
 - Never put something _only_ in a hover surface: touch has no hover.
 - Treat fetched extras (live status, counts) as enhancements.
-- Use drafting language where it fits: "Sheet 2 of 3", "Rev. B", "Ø 2.4 mod
-  typ.", "Datum A", "Not to scale", "TBD". Wry, never cute.
+- Use drafting language lightly, where it tells the reader something true:
+  "Sheet 2 of 3", "TBD", "In progress". Not notes that only imitate a drawing
+  ("Datum A", "Ø 2.4 mod typ.", sheet subtitles), which read as noise and
+  confuse. Wry, never cute.
 
 ## The rest
 

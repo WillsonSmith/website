@@ -1,13 +1,13 @@
 /*
  * willsonsmith.com as a modfox Sheet.
- * Brand level: SHEET (personal site). Visible grid, ruled sheet border with
- * zone references, "Sheet n of N" sections, pencil rules drawn on, Caveat
- * titles under the pencil-grain filter.
+ * Brand level: SHEET (personal site). Visible grid, a solid sheet with a
+ * pencil-sketched edge, "Sheet n of N" sections, pencil rules drawn on,
+ * Caveat titles under the pencil-grain filter.
  *
- * Instrument (plain CSS): sheet border, grid, buttons, spec plates,
- *   plotted stars and constellation lines, dimension lines, title block.
- * Hand (Rough.js, see scripts/pencil.ts): section rules, figure boxes,
- *   blue-pencil notes and arrows, the contact plate's edge. Each has a
+ * Instrument (plain CSS): grid, buttons, spec plates,
+ *   plotted stars and constellation lines, dimension lines.
+ * Hand (Rough.js, see scripts/pencil.ts): the sheet's edge, section rules,
+ *   figure boxes, the contact plate's edge. Each has a
  *   `.css-line` version underneath that shows without script / under
  *   reduced motion / if the drawing layer fails.
  */
@@ -96,10 +96,8 @@ body.grid-paper {
   width: calc(var(--m) * var(--cols));
   margin: calc(var(--m) * 2) auto;
   padding: 0 var(--pad);
-  border: 2px solid var(--ink);
-  outline: 1px solid var(--ink);
-  outline-offset: 6px;
-  background: var(--paper-on-sheet);
+  border: 1px solid var(--ink); /* until the pencil edge is down */
+  background: var(--paper); /* solid: the grid shows round the sheet, not through it */
 }
 @media (max-width: 1250px) {
   .sheet {
@@ -119,85 +117,6 @@ body.grid-paper {
   }
 }
 
-/* Zone references in the margin outside the double rule. */
-.zones {
-  position: absolute;
-  display: flex;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--ink-2);
-  pointer-events: none;
-}
-.zones li {
-  flex: 1;
-  display: grid;
-  place-items: center;
-  position: relative;
-}
-.zones li + li::before {
-  content: "";
-  position: absolute;
-  background: var(--ink);
-}
-.zones--top,
-.zones--bottom {
-  left: 0;
-  right: 0;
-  height: calc(var(--fifth) * 3);
-}
-.zones--top {
-  bottom: calc(100% + 7px);
-}
-.zones--bottom {
-  top: calc(100% + 7px);
-}
-.zones--top li + li::before,
-.zones--bottom li + li::before {
-  left: 0;
-  width: 1px;
-  height: var(--fifth);
-}
-.zones--top li + li::before {
-  bottom: 0;
-}
-.zones--bottom li + li::before {
-  top: 0;
-}
-.zones--left,
-.zones--right {
-  top: 0;
-  bottom: 0;
-  width: calc(var(--fifth) * 3);
-  flex-direction: column;
-}
-.zones--left {
-  right: calc(100% + 7px);
-}
-.zones--right {
-  left: calc(100% + 7px);
-}
-.zones--left li + li::before,
-.zones--right li + li::before {
-  top: 0;
-  height: 1px;
-  width: var(--fifth);
-}
-.zones--left li + li::before {
-  right: 0;
-}
-.zones--right li + li::before {
-  left: 0;
-}
-@media (max-width: 860px) {
-  .zones--left,
-  .zones--right,
-  .zones--bottom {
-    display: none;
-  }
-}
 
 /* ---------- Buttons (instruments) ---------- */
 .btn {
@@ -441,61 +360,6 @@ body.grid-paper {
   }
 }
 
-/* ---------- Blue-pencil notes (hand) ---------- */
-.note {
-  position: absolute;
-  display: flex;
-  align-items: flex-end;
-  gap: calc(var(--fifth) * 0.5);
-  font-family: var(--font-hand);
-  font-weight: 500;
-  font-size: 22px;
-  line-height: 1;
-  color: var(--blue);
-  white-space: nowrap;
-  transform: rotate(-1.5deg);
-  pointer-events: none;
-}
-.note__arrow {
-  width: calc(var(--m) * 1.4);
-  height: calc(var(--m) * 0.8);
-  overflow: visible;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
-  stroke-linecap: round;
-}
-.note--avatar {
-  top: calc(var(--m) * -0.4);
-  left: calc(100% - var(--m) * 0.6);
-  flex-direction: row-reverse;
-  align-items: flex-start;
-}
-.note--avatar .note__arrow {
-  margin-top: calc(var(--fifth) * 2);
-}
-@media (max-width: 1250px) {
-  .note--avatar {
-    left: auto;
-    right: calc(100% - var(--m) * 0.4);
-    flex-direction: row;
-  }
-  .note--avatar .note__arrow {
-    transform: scaleX(-1);
-  }
-}
-@media (max-width: 860px) {
-  .note--avatar {
-    top: calc(var(--m) * 0.4);
-    left: calc(100% + var(--fifth));
-    right: auto;
-    flex-direction: row;
-  }
-  .note--avatar .note__arrow {
-    transform: none;
-  }
-}
-
 /* ---------- Sections (sheets) ---------- */
 .sec {
   padding-block: calc(var(--m) * 0.6) var(--m);
@@ -686,24 +550,6 @@ body.grid-paper {
   margin-right: calc(var(--fifth) * 0.5);
 }
 
-/* Blue-pencil note inside the chart, in chart units so its arrow always
-   lands on the star it points at. */
-.chart__pencil {
-  color: var(--blue);
-}
-.chart__pencil text {
-  font-family: var(--font-hand);
-  font-weight: 500;
-  font-size: 19px;
-  fill: currentColor;
-}
-.chart__pencil path {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
-  stroke-linecap: round;
-}
-
 /* ---------- Contact plate (hand edge, gone over twice) ---------- */
 .contact {
   margin-top: calc(var(--m) * 0.8);
@@ -716,44 +562,6 @@ body.grid-paper {
   color: var(--red);
 }
 
-/* ---------- Title block ---------- */
-.titleblock {
-  display: grid;
-  grid-template-columns: 2fr repeat(3, 1fr);
-  margin: 0 calc(var(--pad) * -1);
-  border-top: 2px solid var(--ink);
-}
-.tb {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: calc(var(--fifth) * 0.5);
-  min-height: calc(var(--m) * 1.2);
-  padding: 0 calc(var(--fifth) * 2);
-}
-.tb + .tb {
-  border-left: 1px solid var(--ink);
-}
-.tb__value {
-  font-family: var(--font-mono);
-  font-size: 12px;
-}
-@media (max-width: 860px) {
-  .titleblock {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .tb--name {
-    grid-column: 1 / -1;
-  }
-  .tb--name + .tb {
-    border-left: 0;
-    border-top: 1px solid var(--ink);
-  }
-  .tb--name ~ .tb {
-    border-top: 1px solid var(--ink);
-  }
-}
-
 /* ---------- Hand layer ----------
    `.hand` is set before first paint when the drawing layer is expected:
    the CSS lines step aside so the pencil can draw them on. If the layer
@@ -764,6 +572,11 @@ body.grid-paper {
 .hand [data-rough="rect"] {
   border-color: transparent;
 }
+/* The sheet's edge isn't drawn on (it's the paper), so its border stays
+   until the pencil edge is actually down. */
+.hand-ready [data-rough="sheet"] {
+  border-color: transparent;
+}
 /* A figure's inside is shaded in after its box is drawn. */
 .hand .fig__frame .chart {
   clip-path: polygon(0% 0%, 0% 0%, 0% 0%);
@@ -771,10 +584,6 @@ body.grid-paper {
 .fig__hatch {
   position: absolute;
   inset: 0;
-}
-/* A figure's note is written in after its inside is shaded. */
-.hand .chart__pencil text {
-  clip-path: inset(-20% 100% -20% -5%);
 }
 .rough-layer {
   position: absolute;
@@ -784,10 +593,6 @@ body.grid-paper {
   overflow: visible;
   pointer-events: none;
   color: var(--ink);
-}
-.note .rough-layer,
-.note__arrow .rough-layer {
-  color: inherit;
 }
 .rough-layer path {
   stroke: currentColor;
