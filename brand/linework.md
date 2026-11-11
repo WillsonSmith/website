@@ -7,8 +7,9 @@ hand, ask the instrument-or-hand question in [README.md](README.md) first.
 
 These are plain CSS borders and outlines, 1–2px, in `--ink`, `--rule` or
 `--faint`. Dashed for anything provisional or construction-like (a compass ring,
-an outline of something not there yet). A framed page or sheet gets a 2px border
-plus a 1px outline offset 6px: the double rule of a drawing border.
+an outline of something not there yet). A framed sheet gets a 2px border plus a
+1px outline offset 6px: the double rule of a drawing border. (A plain sheet's
+edge is a hand line: see below.)
 
 ## Hand lines (Rough.js)
 
@@ -34,13 +35,20 @@ Three levels, from careful to quick. Reuse one before inventing another:
 | Level           | Settings                                                              | For                                                                             |
 | --------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | Straightedge    | `roughness: 0.55, bowing: 0.6, disableMultiStroke: true`              | Rules, dimension lines, frames, placeholders                                    |
-| Gone over twice | `roughness: 1.2, bowing: 1.2, disableMultiStroke: false`              | Edges of plates, anything meant to look worked over                             |
+| Gone over twice | `roughness: 1.2, bowing: 1.2, disableMultiStroke: false`              | Edges of plates and the sheet, anything meant to look worked over               |
 | Quick sketch    | `roughness: 0.9, bowing: 0.8`, multi-stroke, `preserveVertices: true` | Transient surfaces (pop-out cards), boxed buttons' rounded boxes, illustrations |
+
+**Long lines bow less.** Rough.js bows a line in proportion to its length, so
+an edge many times a plate's size (the sheet's, a page tall) would swing tens of
+px at the plate's bowing. Scale `bowing` down by the longest side so it bows
+about as much as a ~600px side does (`rough.ts` does this for the sheet).
 
 ## Drawing lines on
 
 At Sheet level (and Drafted, if it suits), a hand line starts blank and is drawn
-on the first time it's well into view.
+on the first time it's well into view. The exception is the **sheet's edge**:
+it's there from the start (see layout.md), and only its CSS border shows until
+the pencil layer loads.
 
 - Reveal each stroke in **held chunks on the 12fps beat**, one drawing per
   ~120px of travel, 2–12 drawings. Animate the stroke dash and step it. Don't

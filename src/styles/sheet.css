@@ -99,7 +99,7 @@ body.grid-paper {
   border: 2px solid var(--ink);
   outline: 1px solid var(--ink);
   outline-offset: 6px;
-  background: var(--paper-on-sheet);
+  background: var(--paper); /* solid: the grid shows round the sheet, not through it */
 }
 @media (max-width: 1250px) {
   .sheet {

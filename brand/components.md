@@ -13,7 +13,7 @@ At Sheet level, number the sections and keep "of N" right.
 **Spec plate.** The drafting card. It arrives outline first: its edge goes
 round, then it's lettered in a row per drawing (see Outline, then contents, in
 motion.md). It has a ruled edge (gone over twice if
-hand-drawn, a 1px `--ink` border if not), an 80% paper face
+hand-drawn, a 1px `--ink` border if not), a paper face
 (`--sheet`) when it sits on the sheet or a solid face (`--surface`) in a dialog, a
 header row at least one module tall, an optional short description in
 `--ink-2`, then `dt`/`dd` rows: a `.label` column about 2.4 modules wide, mono
@@ -34,9 +34,10 @@ a hand-drawn arrow pointing at what to do. This is the best place to spend a
 Quiet app's one hand-drawn accent.
 
 **Note on the drawing.** A short label (`.label` or handwriting) on a solid
-`--surface` patch so lines don't run through it. The wording uses drafting terms:
-"Datum A", "Ø 2.4 mod typ.", "Not to scale", "See sheet 3". Decorative notes are
-`aria-hidden`.
+`--surface` patch so lines don't run through it. Use one only when it tells the
+reader something true and useful ("See sheet 3", "TBD"); a note that only
+imitates a drawing ("Datum A", "Ø 2.4 mod typ.") is noise. Decorative notes
+are `aria-hidden`.
 
 **Pop-out card.** For detail about something on the page: a speech bubble
 sketched in pencil ("quick sketch" roughness) with its tail touching the thing
