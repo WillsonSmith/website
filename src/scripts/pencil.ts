@@ -26,6 +26,10 @@
 // - A figure's inside is shaded in (8 drawings) starting halfway round its
 //   box; its note is written and its arrow drawn alongside the shading
 //   (`data-after` names the figure a note belongs to).
+// - The sheet's edge is sketched like a plate's ("gone over twice"), but
+//   it isn't drawn on: it's the paper the drawing is made on, so it's there
+//   as soon as Rough.js loads. Its bowing is scaled down by its length, since
+//   Rough.js bows a side in proportion to how long it is (modfox-kit 0.3.0).
 
 type Rough = typeof import("roughjs").default;
 type RoughSVG = ReturnType<Rough["svg"]>;
@@ -52,6 +56,8 @@ const IN_VIEW = 0.88;
 /** Held drawings to shade in a figure, and the avatar. */
 const FIGURE_DRAWINGS = 8;
 const AVATAR_DRAWINGS = 5;
+/** The side length, in px, whose bowing the sheet's longest side keeps (about a plate's). */
+const SHEET_BOW_REF_PX = 600;
 
 const LEVELS: Record<string, Options> = {
   straightedge: { roughness: 0.55, bowing: 0.6, disableMultiStroke: true, preserveVertices: true },
@@ -163,6 +169,21 @@ function makeItem(el: HTMLElement | SVGElement, rough: Rough): Item | null {
       // Round one side at a time; "straightedge" boxes have one pass, the others two.
       splitStrokes(box, LEVELS[level]?.disableMultiStroke ? 1 : 2);
       svg.appendChild(box);
+      return [...svg.querySelectorAll("path")];
+    };
+  } else if (kind === "sheet" && el instanceof HTMLElement) {
+    // The sheet's edge, over its (soon transparent) border box.
+    build = () => {
+      const svg = overlay(el);
+      const rc: RoughSVG = rough.svg(svg);
+      const w = el.offsetWidth;
+      const h = el.offsetHeight;
+      const border = el.clientLeft;
+      svg.style.inset = `${-border}px`;
+      svg.style.width = `${w}px`;
+      svg.style.height = `${h}px`;
+      const bowing = (LEVELS.twice.bowing as number) * Math.min(1, SHEET_BOW_REF_PX / Math.max(w, h));
+      svg.appendChild(rc.rectangle(0.5, 0.5, w - 1, h - 1, opts("twice", { bowing, strokeWidth: 1.1 })));
       return [...svg.querySelectorAll("path")];
     };
   } else if (kind === "arrow" && el instanceof SVGGraphicsElement) {
@@ -365,9 +386,11 @@ async function start() {
     .map((el) => makeItem(el, rough))
     .filter((i): i is Item => i !== null);
 
-  // Group by sheet (or the cover); anything outside one stands alone.
+  // Group by sheet (or the cover); anything outside one stands alone. The
+  // sheet's edge is no group's: it's put down at once, finished.
   const groups = new Map<Element, Group>();
   for (const item of items) {
+    if (item.el.dataset.rough === "sheet") continue;
     const el = item.el.closest(".sec, .title") ?? item.el;
     const group: Group = groups.get(el) ?? { el, items: [], queued: false, since: 0 };
     group.items.push(item);
@@ -376,7 +399,8 @@ async function start() {
 
   for (const item of items) {
     item.paths = item.build();
-    item.paths.forEach(blank);
+    if (item.el.dataset.rough === "sheet") settleItem(item);
+    else item.paths.forEach(blank);
   }
   root.classList.add("hand-ready");
 
@@ -456,7 +480,7 @@ async function start() {
     }
   });
   items
-    .filter((i) => i.el.dataset.rough === "rule" || i.el.dataset.rough === "rect")
+    .filter((i) => ["rule", "rect", "sheet"].includes(i.el.dataset.rough ?? ""))
     .forEach((i) => ro.observe(i.el));
 }
 

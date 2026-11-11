@@ -2,8 +2,8 @@
 
 willsonsmith.com: Willson Smith's personal site, built with Astro. One page
 (`src/pages/index.astro`) drawn as a modfox **Sheet**: a set of numbered sheets
-on solid paper over the grid, with the drafting frame (double rule, zone
-references, title block). Deployed by Netlify from `main` (`netlify.toml`), so
+on solid paper over the grid, its edge sketched in pencil (no drafting
+frame). Deployed by Netlify from `main` (`netlify.toml`), so
 merging to `main` ships it.
 
 ## Commands
