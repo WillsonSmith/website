@@ -7,7 +7,7 @@
  * Instrument (plain CSS): grid, buttons, spec plates,
  *   plotted stars and constellation lines, dimension lines.
  * Hand (Rough.js, see scripts/pencil.ts): the sheet's edge, section rules,
- *   figure boxes, blue-pencil notes and arrows, the contact plate's edge. Each has a
+ *   figure boxes, the contact plate's edge. Each has a
  *   `.css-line` version underneath that shows without script / under
  *   reduced motion / if the drawing layer fails.
  */
@@ -360,61 +360,6 @@ body.grid-paper {
   }
 }
 
-/* ---------- Blue-pencil notes (hand) ---------- */
-.note {
-  position: absolute;
-  display: flex;
-  align-items: flex-end;
-  gap: calc(var(--fifth) * 0.5);
-  font-family: var(--font-hand);
-  font-weight: 500;
-  font-size: 22px;
-  line-height: 1;
-  color: var(--blue);
-  white-space: nowrap;
-  transform: rotate(-1.5deg);
-  pointer-events: none;
-}
-.note__arrow {
-  width: calc(var(--m) * 1.4);
-  height: calc(var(--m) * 0.8);
-  overflow: visible;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
-  stroke-linecap: round;
-}
-.note--avatar {
-  top: calc(var(--m) * -0.4);
-  left: calc(100% - var(--m) * 0.6);
-  flex-direction: row-reverse;
-  align-items: flex-start;
-}
-.note--avatar .note__arrow {
-  margin-top: calc(var(--fifth) * 2);
-}
-@media (max-width: 1250px) {
-  .note--avatar {
-    left: auto;
-    right: calc(100% - var(--m) * 0.4);
-    flex-direction: row;
-  }
-  .note--avatar .note__arrow {
-    transform: scaleX(-1);
-  }
-}
-@media (max-width: 860px) {
-  .note--avatar {
-    top: calc(var(--m) * 0.4);
-    left: calc(100% + var(--fifth));
-    right: auto;
-    flex-direction: row;
-  }
-  .note--avatar .note__arrow {
-    transform: none;
-  }
-}
-
 /* ---------- Sections (sheets) ---------- */
 .sec {
   padding-block: calc(var(--m) * 0.6) var(--m);
@@ -605,24 +550,6 @@ body.grid-paper {
   margin-right: calc(var(--fifth) * 0.5);
 }
 
-/* Blue-pencil note inside the chart, in chart units so its arrow always
-   lands on the star it points at. */
-.chart__pencil {
-  color: var(--blue);
-}
-.chart__pencil text {
-  font-family: var(--font-hand);
-  font-weight: 500;
-  font-size: 19px;
-  fill: currentColor;
-}
-.chart__pencil path {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
-  stroke-linecap: round;
-}
-
 /* ---------- Contact plate (hand edge, gone over twice) ---------- */
 .contact {
   margin-top: calc(var(--m) * 0.8);
@@ -658,10 +585,6 @@ body.grid-paper {
   position: absolute;
   inset: 0;
 }
-/* A figure's note is written in after its inside is shaded. */
-.hand .chart__pencil text {
-  clip-path: inset(-20% 100% -20% -5%);
-}
 .rough-layer {
   position: absolute;
   inset: 0;
@@ -670,10 +593,6 @@ body.grid-paper {
   overflow: visible;
   pointer-events: none;
   color: var(--ink);
-}
-.note .rough-layer,
-.note__arrow .rough-layer {
-  color: inherit;
 }
 .rough-layer path {
   stroke: currentColor;

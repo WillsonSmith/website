@@ -5,7 +5,7 @@
 // plotted figure.
 import { getCollection, render } from "astro:content";
 import Sheet from "../layouts/Sheet.astro";
-import { avatarNote, chapters } from "../data/figures";
+import { chapters } from "../data/figures";
 
 const entries = (await getCollection("index")).sort(
   (a, b) => a.data.order - b.data.order,
@@ -91,13 +91,6 @@ const patchW = (t: string) => t.length * 6.4 + 8;
               <span class="hatch avatar__hatch" aria-hidden="true"></span>
             </div>
           </div>
-          <p class="note note--avatar" aria-hidden="true">
-            <svg class="note__arrow" viewBox="0 0 76 40" data-rough="arrow" data-seed="avatar">
-              <path class="css-line" d="M70 6 C 52 4, 22 12, 8 32" />
-              <path class="css-line" d="M8 32 L 9 22 M8 32 L 17 28" />
-            </svg>
-            <span>{avatarNote}</span>
-          </p>
         </figure>
 
         <dl class="plate spec">
@@ -165,7 +158,6 @@ const patchW = (t: string) => t.length * 6.4 + 8;
                 <figure class="fig">
                   <div
                     class="fig__frame"
-                    id={`fig-${order}-frame`}
                     data-rough="rect"
                     data-level="straightedge"
                     data-seed={`frame-${order}`}
@@ -216,18 +208,6 @@ const patchW = (t: string) => t.length * 6.4 + 8;
                           </text>
                         </g>
                       ))}
-                      <g class="chart__pencil" aria-hidden="true">
-                        <text
-                          x={c.note.x}
-                          y={c.note.y}
-                          transform={`rotate(-1.5 ${c.note.x} ${c.note.y})`}
-                        >
-                          {c.note.text}
-                        </text>
-                        <g data-rough="arrow" data-seed={`note-${order}`} data-after={`fig-${order}-frame`}>
-                          <path class="css-line" d={c.note.arrow} />
-                        </g>
-                      </g>
                     </svg>
                   </div>
 

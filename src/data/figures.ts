@@ -1,16 +1,8 @@
 // What the home page draws, apart from its prose (which lives in
-// src/content/index/*.md): each sheet's figure and every handwritten note.
-//
-// scripts/subset-fonts.ts reads this module (and the sheet titles from the
-// content frontmatter) to cut Caveat down to just the characters drawn in
-// handwriting, so any new handwritten string must come from here.
-
-/** The note beside the avatar on the cover. */
-export const avatarNote = "that’s me";
+// src/content/index/*.md): each sheet's figure.
 
 export type Star = { x: number; y: number; r: number; bright?: boolean };
 export type Label = { x: number; y: number; t: string };
-export type Note = { text: string; x: number; y: number; arrow: string };
 export type Chapter = {
   kicker: string;
   fig: string;
@@ -18,7 +10,6 @@ export type Chapter = {
   stars: Star[];
   links: string[];
   labels: Label[];
-  note: Note;
 };
 
 // Same star data as the live page; presentation only.
@@ -38,7 +29,6 @@ export const chapters: Record<number, Chapter> = {
     ],
     links: ["276,52 242,68 208,82 176,94 150,128 104,134 96,100 176,94"],
     labels: [{ x: 250, y: 40, t: "POLARIS" }],
-    note: { text: "start here", x: 220, y: 172, arrow: "M258 152 C 270 130, 282 100, 276 66 M276 66 L 270 76 M276 66 L 283 75" },
   },
   2: {
     kicker: "Approach",
@@ -53,7 +43,6 @@ export const chapters: Record<number, Chapter> = {
     ],
     links: ["180,54 150,96 168,150 208,150 188,108 150,96"],
     labels: [{ x: 196, y: 50, t: "VEGA" }],
-    note: { text: "a lyre, if you squint", x: 14, y: 188, arrow: "M60 166 C 50 110, 120 60, 171 56 M171 56 L 162 50 M171 56 L 163 62" },
   },
   3: {
     kicker: "Practice",
@@ -80,7 +69,6 @@ export const chapters: Record<number, Chapter> = {
       { x: 150, y: 112, t: "α" },
       { x: 281, y: 44, t: "β" },
     ],
-    note: { text: "still awake", x: 218, y: 176, arrow: "M298 156 C 314 136, 306 112, 291 99 M291 99 L 292 110 M291 99 L 302 101" },
   },
   4: {
     kicker: "Contact",
@@ -95,6 +83,5 @@ export const chapters: Record<number, Chapter> = {
     ],
     links: ["256,64 204,90 158,110", "126,96 158,110 132,134"],
     labels: [{ x: 256, y: 46, t: "γ" }],
-    note: { text: "this way", x: 226, y: 172, arrow: "M262 152 C 276 124, 268 94, 259 76 M259 76 L 256 87 M259 76 L 267 84" },
   },
 };
