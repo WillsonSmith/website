@@ -53,7 +53,7 @@ you start. Going a level too high is the most common mistake.
 | **Sheet**   | Personal sites, showcases         | Everything: the grid as the table and the content on a paper sheet, "Sheet 1 of N" sections, pencil rules drawn on, handwritten titles, illustrations, the full set of sounds. The drafting frame (double rule, zone numbers, title block) is optional, for personal sites                                                                                                               |
 | **Product** | Product and landing pages         | The core on the product's own skin (often dark first). No grid: a flat background with a faint grain, open sections separated by space, not boxes. Handwritten section titles and blue notes pointing at things, a live demo framed in pencil, crisp rounded buttons in sentence case, an icon set, one idea per section. Sound: clicks, dialogs and cards. See [product.md](product.md) |
 | **Drafted** | App shells, light apps            | The skin, type, module grid (drawn faintly or not at all), spec plates, hand-drawn section rules and empty states, pop-out cards, pencil-test motion for transient surfaces. Sound: clicks, dialogs and cards only                                                                                                                                                                       |
-| **Quiet**   | Dense tools, forms, tables, admin | The skin, type, labels, focus ring, what the accent and note colours mean. At most one hand-drawn accent per screen. Instrument motion only. No sound, or clicks at most                                                                                                                                                                                                                 |
+| **Quiet**   | Dense tools, forms, tables, admin | The skin, type, labels, focus ring, what the accent and note colours mean. At most one hand-drawn accent per screen. Instrument motion only (`<html data-level="quiet">`). No sound, or clicks at most, off by default                                                                                                                                                                   |
 
 At every level you should still be able to tell the app is modfox's from its
 type, labels and handwriting alone.
@@ -156,18 +156,46 @@ beside a "Turn on sound" button invites one. See [sound.md](sound.md).
   ("Datum A", "Ø 2.4 mod typ.", sheet subtitles), which read as noise and
   confuse. Wry, never cute.
 
+## The web guidance
+
+modfox projects carry the `modern-web-guidance` skill: for HTML, CSS and
+client-side script, search it before writing (a dialog, a form, a popover,
+dark mode, performance). It and the brand meet often, so:
+
+- **The brand decides how things look, move and sound:** the level, the
+  skin, the grid, pencil or crisp, timing and poses, sound, and which
+  controls a page has (the settings gear holds the theme and sound).
+- **The guidance decides how the platform is used:** native elements
+  (`<dialog>`, popovers), accessibility, focus, forms and validation,
+  performance, security, and fallbacks.
+- **Where a guide's pattern carries values** (a duration, an easing, a
+  look), take its mechanics and the brand's values. Motion is where they
+  differ most: [motion-and-the-web.md](motion-and-the-web.md).
+- **Where the kit departs from a guide on purpose, it says so** in the
+  code's header comment and in these files, with the reason (the kit
+  closes its menus and dialogs itself, so they can animate shut).
+
+**Browser support** (CLAUDE.md states it as the project's Baseline target,
+where the guidance looks for it). Baseline widely available: use freely. Newly
+available: use with feature detection, and a fallback that keeps the
+thing working (the menu is a popover where there are popovers, a fixed box
+where not). Limited availability: only as an enhancement nothing depends
+on. No polyfills, even where a guide says to load one: write the fallback
+instead (the kit's one runtime dependency is Rough.js).
+
 ## The rest
 
-| File                               | Covers                                                                                     |
-| ---------------------------------- | ------------------------------------------------------------------------------------------ |
-| [skins.md](skins.md)               | The colour roles, the vellum/blueprint skin, making a product skin                         |
-| [layout.md](layout.md)             | The grid as the table, the paper sheet, the optional frame, grain                          |
-| [linework.md](linework.md)         | Rough.js levels, drawing lines on, the one pencil, the pencil-grain filter                 |
-| [motion.md](motion.md)             | Pencil-test rules, the pop, shading in, erasing, instrument motion                         |
-| [components.md](components.md)     | Spec plate, dimension line, placeholder, pop-out card, dialog, buttons, inputs, tables     |
-| [product.md](product.md)           | The Product level: hero, framed demo with notes, features, data graphics, the closing call |
-| [sound.md](sound.md)               | Sound design, browser rules, the sounds, timing with animation                             |
-| [illustration.md](illustration.md) | The sketched illustration style; the speaker                                               |
+| File                                           | Covers                                                                                     |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [skins.md](skins.md)                           | The colour roles, the vellum/blueprint skin, making a product skin                         |
+| [layout.md](layout.md)                         | The grid as the table, the paper sheet, the optional frame, grain                          |
+| [linework.md](linework.md)                     | Rough.js levels, drawing lines on, the one pencil, the pencil-grain filter                 |
+| [motion.md](motion.md)                         | Pencil-test rules, the pop, shading in, erasing, instrument motion                         |
+| [motion-and-the-web.md](motion-and-the-web.md) | Where hand-drawn motion departs from the web guidance, and where it doesn't                |
+| [components.md](components.md)                 | Spec plate, dimension line, placeholder, pop-out card, dialog, buttons, inputs, tables     |
+| [product.md](product.md)                       | The Product level: hero, framed demo with notes, features, data graphics, the closing call |
+| [sound.md](sound.md)                           | Sound design, browser rules, the sounds, timing with animation                             |
+| [illustration.md](illustration.md)             | The sketched illustration style; the speaker                                               |
 
 The kit's code (`src/kit/`) implements all of it; the style guide
 (`bun run dev`) shows it working.
@@ -183,3 +211,4 @@ The kit's code (`src/kit/`) implements all of it; the style guide
 - [ ] Keyboard and screen-reader equivalents for anything on hover
 - [ ] Every dialog is a modal (backdrop, not draggable) or a window (no backdrop, draggable)
 - [ ] Sounds fit the level, land on a drawing, cancel with their animation, and stay quiet
+- [ ] Searched modern-web-guidance for the platform parts, kept the brand's values, and wrote down any departure

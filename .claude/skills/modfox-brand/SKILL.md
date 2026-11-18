@@ -16,14 +16,19 @@ kit's version is in `kit.json`). Read it before designing anything:
    - Colours, themes, a product's palette: `brand/skins.md`
    - Page layout, the grid, the paper sheet, grain: `brand/layout.md`
    - Hand-drawn lines, Rough.js, drawing on: `brand/linework.md`
-   - Animation, the pop, shading in, timing: `brand/motion.md`
+   - Animation, the pop, shading in, timing: `brand/motion.md`, and
+     `brand/motion-and-the-web.md` when a web guide says how something moves
    - Plates, cards, dialogs, buttons, inputs, tables: `brand/components.md`
    - A product or landing page: `brand/product.md`
    - Sound effects: `brand/sound.md`
    - Illustrations and icons: `brand/illustration.md`
-3. **Use the kit's code rather than rewriting it:** `src/kit/` (tokens, skins,
+3. **For the platform parts** (dialogs, popovers, forms, accessibility,
+   performance), also search the `modern-web-guidance` skill. Its mechanics
+   and fallbacks win; the brand's look, motion and sound win over a guide's
+   values ("The web guidance" in `brand/README.md`).
+4. **Use the kit's code rather than rewriting it:** `src/kit/` (tokens, skins,
    `kit.css`, `pop.ts`, `pen.ts`, `rough.ts`, `shade.ts`, `sound.ts`,
-   `speaker.ts`, `card.ts`). Its style guide (`bun run dev` in the kit) shows
+   `speaker.ts`, `card.ts`, `settings.ts`). Its style guide (`bun run dev` in the kit) shows
    every part working.
 
 `brand/`, `src/kit/`, `sound/` and `fonts/` belong to the kit: change them in

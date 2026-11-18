@@ -55,8 +55,10 @@ lines on deep blue. Never grey-on-black.
    pencils first: an accent for "happening / pointing at", and a note colour
    for the handwriting. They must be distinct, and the accent must stay rare.
 2. **Fill every role, in both themes.** Decide which theme is the default:
-   products are often dark first (set it before first paint, offer Auto /
-   Light / Dark). Keep `<meta name="theme-color">` in step with `--paper`.
+   products are often dark first (set it before first paint). The settings
+   gear's menu offers Auto, Light and Dark (settings.ts). Keep `<meta name="theme-color">` in step with `--paper`,
+   and put `<meta name="color-scheme" content="light dark">` before
+   `THEME_SCRIPT` (theme.ts keeps it in step with the choice).
 3. **Keep it muted.** No neon, no gradients. Contrast for body text at least
    WCAG AA; check the secondary ink and labels too.
 4. **Put it in the project, not the kit:** `src/skin/<name>.css` (start from a

@@ -89,6 +89,81 @@ sound.md). Two kinds, decided by whether it blocks the page:
 Only a dialog that blocks interaction gets a backdrop, and a dialog without one
 must leave the page usable: never a modal without a backdrop.
 
+**Confirmation.** A modal dialog that asks before something that can't be
+undone (`confirmAction` in confirm.ts), never the browser's `confirm()`. Its
+title is the question ("Delete Team 1?"), its body says in a line or two what
+will happen (who'll be disconnected, what's left behind), and its buttons are
+**Cancel** and the action named in full ("Delete channel", never "OK"), at the
+foot on the right, the action primary. Cancel takes focus first, so Enter alone
+never does the destructive thing. Closing it any other way is a no. The plate
+is in the page from the start (`CONFIRM_HTML`), so its edge is sketched.
+
+**Popover menu.** A short list to choose from, opened by a button: what a
+`<select>` would be (`menuButton`, `menuField` in menu.ts). The button is an
+instrument, like the rows and fields it sits among: square, a 1px `--rule`
+border, mono text naming the choice or what it does ("Move to…"), and a thin
+caret. The menu is a transient surface, so it's drawn by hand: a rounded box
+(the boxed button's 10px corners) sketched in pencil, over a crisp rounded
+border as the fallback, with a solid `--surface` face and no shadow. It pops
+out of its button (the card's poses, a third of the sway, settling square: it's
+read and used) with the card's pop on its first drawing out, and snaps back into
+the button when it closes; reduced motion just shows it. It opens in the top layer
+(a `popover="manual"`), so nothing clips it, not even a dialog; it's placed
+from script and closes itself, so it can snap back.
+
+- Items are names in sans; a heading over a group is a `.label`, and a group
+  can have a divider instead (or as well): a crisp 1px `--rule` line above it,
+  for setting groups apart without naming them. The chosen
+  item gets a tick in the margin every row keeps for it; an item that can't be
+  chosen (where something already is) is in `--ink-2`. The row the keys are on
+  gets a `--faint` wash, the pointer's turns `--accent`.
+- It opens below its button, or above when there's more room, held on screen,
+  as wide as the button (within reason), scrolling inside past its room.
+- Keyboard, as the menu button pattern has it: Enter, Space or Down opens on
+  the chosen item, Up on the last; arrows, Home, End and typing move; Enter or
+  Space chooses; Escape and Tab close back to the button. Pressing anywhere
+  else, scrolling the page or resizing closes it.
+- **Two steps**, when one button covers several kinds of choice (a row's
+  Actions: move to a channel, or set a team): the first list names the kinds,
+  each ending in a `›`; choosing one swaps the list in place for its choices,
+  under a Back item (Left arrow goes back too, Right arrow goes on). Never
+  deeper than two. Give an item `next` (its own label, groups and onChoose).
+- **Settings** are ticked items (give each `checked`). One that's on or off
+  ("Sound") is a checkbox item: Space switches it and keeps the menu open.
+  One of a set ("Theme: Auto, Light, Dark") is a radio item in a group with
+  `radio` and a heading. A click or Enter (or Space on a radio) chooses,
+  shows the new tick for three drawings, then closes.
+- **A menu button that can't be used now** (`disabled`) stays focusable:
+  it's `aria-disabled`, so focus isn't lost when a page redraws it, and a
+  screen reader hears it's unavailable. It won't open; its `title` says why.
+- **An item that can't be chosen now** (`disabled`) says why in its `title`
+  (hover, and a screen reader's description), not in its label: the label
+  stays an instruction ("Delete all team channels", not "… · none left").
+- One at a time. A page redrawn from live data holds its redraws while one is
+  open (`isMenuOpen`, `onMenuClose`), and gives each button a `key` so focus
+  can find it again after a redraw.
+
+**Date field.** A date and time, the same in every browser, in place of a
+native `datetime-local` input (`dateField` in date.ts). It's instruments: a
+date to type (YYYY-MM-DD, mono) with a square calendar button joined to its
+right, and a time to type (24-hour HH:MM). What's typed loosely ("7:30 pm") is
+written out in full once you move on; what isn't a date or time gets an
+`--accent` border. The calendar is a transient surface, as a menu is: a solid
+`--surface` face in a rounded box, sketched in pencil over a crisp rounded
+border as the fallback (the crisp border alone at Quiet), popping out of its
+button (growing in, at Quiet), in the top layer.
+
+- The month's name between ‹ and ›, then the days under two-letter weekday
+  heads, mono, `tabular-nums`. Today is underlined; the chosen day is
+  inverted (`--ink` face); the key's day gets the `--faint` wash.
+- Keyboard, as the date picker dialog pattern has it: one tab stop in the
+  grid; arrows a day or a week, Home and End the week's ends, Page Up and
+  Page Down a month (Shift: a year); Enter or Space chooses and moves on to
+  the time; Escape closes back to the button. Pressing outside, scrolling or
+  tabbing out closes it.
+- Its value is a calendar date and a wall-clock time, never an instant: the
+  page turns it into one, in the person's time zone, when it needs to.
+
 **Circle (avatar).** An avatar ringed in `--ink` inside a dashed compass ring a
 fifth of a module out, centred on a grid intersection. When several appear
 together, they're all the same size, so no position implies rank. Live status:
@@ -117,12 +192,17 @@ not in wobbles. The one exception is a boxed button's box.
   gradients, shadows or smooth pills.
 - **Text link / quiet button.** Inherits the text colour and turns `--accent` on
   hover. An underline is fine.
+- **Choosing from a list.** A popover menu (above), not a native `<select>`,
+  whose open list the browser draws in its own style.
 - **Input.** A bottom border only (a line to write on) or a 1px `--rule` box,
   with the `.label` above it and mono for numbers and codes. Focus is the blue
   ring. Errors are written in the accent below the field: a short handwritten or
   `.label` note, plus `aria-describedby`.
 - **Checkbox / radio.** A small square or circle in `--ink`. The checked mark
-  can be a hand-drawn tick: it's the user's mark on the drawing.
+  can be a hand-drawn tick: it's the user's mark on the drawing. The kit's
+  checkbox is `.check` (kit.css): a native checkbox in its label, drawn
+  with `appearance: none` and a masked tick. The label is the press target
+  (44px tall) and clicks like a button.
 - **Table.** Reads like a drawing's schedule: `.label` column headers, mono for
   numbers (right-aligned, `tabular-nums`), `--rule` row dividers, no zebra
   stripes, no fill on the header. The selected row gets a `--faint` wash.
@@ -134,6 +214,17 @@ not in wobbles. The one exception is a boxed button's box.
   roughly 1.5px strokes. Never filled, coloured or emoji. Bigger, hand-drawn
   pictures (a call to action, an empty state) are illustrations: see
   [illustration.md](illustration.md).
+- **Settings.** A page's settings (the theme, sound) are rare choices, so
+  they wait behind one gear, in the same place on every page: an icon-sized
+  gear in a circle with a `--surface` face, floating in the bottom-right
+  corner above the page (`<modfox-settings>`, settings.ts; last in the
+  `<body>`, so it's last in the tab order too). It opens a popover menu:
+  **Theme**, one of Auto, Light and Dark (Auto says what the system shows
+  now, "Auto (light)"), and, where the page has sound, **Sound**. The gear
+  is drawn like a small illustration (pencil, tilted) except at Quiet,
+  where it's a crisp, square line icon. Keep the corner clear of anything
+  else fixed there: something anchored to the bottom that would reach the
+  corner (a toast, on a phone) sits at `--settings-clear`.
 - **Loading.** A placeholder box, or a line drawing itself on in held drawings.
   No spinners at Sheet or Drafted level. At Quiet, a thin instrument progress
   bar.
