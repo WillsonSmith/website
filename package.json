@@ -8,7 +8,8 @@
     "build": "node scripts/subset-fonts.ts && astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "fonts": "node scripts/subset-fonts.ts"
+    "fonts": "node scripts/subset-fonts.ts",
+    "update:guidance": "npx -y modern-web-guidance@latest update"
   },
   "dependencies": {
     "astro": "^6.4.8",

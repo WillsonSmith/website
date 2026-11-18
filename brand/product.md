@@ -26,7 +26,8 @@ Fishing Pond's landing page is the reference.
    pencil dots, a sketched chart) with a legend in mono labels.
 7. **The closing call.** A doodle, a handwritten question ("Ready to stock your
    pond?"), and the two buttons again.
-8. **Footer.** Links, language, the theme toggle, small print.
+8. **Footer.** Links, language, small print. The settings gear (Theme,
+   Sound) floats in the bottom-right corner, not here.
 
 ## The details
 

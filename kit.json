@@ -1,5 +1,8 @@
 {
   "kit": "modfox/modfox-kit",
-  "version": "0.3.0",
-  "owns": ["brand/", ".claude/skills/modfox-brand/"]
+  "version": "0.12.2",
+  "owns": [
+    "brand/",
+    ".claude/skills/modfox-brand/"
+  ]
 }

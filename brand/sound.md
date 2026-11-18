@@ -18,7 +18,7 @@ their credits are in this kit: `src/kit/sound.ts`, `sound/` and
 | ----------- | ----------------------------------------------------------------------- |
 | **Sheet**   | Everything below                                                        |
 | **Drafted** | Control clicks, dialog open and close, pop-out cards. No drawing sounds |
-| **Quiet**   | None, or control clicks at most                                         |
+| **Quiet**   | None, or control clicks at most, off until switched on                  |
 
 ## The rules
 
@@ -29,7 +29,8 @@ their credits are in this kit: `src/kit/sound.ts`, `sound/` and
 2. **What's drawn by hand makes a sound.** Shading in, long hand lines, erasing,
    things popping open. Short marks (ticks, crosses) and instrument lines are
    silent: too frequent to be pleasant.
-3. **Pressing a control clicks**, in two halves that follow the hand: down as
+3. **Pressing a control clicks** (a button, link, checkbox or radio, or a
+   checkbox's or radio's label), in two halves that follow the hand: down as
    the mouse button or key goes down, up as it's let go. A tap plays both as it
    lands (60ms apart): a touch may turn into a scroll, and a sound can't be
    taken back.
@@ -74,6 +75,12 @@ switched by one control: a sketched speaker beside a "Turn on sound" button
 the call to action as well as the switch, so it says "turn on", never "turn up
 your volume". It stays put whatever its state (both labels laid out), so nothing
 shifts.
+
+**At the Quiet level** sound starts off: a tool used all day is pressed far
+more often than a page is read, and the clicks would wear. A plain text switch
+in the header ("Sound: off") is enough there; `<html data-level="quiet">` makes
+`sound.ts` start off until the visitor switches it on, and nothing but the
+clicks ever plays.
 
 ## The sounds
 

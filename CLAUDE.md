@@ -14,6 +14,7 @@ merging to `main` ships it.
 | `bun run build` | Subset the fonts, then build to `dist/` (Netlify runs `npm run build`) |
 | `bun run check` | `astro check`: types and Astro diagnostics. Must pass |
 | `bun run fonts` | `scripts/subset-fonts.ts`: subset B612, B612 Mono and Caveat to the characters the page uses. Re-run after changing text |
+| `bun run update:guidance` | Refresh the `modern-web-guidance` skill (its instructions and `skills-lock.json`); review the diff in a PR |
 
 ## The brand (modfox-kit)
 
@@ -34,6 +35,21 @@ This site follows the brand with its **own implementation**, not the kit's
   `.css-line` fallback.
 - `src/layouts/Sheet.astro`, `src/data/figures.ts`, `src/content/`: the page's
   structure and copy.
+
+The web guidance and browser support (kit 0.9.0 on):
+
+- **Modern web guidance.** The `modern-web-guidance` skill
+  (`.agents/skills/`, linked from `.claude/skills/`, pinned in
+  `skills-lock.json`) is searched for HTML, CSS and client-side script.
+  The brand wins on look, motion and sound; the guidance on platform use,
+  accessibility and fallbacks ("The web guidance" in `brand/README.md`).
+  Its guides are fetched live; the skill's own instructions are refreshed
+  with `bun run update:guidance`, on a branch, the diff reviewed in a PR.
+- **This site's Baseline target is Baseline Widely available.** A feature
+  that's only Newly available is used with feature detection and a fallback
+  that keeps the thing working. **No polyfills**, even where a guide says to
+  load one: write that fallback instead (Rough.js is the one runtime
+  dependency).
 
 ## Git
 

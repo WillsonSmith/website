@@ -16,7 +16,13 @@ cover something you want to look at or use. A modal dialog never drags: it
 blocks the page, so there's nothing behind it to get at. Dragging for its own
 sake costs page scroll on touch.
 
-Quiet-level apps use only this kind of motion.
+Quiet-level apps use only this kind of motion. Their dialogs and menus still
+grow out of what opened them, but plainly: from 97% and transparent to full in
+140ms (`ease-out`), and away to 98% in 100ms (`ease-in`), the backdrop washing
+in and out with them. No overshoot, no held poses, no sound. Mark the page
+`<html data-level="quiet">` and the kit's `popDialog`, menus and confirmation
+do this themselves (`level.ts`); `startKit` then skips Rough.js, so nothing is
+drawn on.
 
 ## Hand-drawn motion: a pencil test
 
