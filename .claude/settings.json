@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+      "Bash(npx -y modern-web-guidance@latest:*)",
       "Bash(bun run *)",
       "Bash(bun install)",
       "Bash(git push)",
